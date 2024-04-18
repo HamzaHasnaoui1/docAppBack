@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter une Consultation</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div layout:fragment="content1">
+    <div class="col-md-6 offset-3">
+        <form method="post" th:action="@{/admin/saveConsultation(page=${page})}">
+            <div>
+                <label >Date de Consultation</label>
+                <input class="form-control" type="date" name="dateConsultation" th:value="${consultation.dateConsultation}">
+                <span class="text-danger" th:errors="${consultation.dateConsultation}"></span>
+            </div>
+            <div>
+                <label>Rapport</label>
+                <input id="rapport" class="form-control" type="text" name="rapport" th:value="${consultation.rapport}">
+                <span class="text-danger" th:errors="${consultation.rapport}"></span>
+            </div>
+            <select class="form-control"  id="rdv">
+                <option value="0">select rendez-vous</option>
+                <option th:each="rdv : ${rendezvous}"  th:text="${rdv.id}"></option>
+
+            </select>
+
+            <button type="submit" class="btn btn-primary">Save</button>
+
+        </form>
+    </div>
+
+
+
+</div>
+
+
+</body>
+</html>

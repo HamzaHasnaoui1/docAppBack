@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="template"
+>
+<head>
+  <meta charset="UTF-8">
+  <title>ERREUR </title>
+
+</head>
+<body>
+<div layout:fragment="content1">
+  <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="text-center">
+      <h1 class="text-danger">Vous n'êtes pas autorisé à accéder à cette ressource</h1>
+      <img th:src="@{/404.png}" width="400" height="400" alt="Page non trouvée" />
+    </div>
+  </div>
+</div>
+</body>
+</html>
