@@ -35,16 +35,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginPage("/login").defaultSuccessUrl("/user/index", true).permitAll();
+        http.formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/user/index", true)
+                .permitAll();
+        http.rememberMe();
+        http.logout().permitAll();
         http.authorizeRequests()
-                .antMatchers("/home").permitAll()
+                .antMatchers("/home","/fonts/**","/webfonts/**","/").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/user/**").hasAuthority("USER")
-                .antMatchers("/resources/**","/reset_password", "/webjars/**", "/login","/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/resources/**","/static/**","/plugins/**","/about_us","/contact_us","/reset_password", "/webjars/**", "/login","/css/**", "/js/**", "/images/**").permitAll()
                 .anyRequest().authenticated();
-        http.logout().logoutSuccessUrl("/logout-success");
         http.exceptionHandling().accessDeniedPage("/403");
     }
+
 
 
         /*http

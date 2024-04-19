@@ -12,7 +12,7 @@
     <div class="col-md-6 offset-3">
         <form method="post" th:action="@{/admin/saveConsultation(page=${page})}">
             <div>
-                <label >Date de Consultation</label>
+                <label>Date de Consultation</label>
                 <input class="form-control" type="date" name="dateConsultation" th:value="${consultation.dateConsultation}">
                 <span class="text-danger" th:errors="${consultation.dateConsultation}"></span>
             </div>
@@ -21,21 +21,16 @@
                 <input id="rapport" class="form-control" type="text" name="rapport" th:value="${consultation.rapport}">
                 <span class="text-danger" th:errors="${consultation.rapport}"></span>
             </div>
-            <select class="form-control"  id="rdv">
-                <option value="0">select rendez-vous</option>
-                <option th:each="rdv : ${rendezvous}"  th:text="${rdv.id}"></option>
-
-            </select>
-
-            <button type="submit" class="btn btn-primary">Save</button>
-
+            <div>
+                <label>Rendez-vous</label>
+                <select class="form-control" name="rendezVous">
+                    <option value="0">Sélectionner un rendez-vous</option>
+                    <option th:each="rdv : ${rendezvous}" th:value="${rdv.id}" th:text="${rdv.date + ' - ' + rdv.patient.nom+ ' - ' + rdv.id}"></option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>
     </div>
-
-
-
 </div>
-
-
 </body>
 </html>

@@ -24,11 +24,11 @@
             </div>
             <select class="form-control"  id="patient">
                 <option value="0">select patient</option>
-                <option th:each="patient : ${patients}"  th:text="${patient.id}"></option>
+                <option th:each="patient : ${patients}"  th:text="${patient.nom}"></option>
             </select>
             <select class="form-control"  id="medecin">
                 <option value="0">select medecin</option>
-                <option th:each="medecin : ${medecins}"  th:text="${medecin.id}"></option>
+                <option th:each="medecin : ${medecins}"  th:text="${medecin.nom}"></option>
 
             </select>
 

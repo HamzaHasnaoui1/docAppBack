@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -23,9 +22,5 @@ public class Consultation {
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private RendezVous rendezVous;
 
-    public Consultation(Date dateConsultation, String rapport, RendezVous rendezVous) {
-        this.dateConsultation = dateConsultation;
-        this.rapport = rapport;
-        this.rendezVous = rendezVous;
-    }
+
 }

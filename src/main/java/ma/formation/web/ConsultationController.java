@@ -2,6 +2,7 @@ package ma.formation.web;
 
 import lombok.AllArgsConstructor;
 import ma.formation.entities.Consultation;
+import ma.formation.entities.RendezVous;
 import ma.formation.repositories.ConsultationRepository;
 import ma.formation.repositories.RendezVousRepository;
 import ma.formation.service.IHopitalService;
@@ -40,15 +41,31 @@ public class ConsultationController {
         consultationRepository.deleteById(id);
         return "redirect:/user/consultations?page="+page;
     }
+
     @PostMapping(path="/admin/saveConsultation")
     public String saveConsultation(Model model,
-                       @Valid Consultation consultation,
-                       BindingResult bindingResult,
-                       @RequestParam(defaultValue = "0") int page){
-        if (bindingResult.hasErrors()) return "formConsultation";
+                                   @Valid Consultation consultation,
+                                   BindingResult bindingResult,
+                                   @RequestParam(name = "rendezVous", defaultValue = "0") Long rendezVousId,
+                                   @RequestParam(defaultValue = "0") int page){
+        if (bindingResult.hasErrors()) {
+            return "formConsultation";
+        }
+
+        // Récupérer le rendez-vous à partir de son ID
+        RendezVous rendezVous = rendezVousRepository.findById(rendezVousId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid rendez-vous Id: " + rendezVousId));
+
+        // Associer le rendez-vous à la consultation
+        consultation.setRendezVous(rendezVous);
+
+        // Enregistrer la consultation
         hopitalService.saveConsultation(consultation);
-        return "redirect:/user/consultations?page="+page;
+
+        return "redirect:/user/consultations?page=" + page;
     }
+
+
     @GetMapping(path="/admin/formConsultation")
     public String formConsultation(Model model){
         model.addAttribute("consultation",new Consultation());
