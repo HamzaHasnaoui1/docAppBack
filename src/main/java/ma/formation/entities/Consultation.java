@@ -21,6 +21,6 @@ public class Consultation {
     @OneToOne
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private RendezVous rendezVous;
-
+    private String prix ;
 
 }

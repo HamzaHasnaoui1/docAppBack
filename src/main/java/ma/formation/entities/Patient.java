@@ -14,33 +14,22 @@ import java.util.Date;
 @Data // lombok ajout les getters et setters
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
-    @Size(min = 3,max = 10)
+    @Size(min = 3, max = 10)
     private String nom;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateNaissance;
     private boolean malade;
-    private String isMalade;
     private String adresse;
     private String codePostal;
     private String numeroTelephone;
     private Titre titre;
-
-    public Patient(String nom, Date dateNaissance, boolean malade, String adresse, String codePostal, String numeroTelephone, Titre titre) {
-        this.nom = nom;
-        this.dateNaissance = dateNaissance;
-        this.malade = malade;
-        this.adresse = adresse;
-        this.codePostal = codePostal;
-        this.numeroTelephone = numeroTelephone;
-        this.titre = titre;
-    }
-
-
+    private String rapport;
 }
+
+

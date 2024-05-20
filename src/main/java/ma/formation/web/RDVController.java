@@ -1,6 +1,8 @@
 package ma.formation.web;
 
 import lombok.AllArgsConstructor;
+import ma.formation.entities.Medecin;
+import ma.formation.entities.Patient;
 import ma.formation.entities.RendezVous;
 import ma.formation.repositories.MedecinRepository;
 import ma.formation.repositories.PatientRepository;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -93,9 +96,13 @@ public class RDVController {
     @GetMapping(path="/admin/EditRDV")
     public String EditRDV(Model model, Long id,int page){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElse(null); // avec .get je le recuper s'il existe mais on peut utiliser orElse(null) null s'il ne trouve pas le patient
+        List<Patient> listeDesPatients= patientRepository.findAll();
+        List<Medecin> listeDesMedecins=medecinRepository.findAll();
         if(rendezVous==null) throw new RuntimeException("Rendez-vous introuvable");
         model.addAttribute("rendezVous", rendezVous);
         model.addAttribute("page", page);
+        model.addAttribute("listeDesPatients", listeDesPatients );
+        model.addAttribute("listeDesMedecins",listeDesMedecins );
         return "RDV/EditRDV";
     }
 

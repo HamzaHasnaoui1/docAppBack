@@ -1,139 +1,202 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:style="http://www.w3.org/1999/xhtml">
-<link href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css" type="text/css" rel="stylesheet">
-<script src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.js"></script>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>  Login </title>
 
-    <link rel="shortcut icon" href="/images/fav.jpg">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/fontawsom-all.min.css">
-    <link rel="stylesheet" href="/css/animate.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css" />
-</head>
-<body style="background-img:url('https://previews.123rf.com/images/winnievinzence/winnievinzence1704/winnievinzence170400030/83322843-hospital-blur-background.jpg'); background-size:cover">
+<!-- beautify ignore:start -->
+<html
+        lang="en"
+        class="light-style customizer-hide"
+        dir="ltr"
+        data-theme="theme-default"
+        data-assets-path="/backend/"
+        data-template="vertical-menu-template-free"
+        xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
 
-<section class="vh-100" style="background-color: #ffffff;">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col col-xl-10">
-                <div class="card" style="border-radius: 1rem;">
-                    <div class="row g-0">
-                        <div class="col-md-6 col-lg-5 d-none d-md-block">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                                 alt="login form" class="img-fluid " style="border-radius: 1rem 0 0 1rem ;width: 100%; height: 100%;" />
-                        </div>
-                        <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                            <div class="card-body p-4 p-lg-5 text-black">
+    <title>Hopital Cheikh KHalifa</title>
 
-                                <form method="post" th:action="@{/login}">
+    <meta name="description" content="" />
 
-                                    <div class="d-flex align-items-center mb-3 pb-1">
-                                        <img src="/images/logo.jpg" alt="">
-                                    </div>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/backend/img/favicon/favicon.ico" />
 
-                                    <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
 
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <input type="text" id="username" class="form-control form-control-lg" name="username" />
-                                        <label class="form-label" for="username">Username</label>
-                                    </div>
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="/backend/vendor/fonts/boxicons.css" />
 
-                                    <div data-mdb-input-init class="form-outline mb-4">
-                                        <input type="password" id="password" class="form-control form-control-lg" name="password" />
-                                        <label class="form-label" for="password">Password</label>
-                                    </div>
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/backend/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/backend/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/backend/css/demo.css" />
 
-                                    <div class="d-flex justify-content-around align-items-center mb-4">
-                                        <!-- Checkbox -->
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="_spring_security_remember_me" value="" id="rememberMe"  />
-                                            <label class="form-check-label" for="rememberMe"> Remember me </label>
-                                        </div>
-                                        <a href="reset_password">Forgot password?</a>
-                                    </div>
-                                    <div class="pt-1 mb-4">
-                                        <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block fw-bold">Login</button>
-                                    </div>
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-                                    <a class="small text-muted" href="reset_password">Forgot password?</a>
-                                    <a href="#!" class="small text-muted">Terms of use.</a>
-                                    <a href="#!" class="small text-muted">Privacy policy</a>
-                                </form>
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="/backend/vendor/css/pages/page-auth.css" />
+    <!-- Helpers -->
+    <script src="/backend/vendor/js/helpers.js"></script>
 
-                            </div>
-                        </div>
-                    </div>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/backend/js/config.js"></script>
+  </head>
+
+  <body>
+    <!-- Content -->
+
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register -->
+          <div class="card">
+            <div class="card-body">
+              <br>
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="index.html" class="app-brand-link gap-2">
+                  <span class="app-brand-logo demo">
+                    <svg
+                      width="25"
+                      viewBox="0 0 25 42"
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                    >
+                      <defs>
+                        <path
+                          d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z"
+                          id="path-1"
+                        ></path>
+                        <path
+                          d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z"
+                          id="path-3"
+                        ></path>
+                        <path
+                          d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z"
+                          id="path-4"
+                        ></path>
+                        <path
+                          d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z"
+                          id="path-5"
+                        ></path>
+                      </defs>
+                      <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
+                          <g id="Icon" transform="translate(27.000000, 15.000000)">
+                            <g id="Mask" transform="translate(0.000000, 8.000000)">
+                              <mask id="mask-2" fill="white">
+                                <use xlink:href="#path-1"></use>
+                              </mask>
+                              <use fill="#696cff" xlink:href="#path-1"></use>
+                              <g id="Path-3" mask="url(#mask-2)">
+                                <use fill="#696cff" xlink:href="#path-3"></use>
+                                <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                              </g>
+                              <g id="Path-4" mask="url(#mask-2)">
+                                <use fill="#696cff" xlink:href="#path-4"></use>
+                                <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                              </g>
+                            </g>
+                            <g
+                              id="Triangle"
+                              transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) "
+                            >
+                              <use fill="#696cff" xlink:href="#path-5"></use>
+                              <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                  </span>
+                  <span class="app-brand-text text-body fw-bolder" style="font-size: 1.4rem;">Hopital Cheikh Khalifa</span>
+                </a>
+              </div>
+              <!-- /Logo -->
+              <h4 class="mb-2 text-center">Bienvenue 👋</h4>
+              <p class="mb-4 text-center">Veuillez vous connecter à votre compte </p>
+
+              <form  class="mb-3" th:action="@{/login}" method="POST">
+                <div class="mb-3">
+                  <label for="username" class="form-label">Email ou Nom d'utilisateur</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    placeholder="Email ou Nom d'utilisateur"
+                    autofocus
+                  />
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="vh-100"  style="background-color: #ffffff;" >
-    <div class="container py-5 h-100">
-        <div class="row d-flex align-items-center justify-content-center h-100">
-            <div class="col-md-8 col-lg-7 col-xl-6">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-                     class="img-fluid" alt="Phone image">
-            </div>
-            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-                <form method="post" th:action="@{login}">
-
-                    <div class="d-flex align-items-center mb-3 pb-1">
-                        <img src="/images/logo.jpg" alt="">
-                    </div>                    <!-- Email input -->
-                    <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="text" id="username" class="form-control form-control-lg" />
-                        <label class="form-label" for="username">Username</label>
-                    </div>
-
-                    <!-- Password input -->
-                    <div data-mdb-input-init class="form-outline mb-4">
-                        <input type="password" id="password" class="form-control form-control-lg" />
-                        <label class="form-label" for="password">Password</label>
-                    </div>
-
-                    <div class="d-flex justify-content-around align-items-center mb-4">
-                        <!-- Checkbox -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-                            <label class="form-check-label" for="form1Example3"> Remember me </label>
-                        </div>
-                        <a href="reset_password">Forgot password?</a>
-                    </div>
-
-                    <!-- Submit button -->
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block fw-bold">Sign in</button>
-
-                    <div class="divider d-flex align-items-center my-4">
-                        <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-                    </div>
-                    <a href="#!" class="btn btn-lg btn-danger d-flex align-items-center justify-content-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google me-2" viewBox="0 0 16 16">
-                            <path d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
-                        </svg>
-                        <span class="fs-6 fw-bold">Sign in with Google</span>
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="password">Mot de passe</label>
+                    <a href="reset_password">
+                      <small>Mot de passe oublié ?</small>
                     </a>
-                    <a href="#!" class="btn btn-lg btn-primary d-flex align-items-center justify-content-center mt-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook me-2" viewBox="0 0 16 16">
-                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                        </svg>
-                        <span class="fs-6 fw-bold">Sign in with Facebook</span>
-                    </a>
-
-
-
-                </form>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="password"
+                      class="form-control"
+                      name="password"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="remember-me" name="remember-me" />
+                    <label class="form-check-label" for="remember-me"> Se souvenir de moi </label>
+                  </div>
+                </div><br>
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100" type="submit">Se connecter</button>
+                </div>
+              </form>
             </div>
+          </div>
+          <!-- /Register -->
         </div>
+      </div>
     </div>
-</section>
 
-</div>
-</body>
+    <!-- / Content -->
+
+
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="/backend/vendor/libs/jquery/jquery.js"></script>
+    <script src="/backend/vendor/libs/popper/popper.js"></script>
+    <script src="/backend/vendor/js/bootstrap.js"></script>
+    <script src="/backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/backend/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="/backend/js/main.js"></script>
+
+    <!-- Page JS -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+  </body>
 </html>

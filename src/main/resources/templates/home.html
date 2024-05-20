@@ -1,378 +1,1045 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title> Hospital Management </title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <link rel="shortcut icon" href="/images/fav.jpg">
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/fontawsom-all.min.css">
-  <link rel="stylesheet" href="/css/animate.css">
-  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <title>HOPITAL UNIVERSITAIRE INTERNATIONAL CHEIKH KHALIFA</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/backend/img/favicon/favicon.ico" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/frontend/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/frontend/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/frontend/vendor/aos/aos.css" rel="stylesheet">
+    <link href="/frontend/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/frontend/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Variables CSS Files. Uncomment your preferred color scheme -->
+    <link href="/frontend/css/variables.css" rel="stylesheet">
+    <!-- <link href="/frontend/css/variables-blue.css" rel="stylesheet"> -->
+    <!-- <link href="/frontend/css/variables-green.css" rel="stylesheet"> -->
+    <!-- <link href="/frontend/css/variables-orange.css" rel="stylesheet"> -->
+    <!-- <link href="/frontend/css/variables-purple.css" rel="stylesheet"> -->
+    <!-- <link href="/frontend/css/variables-red.css" rel="stylesheet"> -->
+    <!-- <link href="/frontend/css/variables-pink.css" rel="stylesheet"> -->
+
+    <!-- Template Main CSS File -->
+    <link href="/frontend/css/main.css" rel="stylesheet">
 </head>
 
 <body>
 
-<!-- ################# Header Starts Here#######################--->
-<header>
-  <div class="header-top">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-7 col-md-12 left-item">
-          <ul>
-            <li><i class="fas fa-envelope-square"></i> hamza-hasnaoui@gmail.com</li>
-            <li><i class="fas fa-phone-square"></i> +212600000000</li>
-          </ul>
-        </div>
-        <div class="col-lg-5 d-none d-lg-block right-item">
-          <ul>
-            <li><a><i class="fab fa-github"></i></a></li>
-            <li><a><i class="fab fa-google-plus-g"></i></a></li>
-            <li> <a><i class="fab fa-facebook-f"></i></a></li>
-          </ul>
-        </div>
-      </div>
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top" data-scrollto-offset="0">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+        <a href="/home" class="app-brand-link">
+              <span class="app-brand-logo demo">
+                <svg
+                        width="25"
+                        viewBox="0 0 25 42"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                >
+                  <defs>
+                    <path
+                            d="M13.7918663,0.358365126 L3.39788168,7.44174259 C0.566865006,9.69408886 -0.379795268,12.4788597 0.557900856,15.7960551 C0.68998853,16.2305145 1.09562888,17.7872135 3.12357076,19.2293357 C3.8146334,19.7207684 5.32369333,20.3834223 7.65075054,21.2172976 L7.59773219,21.2525164 L2.63468769,24.5493413 C0.445452254,26.3002124 0.0884951797,28.5083815 1.56381646,31.1738486 C2.83770406,32.8170431 5.20850219,33.2640127 7.09180128,32.5391577 C8.347334,32.0559211 11.4559176,30.0011079 16.4175519,26.3747182 C18.0338572,24.4997857 18.6973423,22.4544883 18.4080071,20.2388261 C17.963753,17.5346866 16.1776345,15.5799961 13.0496516,14.3747546 L10.9194936,13.4715819 L18.6192054,7.984237 L13.7918663,0.358365126 Z"
+                            id="path-1"
+                    ></path>
+                    <path
+                            d="M5.47320593,6.00457225 C4.05321814,8.216144 4.36334763,10.0722806 6.40359441,11.5729822 C8.61520715,12.571656 10.0999176,13.2171421 10.8577257,13.5094407 L15.5088241,14.433041 L18.6192054,7.984237 C15.5364148,3.11535317 13.9273018,0.573395879 13.7918663,0.358365126 C13.5790555,0.511491653 10.8061687,2.3935607 5.47320593,6.00457225 Z"
+                            id="path-3"
+                    ></path>
+                    <path
+                            d="M7.50063644,21.2294429 L12.3234468,23.3159332 C14.1688022,24.7579751 14.397098,26.4880487 13.008334,28.506154 C11.6195701,30.5242593 10.3099883,31.790241 9.07958868,32.3040991 C5.78142938,33.4346997 4.13234973,34 4.13234973,34 C4.13234973,34 2.75489982,33.0538207 2.37032616e-14,31.1614621 C-0.55822714,27.8186216 -0.55822714,26.0572515 -4.05231404e-15,25.8773518 C0.83734071,25.6075023 2.77988457,22.8248993 3.3049379,22.52991 C3.65497346,22.3332504 5.05353963,21.8997614 7.50063644,21.2294429 Z"
+                            id="path-4"
+                    ></path>
+                    <path
+                            d="M20.6,7.13333333 L25.6,13.8 C26.2627417,14.6836556 26.0836556,15.9372583 25.2,16.6 C24.8538077,16.8596443 24.4327404,17 24,17 L14,17 C12.8954305,17 12,16.1045695 12,15 C12,14.5672596 12.1403557,14.1461923 12.4,13.8 L17.4,7.13333333 C18.0627417,6.24967773 19.3163444,6.07059163 20.2,6.73333333 C20.3516113,6.84704183 20.4862915,6.981722 20.6,7.13333333 Z"
+                            id="path-5"
+                    ></path>
+                  </defs>
+                  <g id="g-app-brand" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Brand-Logo" transform="translate(-27.000000, -15.000000)">
+                      <g id="Icon" transform="translate(27.000000, 15.000000)">
+                        <g id="Mask" transform="translate(0.000000, 8.000000)">
+                          <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                          </mask>
+                          <use fill="#696cff" xlink:href="#path-1"></use>
+                          <g id="Path-3" mask="url(#mask-2)">
+                            <use fill="#696cff" xlink:href="#path-3"></use>
+                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-3"></use>
+                          </g>
+                          <g id="Path-4" mask="url(#mask-2)">
+                            <use fill="#696cff" xlink:href="#path-4"></use>
+                            <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-4"></use>
+                          </g>
+                        </g>
+                        <g
+                                id="Triangle"
+                                transform="translate(19.000000, 11.000000) rotate(-300.000000) translate(-19.000000, -11.000000) "
+                        >
+                          <use fill="#696cff" xlink:href="#path-5"></use>
+                          <use fill-opacity="0.2" fill="#FFFFFF" xlink:href="#path-5"></use>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </span>
+            <span class="app-brand-text fw-bolder" style="font-size: 1.1rem; color: #6c757d;">HOPITAL UNIVERSITAIRE INTERNATIONAL CHEIKH KHALIFA</span>
+        </a>
+
+
+        <nav id="navbar" class="navbar">
+            <ul>
+
+                <li ><a href="#"><span>HOME</span> <i ></i></a>
+                </li>
+                <li><a class="nav-link scrollto" href="index.html#about">À PROPOS DE NOUS</a></li>
+                <li><a class="nav-link scrollto" href="index.html#services">RENDEZ-VOUS</a></li>
+                <li><a class="nav-link scrollto" href="index.html#team">PROJETS</a></li>
+                <li><a class="nav-link scrollto" href="index.html#contact">CONTACTEZ-NOUS</a></li>
+            </ul>
+            <i class="bi bi-list mobile-nav-toggle d-none"></i>
+        </nav><!-- .navbar -->
+
+        <a class="btn-getstarted scrollto" href="login">Login</a>
 
     </div>
-  </div>
-  <div class="header-top">
-  </div>
-  <div id="nav-head" class="header-nav">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-2 col-md-3 no-padding col-sm-12 nav-img">
-          <a href="/">
-            <img src="/images/logo.jpg" alt="">
-          </a>
-          <a data-toggle="collapse" data-target="#menu" href="#menu" ><i class="fas d-block d-md-none small-menu fa-bars"></i></a>
-        </div>
-        <div id="menu" class="col-lg-8 col-md-9 d-none d-md-block nav-item">
-          <ul>
-            <li><a th:href="about_us">About Us</a></li>
-            <li><a th:href="contact_us">Contact Us</a></li>
-            <li><a href="/login"> Login</a></li>
+</header><!-- End Header -->
 
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-<!-- ################# Slider Starts Here#######################--->
-<div class="slider-detail">
-  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-    </ol>
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="hero carousel  carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+
     <div class="carousel-inner">
-      <div class="carousel-item ">
-        <img class="d-block w-100" src="/images/slider/slider_1.jpg" alt="First slide">
-        <div class="carousel-caption fvgb d-none d-md-block">
-          <h5 class="animated bounceInDown">Best Free Clinic Template</h5>
-          <p class="animated bounceInLeft">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam justo neque,  <br>
-            aliquet sit amet elementum vel, vehicula eget eros. Vivamus arcu metus, mattis <br>
-            sed sagittis at, sagittis quis neque. Praesent.</p>
+        <div class="carousel-item active">
+            <div class="container">
+                <div class="row justify-content-center gy-6">
 
-          <div class="row vbh">
+                    <div class="col-lg-5 col-md-8">
+                        <img src="/frontend/img/hero-carousel/maternite.jpg" alt="" class="img-fluid img">
+                    </div>
 
-            <div class="btn btn-info animated bounceInUp"> Book an Appointment </div>
-          </div>
-        </div>
-      </div>
+                    <div class="col-lg-9 text-center">
+                        <h2>CONSEILS DE SORTIE DE LA MATERNITÉ</h2>
+                        <p>Retrouvez ici des conseils pour le retour à la maison, le retour de couches, la contraception et la sexualité, les cicatrices, la visite post-natale.</p>
+                        <a href="#featured-services" class="btn-get-started scrollto ">En savoir plus</a>
+                    </div>
 
-      <div class="carousel-item active">
-        <img class="d-block w-100" src="/images/slider/slider_3.jpg" alt="Third slide">
-        <div class="carousel-caption vdg-cur d-none d-md-block">
-          <h5 class="animated bounceInDown">Best Free Clinic Template</h5>
-          <p class="animated bounceInLeft">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam justo neque,  <br>
-            aliquet sit amet elementum vel, vehicula eget eros. Vivamus arcu metus, mattis <br>
-            sed sagittis at, sagittis quis neque. Praesent.</p>
+                </div>
+            </div>
+        </div><!-- End Carousel Item -->
 
-          <div class="row vbh">
+        <div class="carousel-item">
+            <div class="container">
+                <div class="row justify-content-center gy-6">
 
-            <div class="btn btn-info animated bounceInUp"> Book an Appointment </div>
-          </div>
-        </div>
-      </div>
+                    <div class="col-lg-5 col-md-8">
+                        <img src="/frontend/img/hero-carousel/file.png" alt="" class="img-fluid img">
+                    </div>
 
+                    <div class="col-lg-9 text-center">
+                        <h2>TRAITEMENT ET PRÉVENTION - COMMENT PRÉVENIR LA DÉPRESSION ?</h2>
+                        <p>La prévention de la dépression peut être abordée à plusieurs niveaux, notamment par des stratégies de promotion de la santé mentale, des ajustements du mode de vie, des interventions sociales et psychologiques, ainsi que par le traitement précoce des symptômes dépressifs. Voici quelques conseils pour prévenir la dépression :</p>
+                        <a href="#featured-services" class="btn-get-started scrollto ">En savoir plus</a>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- End Carousel Item -->
+
+        <div class="carousel-item">
+            <div class="container">
+                <div class="row justify-content-center gy-6">
+
+                    <div class="col-lg-5 col-md-8">
+                        <img  src="/frontend/img/hero-carousel/full-shot-woman-suffering-from-allergy.jpg" alt="" class="img-fluid img">
+                    </div>
+
+                    <div class="col-lg-9 text-center">
+                        <h2>RHUME ET GRIPPE : QUELLE DIFFÉRENCE? ET COMMENT S'EN PROTÉGER ?</h2>
+                        <p>Certains de ses symptômes, comme la toux, le mal de gorge et les éternuements, sont les mêmes que ceux du rhume. La grippe, par contre, s'accompagne de fièvre, de maux de tête, de douleurs musculaires et de fatigue importante. Le fait de soulager ces symptômes aide à la récupération.</p>
+                        <a href="#featured-services" class="btn-get-started scrollto ">En savoir plus</a>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- End Carousel Item -->
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
+
+    <a class="carousel-control-prev" href="#hero" role="button" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
     </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
+
+    <a class="carousel-control-next" href="#hero" role="button" data-bs-slide="next">
+        <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
     </a>
-  </div>
 
+    <ol class="carousel-indicators"></ol>
 
-</div>
+</section><!-- End Hero Section -->
 
-<!-- ################# Key Features Starts Here#######################--->
+<main id="main">
 
-<section class="key-features">
-  <div class="row no-margin">
-    <div class="col-lg-3 kvxol col-md-6">
-      <div class="single-key ky-1">
-        <i class="fas fa-hospital-alt"></i>
-        <h5>Newest Technologies</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-      </div>
-    </div>
+    <!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="featured-services">
+        <div class="container">
 
-    <div class="col-lg-3 kvxol  col-md-6">
-      <div class="single-key ky-2">
-        <i class="fas fa-user-md"></i>
-        <h5>Experianced Doctors</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-      </div>
-    </div>
+            <div class="row gy-4">
 
-    <div class="col-lg-3 kvxol col-md-6">
-      <div class="single-key ky-1">
-        <i class="fas fa-briefcase-medical"></i>
-        <h5>High Customer Satisfaction</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-      </div>
-    </div>
+                <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out">
+                    <div class="service-item position-relative">
+                        <div class="icon"><i class="bi bi-activity icon"></i></div>
+                        <h4><a href="" class="stretched-link">NOS MEDECINS</a></h4>
+                        <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+                    </div>
+                </div><!-- End Service Item -->
 
-    <div class="col-lg-3 kvxol col-md-6">
-      <div class="single-key ky-2">
-        <i class="fas fa-capsules"></i>
-        <h5>Pharma Pipeline</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-      </div>
-    </div>
+                <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="200">
+                    <div class="service-item position-relative">
+                        <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
+                        <h4><a href="" class="stretched-link">ESPACE PRESSE</a></h4>
+                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+                    </div>
+                </div><!-- End Service Item -->
 
+                <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="400">
+                    <div class="service-item position-relative">
+                        <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
+                        <h4><a href="" class="stretched-link"> DEMANDE DE RDV</a></h4>
+                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+                    </div>
+                </div><!-- End Service Item -->
 
+                <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
+                    <div class="service-item position-relative">
+                        <div class="icon"><i class="bi bi-broadcast icon"></i></div>
+                        <h4><a href="" class="stretched-link">NOS SPECIALITE</a></h4>
+                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                    </div>
+                </div><!-- End Service Item -->
 
-  </div>
-</section>
-
-<!-- ################# With Medical Starts Here#######################--->
-
-<section class="with-medical">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 col-md-12 txtr">
-        <h4>Why choos Health Care with <br>
-          <span>Medical Hospital</span>
-        </h4>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer neque libero, pulvinar et elementum quis, facilisis eu ante. Mauris non placerat sapien. Pellentesque tempor arcu non odio scelerisque ullamcorper. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam varius eros consequat auctor gravida. Fusce tristique lacus at urna sollicitudin pulvinar. Suspendisse hendrerit ultrices mauris.</p>
-        <p>Ut ultricies lacus a rutrum mollis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed porta dolor quis felis pulvinar dignissim. Etiam nisl ligula, ullamcorper non metus vitae, maximus efficitur mi. Vivamus ut ex ullamcorper, scelerisque lacus nec, commodo dui. Proin massa urna, volutpat vel augue eget, iaculis tristique dui. </p>
-      </div>
-      <div class="col-lg-6 col-md-12">
-        <img src="/images/why.jpg" alt="">
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ################# Our Departments Starts Here#######################--->
-
-
-<section class="key-features department">
-  <div class="container">
-    <div class="inner-title">
-
-      <h2>Our Key Features</h2>
-      <p>Take a look at some of our key features</p>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-4 col-md-6">
-        <div class="single-key">
-          <i class="fas fa-heartbeat"></i>
-          <h5>Cardiology</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6">
-        <div class="single-key">
-          <i class="fas fa-ribbon"></i>
-          <h5>Orthopaedic</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6">
-        <div class="single-key">
-          <i class="fab fa-monero"></i>
-          <h5>Neurologist</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6">
-        <div class="single-key">
-          <i class="fas fa-capsules"></i>
-          <h5>Pharma Pipeline</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6">
-        <div class="single-key">
-          <i class="fas fa-prescription-bottle-alt"></i>
-          <h5>Pharma Team</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-        </div>
-      </div>
-
-
-
-      <div class="col-lg-4 col-md-6">
-        <div class="single-key">
-          <i class="far fa-thumbs-up"></i>
-          <h5>High Quality treatments</h5>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut erat nec leo lobortis blandit.</p>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-
-  </div>
-
-</section>
-
-
-<!-- ################# Our Blog Starts Here#######################--->
-
-<section class="our-blog">
-  <div class="container">
-    <div class="row session-title">
-      <h2> Our Blog </h2>
-      <p>Take a look at what people say about US </p>
-    </div>
-    <div class="blog-row row">
-      <div class="col-lg-4 col-md-6">
-        <div class="single-blog">
-          <figure>
-            <img src="/images/blog/blog_01.jpg" alt="">
-          </figure>
-          <div class="blog-detail">
-            <small>By Admin | August 10 2018</small>
-            <h4>Methods of Recuirtments</h4>
-            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam justo neque, aliquet sit amet elementum vel, vehicula eget eros. Vivamus arcu metus, mattis sed sagittis at, sagittis quis neque. Praesent.</p>
-            <div class="link">
-              <a href="">Read more </a><i class="fas fa-long-arrow-alt-right"></i>
             </div>
-          </div>
-
 
         </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single-blog">
-          <figure>
-            <img src="/images/blog/blog_02.jpg" alt="">
-          </figure>
-          <div class="blog-detail">
-            <small>By Admin | August 10 2018</small>
-            <h4>Methods of Recuirtments</h4>
-            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam justo neque, aliquet sit amet elementum vel, vehicula eget eros. Vivamus arcu metus, mattis sed sagittis at, sagittis quis neque. Praesent.</p>
-            <div class="link">
-              <a href="">Read more </a><i class="fas fa-long-arrow-alt-right"></i>
+    </section><!-- End Featured Services Section -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-header">
+                <h2>À Propos de Nous</h2>
             </div>
-          </div>
+
+            <div class="row g-4 g-lg-5" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="col-lg-5">
+                    <div class="about-img">
+                        <img src="/frontend/img/hck2.jpg" class="img-fluid" alt="">
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <h3 class="pt-0 pt-lg-5">L’Hôpital Universitaire International Cheikh Khalifa</h3>
+
+                    <!-- Tabs -->
+                    <ul class="nav nav-pills mb-3">
+                        <li><a class="nav-link active" data-bs-toggle="pill" href="#tab1">Présentation</a></li>
+                    </ul><!-- End Tabs -->
+<br>
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="tab1">
+
+                            <p class="fst-regular">L’Hôpital Universitaire International Cheikh Khalifa est un hôpital pluridisciplinaire privé offrant une panoplie de soins et de prestations médicales afin de vous garantir une prise encharge complète et de meilleure qualité.<br>
+                                <br>
+                                Ayant pour objectif de satisfaire tous vos besoins médicaux, l’Hôpital Universitaire International Cheikh Khalifa s’est doté d’un personnel qualifié bénéficiant d’un système de formation continue très accentué, et d’un plateau technique de dernière technologie aux normes internationales.<br>
+                                <br>
+                                Outre le volet médical, c’est un éventail de services hôteliers dignes d’un hôtel haut standing, que l’Hôpital Universitaire International Cheikh Khalifa s’engage à offrir à ses patients.</p>
 
 
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6">
-        <div class="single-blog">
-          <figure>
-            <img src="/images/blog/blog_03.jpg" alt="">
-          </figure>
-          <div class="blog-detail">
-            <small>By Admin | August 10 2018</small>
-            <h4>Methods of Recuirtments</h4>
-            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam justo neque, aliquet sit amet elementum vel, vehicula eget eros. Vivamus arcu metus, mattis sed sagittis at, sagittis quis neque. Praesent.</p>
-            <div class="link">
-              <a href="">Read more </a><i class="fas fa-long-arrow-alt-right"></i>
+                        </div><!-- End Tab 1 Content -->
+
+                        <div class="tab-pane fade show" id="tab2">
+
+                            <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo suscipit voluptatem.</p>
+
+                            <div class="d-flex align-items-center mt-4">
+                                <i class="bi bi-check2"></i>
+                                <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
+                            </div>
+                            <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi dolorum non eveniet magni quaerat nemo et.</p>
+
+                            <div class="d-flex align-items-center mt-4">
+                                <i class="bi bi-check2"></i>
+                                <h4>Incidunt non veritatis illum ea ut nisi</h4>
+                            </div>
+                            <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at. Dolorem quo tempora. Quia et perferendis.</p>
+
+                            <div class="d-flex align-items-center mt-4">
+                                <i class="bi bi-check2"></i>
+                                <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
+                            </div>
+                            <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam odit enim quaerat. Vero error error voluptatem eum.</p>
+
+                        </div><!-- End Tab 2 Content -->
+
+                        <div class="tab-pane fade show" id="tab3">
+
+                            <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo suscipit voluptatem.</p>
+
+                            <div class="d-flex align-items-center mt-4">
+                                <i class="bi bi-check2"></i>
+                                <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
+                            </div>
+                            <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi dolorum non eveniet magni quaerat nemo et.</p>
+
+                            <div class="d-flex align-items-center mt-4">
+                                <i class="bi bi-check2"></i>
+                                <h4>Incidunt non veritatis illum ea ut nisi</h4>
+                            </div>
+                            <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at. Dolorem quo tempora. Quia et perferendis.</p>
+
+                            <div class="d-flex align-items-center mt-4">
+                                <i class="bi bi-check2"></i>
+                                <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
+                            </div>
+                            <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam odit enim quaerat. Vero error error voluptatem eum.</p>
+
+                        </div><!-- End Tab 3 Content -->
+
+                    </div>
+
+                </div>
+
             </div>
-          </div>
-
 
         </div>
-      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients">
+        <div class="container" data-aos="zoom-out">
+
+            <div class="clients-slider swiper">
+                <div class="swiper-wrapper align-items-center">
+                    <div class="swiper-slide"><img src="/frontend/img/clients/client-1.png" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="/frontend/img/clients/client-2.png" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="/frontend/img/clients/client-3.png" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="/frontend/img/clients/client-4.png" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="/frontend/img/clients/client-5.png" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="/frontend/img/clients/client-6.png" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="/frontend/img/clients/client-7.png" class="img-fluid" alt=""></div>
+                    <div class="swiper-slide"><img src="/frontend/img/clients/client-8.png" class="img-fluid" alt=""></div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Clients Section -->
+
+    <!-- ======= Call To Action Section ======= -->
+    <section id="cta" class="cta">
+        <div class="container" data-aos="zoom-out">
+
+            <div class="row g-5">
+
+                <div class="col-lg-8 col-md-6 content d-flex flex-column justify-content-center order-last order-md-first">
+                    <h3> <em>Urgences - SAMU</em> </h3>
+                    <br>
+                    <i class="bi bi-check-circle"> Régulation médicale 24/24 et 7jours/7</i><br>
+                    <i class="bi bi-check-circle"> Transport ambulance normale</i><br>
+                    <i class="bi bi-check-circle"> Transport ambulance pédiatrique néo natale</i><br>
+                    <i class="bi bi-check-circle"> Transport Bloc Mobile de Réanimation médicalisé</i><br>
+                    <i class="bi bi-check-circle"> Transport inter urbain</i><br>
+                    <i class="bi bi-check-circle"> Accompagnement infirmiers, médecins urgentistes et réanimateurs vol sanitaire</i><br>
+                    <p>Notre service est accessible 24h/24 et 7j/7 via les numéros de téléphone : <a class="samu infoTopBloc desctopLink" href="tel:2477" title="SAMU"><span style="color:#ffffff"><strong><span style="background-color:#c0392b">&nbsp;2477&nbsp;</span></strong></span></a><br> et :&nbsp;<strong>+212 5 29 00 44 88</strong>                </div>
+
+                <div class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
+                    <div class="img">
+                        <img src="/frontend/img/hck3.jpg" alt="" class="img-fluid">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Call To Action Section -->
+
+    <!-- ======= On Focus Section ======= -->
+    <section id="onfocus" class="onfocus">
+        <div class="container-fluid p-0" data-aos="fade-up">
+
+            <div class="row g-0">
+                <div class="col-lg-6 video-play position-relative">
+                    <a href="https://www.youtube.com/watch?v=gTngB6JKvGU&ab_channel=H%C3%B4pitalUniversitaireInternationalCheikhKhalifa" class="glightbox play-btn"></a>
+                </div>
+                <div class="col-lg-6">
+                    <div class="content d-flex flex-column justify-content-center h-100">
+                        <h3>Atelier sur la nutrition et le régime thérapeutique</h3><br>
+                        <p class="fst-italic">
+                            L'hôpital universitaire international Sheikh Khalifa a organisé un atelier sur la nutrition et le régime thérapeutique au profit des femmes touchées par le cancer.<br>
+                            <br>
+                            Cet atelier vise à fournir des conseils de santé aux femmes qui vivent avec la maladie et comprend une série d'instructions nutritionnelles qui peuvent atténuer ou éviter les effets secondaires du cancer ou de certains de ses traitements.<br>
+                            <br>
+                            Cet atelier fait partie d'une série d'ateliers et de démonstrations organisés par l'hôpital pour les patients sur divers sujets de santé visant à sensibiliser et sensibiliser.<br>
+                            <br>
+                        </p>
+                       <!-- <ul>
+                            <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                            <li><i class="bi bi-check-circle"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                            <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                        </ul>-->
+                        <a href="#" class="read-more align-self-start"><span>Voir Plus</span><i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End On Focus Section -->
+
+    <!-- ======= Features Section ======= -->
+    <section id="features" class="features">
+        <div class="container" data-aos="fade-up">
+
+            <ul class="nav nav-tabs row gy-4 d-flex">
+
+                <li class="nav-item col-6 col-md-4 col-lg-2">
+                    <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#tab-1">
+                        <i class="bi bi-binoculars color-cyan"></i>
+                        <h4>Modinest</h4>
+                    </a>
+                </li><!-- End Tab 1 Nav -->
+
+                <li class="nav-item col-6 col-md-4 col-lg-2">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2">
+                        <i class="bi bi-box-seam color-indigo"></i>
+                        <h4>Undaesenti</h4>
+                    </a>
+                </li><!-- End Tab 2 Nav -->
+
+                <li class="nav-item col-6 col-md-4 col-lg-2">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3">
+                        <i class="bi bi-brightness-high color-teal"></i>
+                        <h4>Pariatur</h4>
+                    </a>
+                </li><!-- End Tab 3 Nav -->
+
+                <li class="nav-item col-6 col-md-4 col-lg-2">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-4">
+                        <i class="bi bi-command color-red"></i>
+                        <h4>Nostrum</h4>
+                    </a>
+                </li><!-- End Tab 4 Nav -->
+
+                <li class="nav-item col-6 col-md-4 col-lg-2">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-5">
+                        <i class="bi bi-easel color-blue"></i>
+                        <h4>Adipiscing</h4>
+                    </a>
+                </li><!-- End Tab 5 Nav -->
+
+                <li class="nav-item col-6 col-md-4 col-lg-2">
+                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-6">
+                        <i class="bi bi-map color-orange"></i>
+                        <h4>Reprehit</h4>
+                    </a>
+                </li><!-- End Tab 6 Nav -->
+
+            </ul>
+
+            <div class="tab-content">
+
+                <div class="tab-pane active show" id="tab-1">
+                    <div class="row gy-4">
+                        <div class="col-lg-8 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
+                            <h3>Modinest</h3>
+                            <p class="fst-italic">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                magna aliqua.
+                            </p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                            </ul>
+                            <p>
+                                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                culpa qui officia deserunt mollit anim id est laborum
+                            </p>
+                        </div>
+                        <div class="col-lg-4 order-1 order-lg-2 text-center" data-aos="fade-up" data-aos-delay="200">
+                            <img src="/frontend/img/HM6.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div><!-- End Tab Content 1 -->
+
+                <div class="tab-pane" id="tab-2">
+                    <div class="row gy-4">
+                        <div class="col-lg-8 order-2 order-lg-1">
+                            <h3>Undaesenti</h3>
+                            <p>
+                                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                culpa qui officia deserunt mollit anim id est laborum
+                            </p>
+                            <p class="fst-italic">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                magna aliqua.
+                            </p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Provident mollitia neque rerum asperiores dolores quos qui a. Ipsum neque dolor voluptate nisi sed.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 order-1 order-lg-2 text-center">
+                            <img src="/frontend/img/HM10.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div><!-- End Tab Content 2 -->
+
+                <div class="tab-pane" id="tab-3">
+                    <div class="row gy-4">
+                        <div class="col-lg-8 order-2 order-lg-1">
+                            <h3>Pariatur</h3>
+                            <p>
+                                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                culpa qui officia deserunt mollit anim id est laborum
+                            </p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Provident mollitia neque rerum asperiores dolores quos qui a. Ipsum neque dolor voluptate nisi sed.</li>
+                            </ul>
+                            <p class="fst-italic">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                magna aliqua.
+                            </p>
+                        </div>
+                        <div class="col-lg-4 order-1 order-lg-2 text-center">
+                            <img src="/frontend/img/HM-1.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div><!-- End Tab Content 3 -->
+
+                <div class="tab-pane" id="tab-4">
+                    <div class="row gy-4">
+                        <div class="col-lg-8 order-2 order-lg-1">
+                            <h3>Nostrum</h3>
+                            <p>
+                                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                culpa qui officia deserunt mollit anim id est laborum
+                            </p>
+                            <p class="fst-italic">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                magna aliqua.
+                            </p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 order-1 order-lg-2 text-center">
+                            <img src="/frontend/img/HM-3-1.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div><!-- End Tab Content 4 -->
+
+                <div class="tab-pane" id="tab-5">
+                    <div class="row gy-4">
+                        <div class="col-lg-8 order-2 order-lg-1">
+                            <h3>Adipiscing</h3>
+                            <p>
+                                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                culpa qui officia deserunt mollit anim id est laborum
+                            </p>
+                            <p class="fst-italic">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                magna aliqua.
+                            </p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 order-1 order-lg-2 text-center">
+                            <img src="/frontend/img/hck.jpg" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div><!-- End Tab Content 5 -->
+
+                <div class="tab-pane" id="tab-6">
+                    <div class="row gy-4">
+                        <div class="col-lg-8 order-2 order-lg-1">
+                            <h3>Reprehit</h3>
+                            <p>
+                                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                culpa qui officia deserunt mollit anim id est laborum
+                            </p>
+                            <p class="fst-italic">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                magna aliqua.
+                            </p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
+                                <li><i class="bi bi-check-circle-fill"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 order-1 order-lg-2 text-center">
+                            <img src="/frontend/img/6-6.png" alt="" class="img-fluid">
+                        </div>
+                    </div>
+                </div><!-- End Tab Content 6 -->
+
+            </div>
+
+        </div>
+    </section><!-- End Features Section -->
+
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-header">
+                <h2>RENDEZ-VOUS</h2>
+                <p>L’Hôpital Cheikh Khalifa vous accueille de 08h00 à 20h00 du lundi au vendredi et de 08h00 à 12h00 le samedi</p>
+            </div>
+
+            <div class="row gy-5">
+
+                <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="service-item">
+                        <div class="img">
+                            <img src="/frontend/img/services-1.jpg" class="img-fluid" alt="">
+                        </div>
+                        <div class="details position-relative">
+                            <div class="icon">
+                                <i class="bi bi-calendar4-week"></i>
+                            </div>
+                            <a  class="stretched-link">
+                                <h3>Prendre Rendez-Vous par Téléphone</h3>
+                            </a>
+                            <p>Notre centrale de prise de rendez-vous est à votre disposition du lundi au vendredi de 08h00 à 17h30 et le samedi de 08h00 à 12h00 au
+                                +212 (0)5 29 00 44 66.</p>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div><!-- End Service Item -->
+
+                <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="service-item">
+                        <div class="img">
+                            <img src="/frontend/img/services-2.jpg" class="img-fluid" alt="">
+                        </div>
+                        <div class="details position-relative">
+                            <div class="icon">
+                                <i class="bi bi-calendar4-week"></i>
+                            </div>
+                            <a  class="stretched-link">
+                                <h3>Prendre Rendez-Vous En Ligne</h3>
+                            </a>
+                            <p>La prise de rendez-vous sera bientôt en ligne.</p>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div><!-- End Service Item -->
+
+                <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="service-item">
+                        <div class="img">
+                            <img src="/frontend/img/services-5.jpg" class="img-fluid" alt="">
+                        </div>
+                        <div class="details position-relative">
+                            <div class="icon">
+                                <i class="bi bi-calendar4-week"></i>
+                            </div>
+                            <a  class="stretched-link">
+                                <h3>Prendre Rendez-Vous sur Place</h3>
+                            </a>
+                            <p>Si vous préférez vous présenter physiquement à l’Hôpital pour prendre rendez-vous, veuillez-vous adresser directement aux secrétaires du comptoir d’accueil afin d’obtenir un rendez-vous de consultation.</p>
+                        </div>
+                    </div>
+                </div><!-- End Service Item -->
+
+            </div>
+
+        </div>
+    </section><!-- End Services Section -->
+
+    <!-- ======= F.A.Q Section ======= -->
+    <section id="faq" class="faq">
+        <div class="container-fluid" data-aos="fade-up">
+
+            <div class="row gy-4">
+
+                <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
+
+                    <div class="content px-xl-5">
+                        <h3>Conseils pour les diabétiques pendants le  <strong>Ramadan</strong></h3>
+                        <p>
+                            Pendant le Ramadan, les diabétiques doivent prendre des précautions particulières pour jeûner en toute sécurité. Voici quelques conseils essentiels à suivre :                        </p>
+                    </div>
+
+                    <div class="accordion accordion-flush px-xl-5" id="faqlist">
+
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="200">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-1">
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    Comment devrais-je surveiller ma glycémie pendant le Ramadan ?
+                                </button>
+                            </h3>
+                            <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                                <div class="accordion-body">
+                                    Mesurez votre glycémie régulièrement, notamment avant le sahur, après l'iftar, et en cas de symptômes d'hypoglycémie ou d'hyperglycémie.                                </div>
+                            </div>
+                        </div><!-- # Faq item-->
+
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="300">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-2">
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    Quelle est l'importance de l'hydratation pendant le Ramadan ?
+                                </button>
+                            </h3>
+                            <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                                <div class="accordion-body">
+                                    Il est crucial de bien vous hydrater pendant les heures de non-jeûne. Buvez beaucoup d'eau entre l'iftar et le sahur pour éviter la déshydratation.                                </div>
+                            </div>
+                        </div><!-- # Faq item-->
+
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="400">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-3">
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    Quels types d'aliments devrais-je privilégier lors des repas du sahur et de l'iftar ?
+                                </button>
+                            </h3>
+                            <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                                <div class="accordion-body">
+                                    Privilégiez des aliments à faible indice glycémique pour maintenir une glycémie stable. Évitez les sucres rapides et les aliments très gras.                                </div>
+                            </div>
+                        </div><!-- # Faq item-->
+
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="500">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-4">
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    Comment puis-je contrôler mes portions alimentaires pendant le Ramadan ?
+                                </button>
+                            </h3>
+                            <div id="faq-content-4" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                                <div class="accordion-body">
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    Mangez des portions modérées pour éviter les pics de glycémie après les repas. Commencez par des aliments légers comme les dattes et de l'eau, puis attendez un peu avant de consommer un repas complet.                                </div>
+                            </div>
+                        </div><!-- # Faq item-->
+
+                        <div class="accordion-item" data-aos="fade-up" data-aos-delay="600">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq-content-5">
+                                    <i class="bi bi-question-circle question-icon"></i>
+                                    Quelle activité physique est recommandée pendant le Ramadan ?
+                                </button>
+                            </h3>
+                            <div id="faq-content-5" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                                <div class="accordion-body">
+                                    Adaptez votre niveau d'activité physique. Évitez les exercices intenses et privilégiez des activités légères comme la marche après l'iftar.                                </div>
+                            </div>
+                        </div><!-- # Faq item-->
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" style='background-image: url("/frontend/img/faq.jpg");'>&nbsp;</div>
+            </div>
+
+        </div>
+    </section><!-- End F.A.Q Section -->
+
+    <!-- ======= Team Section ======= -->
+    <section id="team" class="team">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-header">
+                <h2>Projets</h2>
+                <p>La Fondation poursuit son développement avec le lancement de nouveaux d'établissements de soins hospitaliers, la recherche médicale, ou l'enseignement des sciences de la santé. Ces nouveaux établissements concourent à doter le Royaume d'infrastructures de santé plus avancée avec une meilleure couverture régionale.</p>
+            </div>
+
+            <div class="row gy-5">
+
+                <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="/frontend/img/PTM-1.png" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info">
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                            <h4>HOPITAL CHEIKH ZAID TANGER</h4>
+                            <span>La Fondation cheikh Zaid construit à Tanger un nouveau Centre Hospitalier Universitaire. Un pôle médical et technologique d’envergure qui se développe sur plus de 10ha et qui comportera, outre l’hôpital regroupant toutes les disciplines médicales, une Université de Médecine et des Sciences de la Santé et une Clinique Dentaire.<br><br></span>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+                <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="/frontend/img/PSM-1.png" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info">
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                            <h4>HÔPITAL MULTIDISCIPLINAIRE DE SAFI</h4>
+                            <span>La construction de l’hôpital de Safi résulte du partenariat entre la Fondation et l’Office Chérifien des Phosphates (OCP). Cette plateforme hospitalière doit fournir des soins de qualité aux personnels de l’OCP et aux habitants de la ville de Safi.L’hôpital d’une superficie de 15.000 m² sur un terrain de 6,5ha, a une capacité de 135 lits.<br><br></span>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+                <div class="col-xl-4 col-md-6 d-flex" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="team-member">
+                        <div class="member-img">
+                            <img src="/frontend/img/PPM-2.png" class="img-fluid" alt="">
+                        </div>
+                        <div class="member-info">
+                            <div class="social">
+                                <a href=""><i class="bi bi-twitter"></i></a>
+                                <a href=""><i class="bi bi-facebook"></i></a>
+                                <a href=""><i class="bi bi-instagram"></i></a>
+                                <a href=""><i class="bi bi-linkedin"></i></a>
+                            </div>
+                            <h4>CENTRE MÉDICO-PSYCHOLOGIQUE DE SKHIRAT</h4>
+                            <span>Le Centre Médico-Psychologique, initié par la Fondation Cheikh Zaïd, sera construit sur un terrain de 5 hectares à proximité de Skhirat.Une première phase d’une capacité de 100 lits sera réalisée. Elle sera suivie d’une extension de même capacité d’accueil.La Fondation Cheikh Zaïd est précurseur au Maroc, à travers ce projet, qui s’inscrit dans la nouvelle vision de la psychiatrie.</span>
+                        </div>
+                    </div>
+                </div><!-- End Team Member -->
+
+            </div>
+
+        </div>
+    </section><!-- End Team Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+
+            <div class="section-header">
+                <h2>Contactez-Nous</h2>
+                <h4>Prendre contact avec l'hôpital Universitaire International Cheikh Khalifa</h4>
+                <p>Pour toute demande d’informations relatives à l’hôpital Universitaire International Cheikh Khalifa, et afin de traiter au mieux votre requête et d’y répondre le plus efficacement possible, nous vous demandons de bien vouloir compléter tous les champs du formulaire ci-dessous.</p>
+            </div>
+
+        </div>
+
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyADL6acZSIkIhbKgqcWomfkZ8Qkn6XGP2o&q=H%C3%B4pital+Universitaire+International+Cheikh+Khalifa" frameborder="0" allowfullscreen></iframe>
+        </div><!-- End Google Maps -->
+
+        <div class="container">
+
+            <div class="row gy-5 gx-lg-5">
+
+                <div class="col-lg-4">
+
+                    <div class="info">
+                        <div class="info-item d-flex">
+                            <i class="bi bi-geo-alt flex-shrink-0"></i>
+                            <div>
+                                <h4>Adresse:</h4>
+                                <p>Ave Mohamed Taieb Naciri, Casablanca 82403</p>
+                            </div>
+                        </div><!-- End Info Item -->
+
+                        <div class="info-item d-flex">
+                            <i class="bi bi-envelope flex-shrink-0"></i>
+                            <div>
+                                <h4>Email:</h4>
+                                <p>hck@hck.ma</p>
+                            </div>
+                        </div><!-- End Info Item -->
+
+                        <div class="info-item d-flex">
+                            <i class="bi bi-phone flex-shrink-0"></i>
+                            <div>
+                                <h4>Numéro de téléphone:</h4>
+                                <p>+212 522 334 455</p>
+                            </div>
+                        </div><!-- End Info Item -->
+
+                    </div>
+
+                </div>
+
+                <div class="col-lg-8">
+                    <form action="static/frontend/contact.php" method="post" role="form" class="php-email-form">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Nom Complet*" required>
+                            </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Adresse Email*" required>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <input class="form-control required" id="id_telephone" maxlength="30" name="telephone" type="text" aria-required="true"  placeholder="Numéro de téléphone*" control-id="ControlID-4">
+                        </div>
+                        <div class="form-group mt-3">
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Sujet*" required>
+                        </div>
+                        <div class="form-group mt-3">
+                            <textarea class="form-control" name="message" placeholder="Votre message*" required></textarea>
+                        </div>
+                        <div class="my-3">
+                            <div class="loading">Chargement</div>
+                            <div class="sent-message">Votre message a été envoyé. Merci !</div>
+                        </div>
+                        <div class="text-center"><button type="submit">Envoyer le Message</button></div>
+                    </form>
+                </div><!-- End Contact Form -->
+
+            </div>
+
+        </div>
+    </section><!-- End Contact Section -->
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+
+    <div class="footer-content">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-info">
+                        <h3>Hopital Cheikh Khalifa</h3>
+                        <p>
+                            Ave Mohamed Taieb Naciri <br>
+                            Casablanca 82403 , Casablanca<br><br>
+                            <strong>Numéro de téléphone:</strong> +212 522 334 455<br>
+                            <strong>Email:</strong> hck@hck.ma<br>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">À PROPOS DE NOUS</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">RENDEZ-VOUS</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4 col-md-6 footer-newsletter">
+                    <h4>Our Newsletter</h4>
+                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                    <form action="" method="post">
+                        <input type="email" name="email"><input type="submit" value="Subscribe">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- ################# Footer Starts Here#######################--->
+    <div class="footer-legal text-center">
+        <div class="container d-flex flex-column flex-lg-row justify-content-center justify-content-lg-between align-items-center">
 
+            <div class="d-flex flex-column align-items-center align-items-lg-start">
+                <div class="copyright">
+                    &copy; Copyright <strong><span>CIGMA</span></strong>. All Rights Reserved
+                </div>
+                <div class="credits">
+                    <!-- All the links in the footer should remain intact. -->
+                    <!-- You can delete the links only if you purchased the pro version. -->
+                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/herobiz-bootstrap-business-template/ -->
+                    Designed by <a href="https://bootstrapmade.com/">Hamza & Yasser</a>
+                </div>
+            </div>
 
-<footer class="footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 col-sm-12">
-        <h2>About Us</h2>
-        <p>
-          Smart Eye is a leading provider of information technology, consulting, and business process services. Our dedicated employees offer strategic insights, technological expertise and industry experience.
-        </p>
-        <p>We focus on technologies that promise to reduce costs, streamline processes and speed time-to-market, Backed by our strong quality processes and rich experience managing global... </p>
-      </div>
-      <div class="col-md-4 col-sm-12">
-        <h2>Useful Links</h2>
-        <ul class="list-unstyled link-list">
-          <li><a ui-sref="about" href="#/about">About us</a><i class="fa fa-angle-right"></i></li>
-          <li><a ui-sref="portfolio" href="#/portfolio">Portfolio</a><i class="fa fa-angle-right"></i></li>
-          <li><a ui-sref="products" href="#/products">Latest jobs</a><i class="fa fa-angle-right"></i></li>
-          <li><a ui-sref="gallery" href="#/gallery">Gallery</a><i class="fa fa-angle-right"></i></li>
-          <li><a ui-sref="contact" href="#/contact">Contact us</a><i class="fa fa-angle-right"></i></li>
-        </ul>
-      </div>
-      <div class="col-md-4 col-sm-12 map-img">
-        <h2>Contact Us</h2>
-        <address class="md-margin-bottom-40">
-          BlueDart <br>
-          Marthandam (K.K District) <br>
-          Tamil Nadu, IND <br>
-          Phone: +91 9159669599 <br>
-          Email: <a href="mailto:info@anybiz.com" class="">info@bluedart.in</a><br>
-          Web: <a href="smart-eye.html" class="">www.bluedart.in</a>
-        </address>
+            <div class="social-links order-first order-lg-last mb-3 mb-lg-0">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bi bi-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
 
-      </div>
+        </div>
     </div>
-  </div>
 
+</footer><!-- End Footer -->
 
-</footer>
-<div class="copy">
-  <div class="container">
-    <a href="https://www.smarteyeapps.com/">2024 &copy; All Rights Reserved | Designed and Developed by Hamza Hasnaoui</a>
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <span>
-                <a><i class="fab fa-github"></i></a>
-                <a><i class="fab fa-google-plus-g"></i></a>
-                <a><i class="fab fa-pinterest-p"></i></a>
-                <a><i class="fab fa-twitter"></i></a>
-                <a><i class="fab fa-facebook-f"></i></a>
-        </span>
-  </div>
+<div id="preloader"></div>
 
-</div>
+<!-- Vendor JS Files -->
+<script src="/frontend/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/frontend/vendor/aos/aos.js"></script>
+<script src="/frontend/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="/frontend/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+<script src="/frontend/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="/frontend/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="/frontend/js/main.js"></script>
 
 </body>
-
-<script src="/js/jquery-3.2.1.min.js"></script>
-<script src="/js/popper.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script src="/plugins/scroll-fixed/jquery-scrolltofixed-min.js"></script>
-<script src="/js/script.js"></script>
-
 
 </html>

@@ -15,11 +15,12 @@ public class Medecin {
     private String nom;
     private String email;
     private String specialite;
+    private String numeroTelephone;
 
-    public Medecin(String nom, String email, String specialite) {
+    public Medecin(String nom, String email, String specialite, String numeroTelephone) {
         this.nom = nom;
         this.email = email;
         this.specialite = specialite;
+        this.numeroTelephone = numeroTelephone;
     }
-
 }

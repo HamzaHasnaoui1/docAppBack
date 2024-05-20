@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>Hospital Management</title>
+  <meta name="description" content="" />
+  <link rel="icon" type="image/x-icon" href="/backend/img/favicon/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/backend/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="/backend/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="/backend/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="/backend/css/demo.css" />
+  <link rel="stylesheet" href="/backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+</head>
+<body>
+<div class="layout-wrapper layout-content-navbar">
+  <div class="layout-container">
+    <aside th:replace="fragment/menu"></aside>
+    <div class="layout-page">
+      <nav th:replace="fragment/navbar"></nav>
+      <div class="content-wrapper">
+        <div class="container-xxl flex-grow-1 container-p-y">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account Settings /</span> Account</h4>
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                <li class="nav-item">
+                  <a class="nav-link active" ><i class="bx bx-user me-1"></i> Account</a>
+                </li>
+              </ul>
+              <div class="card mb-4">
+                <h5 class="card-header">Profile Details</h5>
+                <div class="card-body">
+                  <div class="d-flex align-items-start align-items-sm-center gap-4">
+                    <img src="/backend/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                    <div class="button-wrapper">
+                      <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                        <span class="d-none d-sm-block">Upload new photo</span>
+                        <i class="bx bx-upload d-block d-sm-none"></i>
+                        <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
+                      </label>
+                      <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                        <i class="bx bx-reset d-block d-sm-none"></i>
+                        <span class="d-none d-sm-block">Reset</span>
+                      </button>
+                      <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-0" />
+                <div class="card-body">
+                  <form id="formAccountSettings" method="POST" action="/updateUser">
+                    <div class="row">
+                      <div class="mb-3 col-md-6">
+                        <label for="username" class="form-label">Username</label>
+                        <input class="form-control" type="text" id="username" name="username" placeholder="Username" autofocus />
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="password" class="form-label">Password</label>
+                        <input class="form-control" type="password" id="password" name="password" placeholder="******" autofocus />
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input class="form-control" type="email" id="email" name="email" placeholder="john.doe@example.com" />
+                      </div>
+                      <div class="mb-3 col-md-6">
+                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                        <div class="input-group input-group-merge">
+                          <span class="input-group-text"></span>
+                          <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="0600112233" />
+                        </div>
+                      </div>
+                      <div class="mt-2">
+                        <button type="submit" class="btn btn-primary me-2">Enregister</button>
+                        <button type="reset" class="btn btn-outline-secondary">Annuler</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content-backdrop fade"></div>
+      </div>
+    </div>
+  </div>
+  <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<script src="/backend/vendor/libs/jquery/jquery.js"></script>
+<script src="/backend/vendor/libs/popper/popper.js"></script>
+<script src="/backend/vendor/js/bootstrap.js"></script>
+<script src="/backend/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="/backend/vendor/js/menu.js"></script>
+<script src="/backend/js/main.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+</html>

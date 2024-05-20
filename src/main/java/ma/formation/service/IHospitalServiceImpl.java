@@ -1,13 +1,7 @@
 package ma.formation.service;
 
-import ma.formation.entities.Consultation;
-import ma.formation.entities.Medecin;
-import ma.formation.entities.Patient;
-import ma.formation.entities.RendezVous;
-import ma.formation.repositories.ConsultationRepository;
-import ma.formation.repositories.MedecinRepository;
-import ma.formation.repositories.PatientRepository;
-import ma.formation.repositories.RendezVousRepository;
+import ma.formation.entities.*;
+import ma.formation.repositories.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,15 +13,23 @@ public class IHospitalServiceImpl implements IHopitalService {
     private MedecinRepository medecinRepository;
     private RendezVousRepository rendezVousRepository;
     private ConsultationRepository consultationRepository;
+    private FactureRepository factureRepository;
 
     public IHospitalServiceImpl(PatientRepository patientRepository,
                                 MedecinRepository medecinRepository,
                                 RendezVousRepository rendezVousRepository,
-                                ConsultationRepository consultationRepository) {
+                                ConsultationRepository consultationRepository,
+                                FactureRepository factureRepository) {
         this.patientRepository = patientRepository;
         this.medecinRepository=medecinRepository;
         this.rendezVousRepository=rendezVousRepository;
         this.consultationRepository=consultationRepository;
+        this.factureRepository=factureRepository;
+    }
+
+    @Override
+    public Facture saveFacture(Facture facture) {
+        return factureRepository.save((facture));
     }
 
     @Override

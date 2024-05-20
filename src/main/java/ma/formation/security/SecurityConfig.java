@@ -39,13 +39,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .defaultSuccessUrl("/user/index", true)
                 .permitAll();
-        http.rememberMe();
+
+        http.rememberMe()
+                .key("uniqueAndSecretKey") // Clé secrète pour signer les tokens Remember Me
+                .rememberMeParameter("remember-me") // Paramètre du formulaire pour le Remember Me
+                .tokenValiditySeconds(86400); // Durée de validité du token Remember Me en secondes (ici, 24 heures)
+
         http.logout().permitAll();
         http.authorizeRequests()
                 .antMatchers("/home","/fonts/**","/webfonts/**","/").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/user/**").hasAuthority("USER")
-                .antMatchers("/resources/**","/static/**","/plugins/**","/about_us","/contact_us","/reset_password", "/webjars/**", "/login","/css/**", "/js/**", "/images/**").permitAll()
+                .antMatchers("/resources/**","/static/**","/plugins/**","/about_us","/contact_us","/reset_password", "/webjars/**", "/login","/css/**", "/js/**","/frontendold/**", "/frontend/**","/backend/**").permitAll()
                 .anyRequest().authenticated();
         http.exceptionHandling().accessDeniedPage("/403");
     }

@@ -81,4 +81,16 @@ public class ConsultationController {
         model.addAttribute("page", page);
         return "consultation/EditConsultation";
     }
+
+
+    @GetMapping(path = "/user/mafacture")
+    public String afficherFacture(Model model, Long id) {
+        Consultation consultation = consultationRepository.findById(id).orElse(null);
+        if (consultation == null) throw new RuntimeException("Consultation introuvable");
+
+        model.addAttribute("consultation", consultation);
+        return "facture";
+    }
+
+
 }
