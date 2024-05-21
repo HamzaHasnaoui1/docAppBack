@@ -23,43 +23,66 @@
       <nav th:replace="fragment/navbar"></nav>
       <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
-          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Account Settings /</span> Account</h4>
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Paramètres du compte /</span> Compte</h4>
           <div class="row">
             <div class="col-md-12">
               <ul class="nav nav-pills flex-column flex-md-row mb-3">
                 <li class="nav-item">
-                  <a class="nav-link active" ><i class="bx bx-user me-1"></i> Account</a>
+                  <a class="nav-link active" ><i class="bx bx-user me-1"></i> Compte</a>
                 </li>
               </ul>
               <div class="card mb-4">
-                <h5 class="card-header">Profile Details</h5>
+                <h5 class="card-header">Détails du profil</h5>
                 <div class="card-body">
                   <div class="d-flex align-items-start align-items-sm-center gap-4">
                     <img src="/backend/img/avatars/1.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
                     <div class="button-wrapper">
                       <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-                        <span class="d-none d-sm-block">Upload new photo</span>
+                        <span class="d-none d-sm-block">Télécharger une nouvelle photo</span>
                         <i class="bx bx-upload d-block d-sm-none"></i>
-                        <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" />
+                        <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" onchange="previewImage(this)" />
                       </label>
-                      <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
+                      <button type="button" class="btn btn-outline-secondary account-image-reset mb-4" onclick="resetImage()">
                         <i class="bx bx-reset d-block d-sm-none"></i>
-                        <span class="d-none d-sm-block">Reset</span>
+                        <span class="d-none d-sm-block">Réinitialiser</span>
                       </button>
-                      <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                      <p class="text-muted mb-0">Autorisé : JPG, GIF ou PNG. Taille maximale de 800K."</p>
                     </div>
                   </div>
                 </div>
+
+                <script th:inline="javascript">
+                  /*<![CDATA[*/
+
+                  function previewImage(input) {
+                      if (input.files && input.files[0]) {
+                          var reader = new FileReader();
+                          reader.onload = function(e) {
+                              document.getElementById('uploadedAvatar').src = e.target.result;
+                          }
+                          reader.readAsDataURL(input.files[0]); // convertit l'image en Data URL
+                      }
+                  }
+
+                  function resetImage() {
+                      document.getElementById('uploadedAvatar').src = '/backend/img/avatars/1.png'; // réinitialise l'image
+                      document.getElementById('upload').value = ''; // efface la valeur de l'élément input[type=file]
+                  }
+
+                  /*]]>*/
+                </script>
+
+
                 <hr class="my-0" />
                 <div class="card-body">
                   <form id="formAccountSettings" method="POST" action="/updateUser">
                     <div class="row">
                       <div class="mb-3 col-md-6">
-                        <label for="username" class="form-label">Username</label>
+                        <label for="username" class="form-label">Nom Complet</label>
                         <input class="form-control" type="text" id="username" name="username" placeholder="Username" autofocus />
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">Mot de passe</label>
                         <input class="form-control" type="password" id="password" name="password" placeholder="******" autofocus />
                       </div>
                       <div class="mb-3 col-md-6">
@@ -67,7 +90,7 @@
                         <input class="form-control" type="email" id="email" name="email" placeholder="john.doe@example.com" />
                       </div>
                       <div class="mb-3 col-md-6">
-                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                        <label class="form-label" for="phoneNumber">Num</label>
                         <div class="input-group input-group-merge">
                           <span class="input-group-text"></span>
                           <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="0600112233" />

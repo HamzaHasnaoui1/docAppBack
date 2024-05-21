@@ -78,6 +78,23 @@
                     <!-- Striped Rows -->
                     <div class="card">
                         <h5 class="card-header">Liste des Consultations</h5>
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12">
+                                        <form class="form-inline" method="get" th:action="@{/user/consultations}" style="margin-bottom:15px">
+                                            <div class="input-group rounded">
+                                                <input type="search" name="keyword" th:value="${keyword}" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                                                </span>
+                                                <button type="submit" class="btn btn-primary" data-mdb-ripple-init>
+                                                    <i class="fas fa-search"></i>
+                                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAvVJREFUSEvllkuojmEQx3//3C0sbNw5iVyjLCywQCEhJbdS6LiEpOSSy4YNC+TWEbmLFFk4So4FVpQNCrkVyS2RQrkb72hefec73/e9r1NYmOXzzDO/Z2aemXnEPxL9Iy65wGbWHBgM9ATaA8+BB8BVSZ8bc/mKYDPrBmwGxgMtSwA+AKeBFZKe/M4FyoLNbBGwFXBvs+QTsEDSoSzFdL8k2Mzcy2Wh9DUJ727gInAXeAh0B3oDI4H5QJPQXStpQx54A7CZLQR2xWHP4zhJ98oZM7MBSf7PAp1CZ5qkE1nwemAz6wPcAJqFd8MkvXIjZtYvct0K8NyekXQ79joDl4EuwHugl6RnleDF4LrEwGjAX6offhSGNwKrShhaJ2l96AwErsHPSjkiaVYusJm1BV6H8jZJS9ODZrYp8WR5GUPzJe0N+HFgOvAWaCvpWzn4L4/NbDJwMhSHSLpSeMjM1gAe2kvxqHYCHSPsVZJemtkUIM1vAxuF9grBS4DtsdlG0rtKoTKzEcCF0JkoqdbMquLV+/JsSYfzeLw6qdm0FJpWClOE1evbo+BS5xEysxbJW/gYaysleYpKSqHHXo97QquDpBdZJVG8b2Ye+qexPlVSmroGpgrBo4DzoTFW0rlGgCcAtXGuv6RbeTxuDbyJFrlP0rxGgI8CM7zsvbdXGiDFdXwKmAR8T15nX0neInOJmXkdXw/l/cnQmFvpYDHYe7CHxyeRt8uhXiZZZDPrGp3L26b3gp6SPHplpVSvngPsixOPgTGS7pSzYGaDole3C52apM0uzrpsuelU2CJ9OvnQ8MaRTqdenopkbTjgIS22M0fSgd/yOFWOKbUDaJp1e+BLfAi8+6VSEZ71A/GcbwHGAt4cisV78cFk0YfFUzOrTibU/jzwvH8uh/qfq0f8uXxq3QduSko71U9eCXi1JL9cPckFzhHqeioB9wfq9r00Z0o6Vqj0R8AFnqfwxZJq/go44N79vKZX/pVQ50nNHwt1Fvz/A/8A5OAELvtqOzgAAAAASUVORK5CYII="/>                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive text-nowrap">
                             <table class="table table-striped">
                                 <thead>
@@ -110,18 +127,36 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
+
                                                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#rapportModal" data-rapport-th="${m.rapport}">
                                                     <i class="bx bx-edit-alt me-1"></i> Afficher le Rapport
                                                 </a>
                                                 <a class="dropdown-item" th:href="@{/admin/EditConsultation(id=${m.id},keyword=${keyword},page=${currentPage})}"
-                                                ><i class="bx bx-edit-alt me-1"></i> Edit</a
+                                                ><i class="bx bx-edit-alt me-1"></i> Modifier</a
                                                 >
                                                 <a onclick="return confirm('Etes vous sur ? ')" class="dropdown-item" th:href="@{/admin/deleteConsultation(id=${m.id},keyword=${keyword} ,page=${currentPage})}"
-                                                ><i class="bx bx-trash me-1"></i> Delete</a
+                                                ><i class="bx bx-trash me-1"></i> Supprimer</a
                                                 >
                                             </div>
                                         </div>
                                     </td>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="rapportModal" tabindex="-1" aria-labelledby="rapportModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="rapportModalLabel">Rapport du Consultation</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p th:text="${m.rapport}"></p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </tr>
                                 </tbody>
                             </table>

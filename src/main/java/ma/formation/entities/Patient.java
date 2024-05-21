@@ -22,7 +22,7 @@ public class Patient {
     @Size(min = 3, max = 10)
     private String nom;
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date dateNaissance;
     private boolean malade;
     private String adresse;

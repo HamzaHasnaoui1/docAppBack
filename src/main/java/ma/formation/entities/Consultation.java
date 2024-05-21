@@ -15,7 +15,7 @@ public class Consultation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date dateConsultation;
     private String rapport;
     @OneToOne

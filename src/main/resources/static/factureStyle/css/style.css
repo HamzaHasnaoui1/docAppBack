@@ -205,7 +205,7 @@ table th{
 }
 
 .btn-download {
-    background: #3965e3;
+    background: #696cff;
 }
 
 .btn-download:after {
@@ -1851,7 +1851,7 @@ table th{
     margin-bottom: 5px;
     text-transform: uppercase;
     font-size: 28px;
-    color: #336ff6;
+    color: #696cff;
 }
 
 .invoice-7 .invoice-info {
@@ -1913,7 +1913,7 @@ table th{
 
 .invoice-7 .inv-title-1{
     margin-bottom: 7px;
-    color: #336ff6;
+    color: #696cff;
     text-transform: uppercase;
 }
 
@@ -1939,7 +1939,7 @@ table th{
 }
 
 .invoice-7 .invoice-contact a i{
-    color: #336ff6;
+    color: #696cff;
 }
 
 .invoice-7 .mr-0{
