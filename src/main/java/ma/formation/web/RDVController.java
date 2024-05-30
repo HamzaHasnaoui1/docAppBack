@@ -50,44 +50,29 @@ public class RDVController {
         model.addAttribute("medecins", medecinRepository.findAll());
         return "RDV/formRDV";
     }
-    @PostMapping(path="/admin/saveRDV")
-    public String saveRDV(Model model, @Valid RendezVous rendezVous,String nomPatient,String nomMedecin,
-                       BindingResult bindingResult, // =>stock les erreurs
-                       @RequestParam(defaultValue = "0") int page){
+
+    @PostMapping(path = "/admin/saveRDV")
+    public String saveRDV(Model model, @Valid RendezVous rendezVous, BindingResult bindingResult, @RequestParam(defaultValue = "0") int page) {
         if (bindingResult.hasErrors()) return "RDV/formRDV";
 
-       /* Long pid= (Long) model.getAttribute("monPid");
-        Long mid= (Long) model.getAttribute("monMid");
-        System.out.println("printing pid and mid to check if we get them");
-        System.out.println("pid="+ pid);
-        System.out.println("mid="+ mid);
+        // Ensure that patient and medecin are correctly set
+        Patient patient = patientRepository.findById(rendezVous.getPatient().getId()).orElse(null);
+        Medecin medecin = medecinRepository.findById(rendezVous.getMedecin().getId()).orElse(null);
 
-        Patient patient= patientRepository.findById(pid).orElse(null);
-        Medecin medecin= medecinRepository.findById(mid).orElse(null);
-        rendezVous.setPatient(patient);
-        rendezVous.setMedecin(medecin);
-        System.out.println(patient);
-       Patient patient= (Patient) model.getAttribute("patient");
-        Medecin medecin = (Medecin) model.getAttribute("medecin");
-        rendezVous.setPatient(patient);
-        rendezVous.setMedecin(medecin);*/
-
-       /* Patient patient = patientRepository.findByNom(nomPatient);
-        Medecin medecin = medecinRepository.findByNom(nomMedecin);
-        if (patient != null && rendezVous.getPatient()==null && medecin != null && rendezVous.getMedecin()==null){
+        if (patient != null && medecin != null) {
             rendezVous.setPatient(patient);
             rendezVous.setMedecin(medecin);
-            rendezVousRepository.save(rendezVous);
-            return "redirect:/user/rdv";
+            hopitalService.saveRendezVous(rendezVous);
+        } else {
+            // Handle the error case if patient or medecin is not found
+            // You can add an error message to the model and return the form again
+            return "RDV/formRDV";
+        }
 
-        }
-        else{
-            return "redirect:/admin/formRendezVous";
-        }
-        */
-        hopitalService.saveRendezVous(rendezVous);
-        return "redirect:/user/rdv?page="+page;
+        return "redirect:/user/rdv?page=" + page;
     }
+
+
     @GetMapping(path="/admin/deleteRDV")
     public String deleteRDV(Long id,  int page){
         rendezVousRepository.deleteById(id);

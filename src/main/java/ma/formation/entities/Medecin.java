@@ -23,4 +23,44 @@ public class Medecin {
         this.specialite = specialite;
         this.numeroTelephone = numeroTelephone;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSpecialite() {
+        return specialite;
+    }
+
+    public void setSpecialite(String specialite) {
+        this.specialite = specialite;
+    }
+
+    public String getNumeroTelephone() {
+        return numeroTelephone;
+    }
+
+    public void setNumeroTelephone(String numeroTelephone) {
+        this.numeroTelephone = numeroTelephone;
+    }
 }
