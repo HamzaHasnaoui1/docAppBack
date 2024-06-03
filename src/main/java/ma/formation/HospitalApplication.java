@@ -1,10 +1,10 @@
 package ma.formation;
 
+import lombok.AllArgsConstructor;
 import ma.formation.repositories.ConsultationRepository;
 import ma.formation.repositories.MedecinRepository;
 import ma.formation.repositories.PatientRepository;
 import ma.formation.repositories.RendezVousRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,38 +13,36 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
+@AllArgsConstructor
 public class HospitalApplication implements CommandLineRunner {
-	@Autowired
-	private PatientRepository patientRepository;
-	@Autowired
-	private MedecinRepository medecinRepository;
-	@Autowired
-	private RendezVousRepository rendezVousRepository;
-	@Autowired
-	private ConsultationRepository consultationRepository;
+    private PatientRepository patientRepository;
+    private MedecinRepository medecinRepository;
+    private RendezVousRepository rendezVousRepository;
+    private ConsultationRepository consultationRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(HospitalApplication.class, args);
-	}
+    public static void main(String[] args) {
 
-	@Bean
-	PasswordEncoder PasswordEncoder(){
-		return new BCryptPasswordEncoder();
-	}
+        SpringApplication.run(HospitalApplication.class, args);
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
-		//Patient p = new Patient("simo", new Date(1998 - 01 - 14), true, "adresse", "20000", "060000000", Titre.Mr,"aa");
+    @Bean
+    PasswordEncoder PasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-		//Patient pSaved = patientRepository.save(p);
+    @Override
+    public void run(String... args) throws Exception {
+        //Patient p = new Patient("simo", new Date(1998 - 01 - 14), true, "adresse", "20000", "060000000", Titre.Mr,"aa");
 
-		//System.out.println("Patient sauvgarde avec succes  : " + p.getClass());
+        //Patient pSaved = patientRepository.save(p);
 
-		//Medecin m = new Medecin("test", "mail@gmail.com", "Generaliste","060000000");
-		//Medecin mSaved = medecinRepository.save(m);
-		//System.out.println("Medecin sauvgarde avec succes : " + m.getClass());
-	}
-	//@Bean
+        //System.out.println("Patient sauvgarde avec succes  : " + p.getClass());
+
+        //Medecin m = new Medecin("test", "mail@gmail.com", "Generaliste","060000000");
+        //Medecin mSaved = medecinRepository.save(m);
+        //System.out.println("Medecin sauvgarde avec succes : " + m.getClass());
+    }
+    //@Bean
 	/*CommandLineRunner saveUsers(SecurityService securityService){
 		return args ->{
 			securityService.saveNewUser("youness","1234","1234");
@@ -59,4 +57,4 @@ public class HospitalApplication implements CommandLineRunner {
 			securityService.addRoleToUser("zanfar","USER");
 			securityService.addRoleToUser("hamza","ADMIN");
 		};*/
-	}
+}

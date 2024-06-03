@@ -4,7 +4,7 @@ import ma.formation.entities.*;
 import ma.formation.repositories.*;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional

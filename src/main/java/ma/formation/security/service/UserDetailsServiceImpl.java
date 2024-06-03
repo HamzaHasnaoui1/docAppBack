@@ -2,7 +2,6 @@ package ma.formation.security.service;
 
 import lombok.AllArgsConstructor;
 import ma.formation.security.entities.AppUser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -10,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
     private SecurityService securityService;
 
 
@@ -32,12 +32,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // avec spring sec les roles doivent etre dans une collection de type GrantedAuthority
         // spring sec consider le role=> obj qui impl l'interface GrantedAuthority
 
-        /*Collection<GrantedAuthority> authorities = new ArrayList<>();
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
         //parcourire les roles de appUser
         appUser.getAppRoles().forEach(role->{ // pour chaque role on creer un obj de type GrantedAuthority
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName()); // le role qui se trouve dans la bd on le stock dans un obj de type SimpleGrantedAutority qui implemente l'interface GrantedAutority
             authorities.add(authority);
-        });*/
+        });
 
 
 

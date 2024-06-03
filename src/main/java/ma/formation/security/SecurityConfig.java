@@ -1,87 +1,124 @@
 package ma.formation.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.sql.DataSource;
-
-import static org.hibernate.criterion.Restrictions.and;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import lombok.AllArgsConstructor;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DataSource dataSource;
+@AllArgsConstructor
+public class SecurityConfig {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    // Bean pour AuthenticationManager
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
+    // Bean pour AuthenticationProvider
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return authenticationProvider;
+    }
+
+    // Configuration du filtre de sécurité
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        configureHttpSecurity(http);
+        return http.build();
+    }
+
+    // Méthode pour configurer HttpSecurity
+    private void configureHttpSecurity(HttpSecurity http) throws Exception {
+        http.cors(Customizer.withDefaults());
+        http.csrf(AbstractHttpConfigurer::disable);
+
+        configureAuthorization(http);
+        configureFormLogin(http);
+        configureExceptionHandling(http);
+        configureLogout(http);
+        configureRememberMe(http);
+
+        http.authenticationProvider(authenticationProvider());
+    }
+
+    // Configuration des autorisations
+    private void configureAuthorization(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(auth -> {
+            auth.requestMatchers(
+                    new AntPathRequestMatcher("/"),
+                    new AntPathRequestMatcher("/resources/**"),
+                    new AntPathRequestMatcher("/webjars/**"),
+                    new AntPathRequestMatcher("/login"),
+                    new AntPathRequestMatcher("/fonts/**"),
+                    new AntPathRequestMatcher("/webfonts/**"),
+                    new AntPathRequestMatcher("/login"),
+                    new AntPathRequestMatcher("/resources/**"),
+                    new AntPathRequestMatcher("/static/**"),
+                    new AntPathRequestMatcher("/plugins/**"),
+                    new AntPathRequestMatcher("/about_us"),
+                    new AntPathRequestMatcher("/contact_us"),
+                    new AntPathRequestMatcher("/reset_password"),
+                    new AntPathRequestMatcher("/webjars/**"),
+                    new AntPathRequestMatcher("/css/**"),
+                    new AntPathRequestMatcher("/js/**"),
+                    new AntPathRequestMatcher("/frontendold/**"),
+                    new AntPathRequestMatcher("/frontend/**"),
+                    new AntPathRequestMatcher("/backend/**")
+            ).permitAll();
+
+            auth.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN");
+            auth.requestMatchers(new AntPathRequestMatcher("/user/**")).hasAnyAuthority("USER");
+
+            auth.anyRequest().authenticated();
+        });
+    }
+
+    // Configuration de la page de connexion
+    private void configureFormLogin(HttpSecurity http) throws Exception {
+        http.formLogin(form -> form
                 .loginPage("/login")
                 .defaultSuccessUrl("/user/index", true)
-                .permitAll();
+                .permitAll());
+    }
 
+    // Configuration de la gestion des exceptions
+    private void configureExceptionHandling(HttpSecurity http) throws Exception {
+        http.exceptionHandling(exception -> exception
+                .accessDeniedPage("/403"));
+    }
+
+    // Configuration de la déconnexion
+    private void configureLogout(HttpSecurity http) throws Exception {
+        http.logout(logout -> logout
+                .logoutSuccessUrl("/login?logout")
+                .permitAll());
+    }
+
+    // Configuration de l'option "Remember Me"
+    private void configureRememberMe(HttpSecurity http) throws Exception {
         http.rememberMe()
                 .key("uniqueAndSecretKey") // Clé secrète pour signer les tokens Remember Me
                 .rememberMeParameter("remember-me") // Paramètre du formulaire pour le Remember Me
                 .tokenValiditySeconds(86400); // Durée de validité du token Remember Me en secondes (ici, 24 heures)
-
-        http.logout().permitAll();
-        http.authorizeRequests()
-                .antMatchers("/home","/fonts/**","/webfonts/**","/").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/user/**").hasAuthority("USER")
-                .antMatchers("/resources/**","/static/**","/plugins/**","/about_us","/contact_us","/reset_password", "/webjars/**", "/login","/css/**", "/js/**","/frontendold/**", "/frontend/**","/backend/**").permitAll()
-                .anyRequest().authenticated();
-        http.exceptionHandling().accessDeniedPage("/403");
     }
-
-
-
-        /*http
-                .authorizeRequests()
-                .antMatchers("/resources/**", "/webjars/**", "/login").permitAll()
-                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/user/**").hasAnyAuthority("USER")
-                .antMatchers("/").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/user/index")
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .and()
-                .headers()
-                .cacheControl().disable();
-        http.exceptionHandling().accessDeniedPage("/403");
-    }*/
-
-
-
-
-
 }

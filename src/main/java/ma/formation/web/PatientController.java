@@ -5,7 +5,6 @@ import ma.formation.entities.Patient;
 import ma.formation.entities.Titre;
 import ma.formation.repositories.PatientRepository;
 import ma.formation.service.IHospitalServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 //classe qui va gérer les requetés http
@@ -21,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor
 public class PatientController {
     private PatientRepository patientRepository;
-    @Autowired
     IHospitalServiceImpl iHospitalService;
 
     @GetMapping(path= "/user/patients") //route
