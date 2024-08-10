@@ -73,7 +73,7 @@
                     <label class="control-label">Médecin :</label>
                     <select class="form-control" name="medecin">
                       <option value="">Sélectionner un médecin</option>
-                      <option th:each="medecin : ${listeDesMedecins}" th:value="${medecin.id}" th:text="${medecin.nom}" th:selected="${medecin.id == rendezVous.medecin.id}"></option>
+                      <option th:each="medecin : ${medecins}" th:value="${medecin.id}" th:text="${medecin.nom}" th:selected="${medecin.id == rendezVous.medecin.id}"></option>
                     </select>
                     <span class="text-danger" th:errors="${rendezVous.medecin}"></span>
                   </div>

@@ -1,6 +1,7 @@
 package ma.formation.web;
 
 import lombok.AllArgsConstructor;
+import ma.formation.entities.Medecin;
 import ma.formation.entities.Patient;
 import ma.formation.entities.Titre;
 import ma.formation.repositories.PatientRepository;
@@ -40,13 +41,13 @@ public class PatientController {
         return "patient/patients";// nom de la vue
     }
 
-    //
-    @GetMapping(path = "/user/patientss")
+    /*
+    @GetMapping(path = "/user/patients")
     @ResponseBody
     public  List<Patient> listPatients(){
         return  patientRepository.findAll();
     }
-
+*/
     @GetMapping(path="/admin/delete")
     public String delete(Long id, String keyword, int page){
         patientRepository.deleteById(id);
@@ -58,16 +59,20 @@ public class PatientController {
         model.addAttribute("patient",new Patient());
         return "patient/formPatients";
     }
-    @PostMapping(path="/admin/save")
-    public String save(Model model,// =>BindingResult place les erreurs dans le model
+    @PostMapping(path="/admin/savePatient")
+    public String savePatient (Model model,// =>BindingResult place les erreurs dans le model
                        @Valid Patient patient,
                        BindingResult bindingResult, // gener la liste des erreurs
                        @RequestParam(defaultValue = "0") int page,
                        @RequestParam(defaultValue = "") String keyword){
-        if (bindingResult.hasErrors()) return "formPatients";
+        if (bindingResult.hasErrors()) return "patient/formPatients";
         patientRepository.save(patient);
         return "redirect:/user/patients?page="+page+"&keyword="+keyword;
     }
+
+
+
+
 
 
     @GetMapping(path="/admin/EditPatient")

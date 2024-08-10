@@ -85,7 +85,6 @@ public class SecurityConfig {
                     new AntPathRequestMatcher("/frontend/**"),
                     new AntPathRequestMatcher("/backend/**")
             ).permitAll();
-
             auth.requestMatchers(new AntPathRequestMatcher("/admin/**")).hasAnyAuthority("ADMIN");
             auth.requestMatchers(new AntPathRequestMatcher("/user/**")).hasAnyAuthority("USER");
 

@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 
 @Controller
 @AllArgsConstructor
+
 public class MedecinController {
     MedecinRepository medecinRepository;
     @GetMapping(path= "/user/medecins")
@@ -36,10 +37,16 @@ public class MedecinController {
         return "medecin/formMedecin";
     }
     @GetMapping(path="/admin/deleteMedecin")
-    public String deleteMedecin(Long id, String keyword, int page){
+    public String deleteMedecin(Long id, String keyword, int page, Model model) {
+        Medecin medecin = medecinRepository.findById(id).orElse(null);
+        if (medecin != null && !medecin.getRendezVous().isEmpty()) {
+            model.addAttribute("errorMessage", "Le médecin ne peut pas être supprimé car il a déjà des rendez-vous.");
+            return medecin(model, page, 5, keyword);
+        }
         medecinRepository.deleteById(id);
-        return "redirect:/user/medecins?page="+page+"&keyword="+keyword;
+        return "redirect:/user/medecins?page=" + page + "&keyword=" + keyword;
     }
+
 
     @PostMapping(path="/admin/saveMedecin")
     public String saveMedecin(Model model,

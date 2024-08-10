@@ -24,13 +24,15 @@ public class SecurityServiceImpl implements SecurityService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public AppUser saveNewUser(String username, String password, String verifyPassword) {
+    public AppUser saveNewUser(String username,String email, String numeroTelephone, String password, String verifyPassword) {
         if (!password.equals(verifyPassword)) throw new  RuntimeException("Mot de passe ne correspond pas");
         String hashedPWD = passwordEncoder.encode(password); // hasher le mdp
         AppUser appUser = new AppUser();
         appUser.setUserId(UUID.randomUUID().toString()); //pour generer un id
         //UUID => genere des chaines de caractere aleatoire qui depend de la date systeme
         appUser.setUsername(username);
+        appUser.setEmail(email);
+        appUser.setNumeroTelephone(numeroTelephone);
         appUser.setPassword(hashedPWD);
         appUser.setActive(true);
         AppUser savedAppUser = appUserReository.save(appUser);
@@ -47,7 +49,7 @@ public class SecurityServiceImpl implements SecurityService {
         AppRole savedAppRole = appRoleRepository.save(appRole);
         return savedAppRole;
     }
-    @Override // affecter le role a l'utilisateur
+    @Override
     public void addRoleToUser(String username, String roleName) {
         AppUser appUser = appUserReository.findByUsername(username); // charger l'user
         if (appUser == null) throw new RuntimeException("User not found");

@@ -22,9 +22,12 @@ public class Consultation {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateConsultation;
     private String rapport;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.READ_WRITE)
     private RendezVous rendezVous;
     private String prix ;
+    @OneToOne
+    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
+    private Facture facture;
 
 }

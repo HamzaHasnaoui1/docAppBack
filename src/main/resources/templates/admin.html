@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Comptes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <style>
+        .form-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container py-4">
+    <h1 class="mb-4 text-center">Gestion de la Sécurité</h1>
+
+    <!-- Messages d'alerte -->
+    <div th:if="${message}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Succès !</strong> <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Erreur !</strong> <span th:text="${error}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Boutons de sélection -->
+    <div class="mb-4 text-center">
+        <button class="btn btn-primary me-2" onclick="showSection('create-user-section')">Ajouter un compte</button>
+        <button class="btn btn-secondary me-2" onclick="showSection('assign-role-section')">Affecter un rôle</button>
+        <button class="btn btn-danger me-2" onclick="showSection('remove-role-section')">Retirer un rôle</button>
+    </div>
+
+    <!-- Créer un nouvel utilisateur -->
+    <div id="create-user-section" class="form-section card mb-4">
+        <div class="card-header bg-primary text-white">Créer un nouvel utilisateur</div>
+        <div class="card-body">
+            <form th:action="@{/admin/users}" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nom d'utilisateur :</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email :</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telephone" class="form-label">Numéro de téléphone :</label>
+                    <input type="tel" class="form-control" id="telephone" name="numeroTelephone" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe :</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="verifyPassword" class="form-label">Vérifier le mot de passe :</label>
+                    <input type="password" class="form-control" id="verifyPassword" name="verifyPassword" required>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Affecter un rôle à un utilisateur -->
+    <div id="assign-role-section" class="form-section card mb-4">
+        <div class="card-header bg-secondary text-white">Affecter un rôle à un utilisateur</div>
+        <div class="card-body">
+            <form th:action="@{/admin/users/addRole}" method="post">
+                <div class="mb-3">
+                    <label for="usernameRole" class="form-label">Nom d'utilisateur :</label>
+                    <select class="form-select" id="usernameRole" name="username" required>
+                        <option th:each="user : ${users}" th:value="${user.username}" th:text="${user.username}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="roleNameAssign" class="form-label">Rôle :</label>
+                    <select class="form-select" id="roleNameAssign" name="roleName" required>
+                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-secondary">Affecter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Retirer un rôle d'un utilisateur -->
+    <div id="remove-role-section" class="form-section card mb-4">
+        <div class="card-header bg-danger text-white">Retirer un rôle d'un utilisateur</div>
+        <div class="card-body">
+            <form th:action="@{/admin/users/removeRole}" method="post">
+                <div class="mb-3">
+                    <label for="usernameRemoveRole" class="form-label">Nom d'utilisateur :</label>
+                    <select class="form-select" id="usernameRemoveRole" name="username" required>
+                        <option th:each="user : ${users}" th:value="${user.username}" th:text="${user.username}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="roleNameRemove" class="form-label">Rôle :</label>
+                    <select class="form-select" id="roleNameRemove" name="roleName" required>
+                        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-danger">Retirer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function showSection(sectionId) {
+        const sections = document.querySelectorAll('.form-section');
+        sections.forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById(sectionId).style.display = 'block';
+    }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
