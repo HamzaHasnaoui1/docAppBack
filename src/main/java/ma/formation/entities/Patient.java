@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Size;
 import java.util.Date;
 
 @Entity // entite jpa qui a un id
-@Data
+@Data // lombok ajout les getters et setters
 @AllArgsConstructor
 @NoArgsConstructor
 public class Patient {
@@ -19,7 +19,7 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotEmpty
-    @Size(min = 3, max = 25)
+    @Size(min = 3, max = 10)
     private String nom;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")

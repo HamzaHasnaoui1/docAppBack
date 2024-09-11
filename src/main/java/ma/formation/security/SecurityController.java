@@ -1,32 +1,14 @@
 package ma.formation.security;
 
-import lombok.AllArgsConstructor;
-import ma.formation.security.entities.AppUser;
-import ma.formation.security.repositories.AppUserRepository;
-import ma.formation.security.service.SecurityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 
-import java.util.List;
-
 @Controller
-@AllArgsConstructor
 public class SecurityController {
-    @Autowired
-    private AppUserRepository appUserRepository;
-
-    @Autowired
-    private SecurityService securityService;
-
-
     @GetMapping("/403")
     public String notAuthorized(){
         return "403";
@@ -91,7 +73,5 @@ public class SecurityController {
     public String index(){
         return "index";
     }
-
-
 
 }

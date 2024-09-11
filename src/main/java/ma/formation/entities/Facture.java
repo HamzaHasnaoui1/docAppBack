@@ -19,6 +19,4 @@ public class Facture {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date dateFacture;
     private double prixFacture;
-    @OneToOne(mappedBy = "facture")
-    private Consultation consultation;
 }

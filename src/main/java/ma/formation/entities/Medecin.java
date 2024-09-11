@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Data @AllArgsConstructor @NoArgsConstructor
 public class Medecin {
@@ -18,8 +16,13 @@ public class Medecin {
     private String email;
     private String specialite;
     private String numeroTelephone;
-    @OneToMany(mappedBy = "medecin")
-    private List<RendezVous> rendezVous;
+
+    public Medecin(String nom, String email, String specialite, String numeroTelephone) {
+        this.nom = nom;
+        this.email = email;
+        this.specialite = specialite;
+        this.numeroTelephone = numeroTelephone;
+    }
 
     public Long getId() {
         return id;
@@ -59,13 +62,5 @@ public class Medecin {
 
     public void setNumeroTelephone(String numeroTelephone) {
         this.numeroTelephone = numeroTelephone;
-    }
-
-    public List<RendezVous> getRendezVous() {
-        return rendezVous;
-    }
-
-    public void setRendezVous(List<RendezVous> rendezVous) {
-        this.rendezVous = rendezVous;
     }
 }

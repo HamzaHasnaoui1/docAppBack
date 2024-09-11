@@ -81,11 +81,13 @@ public class RDVController {
     @GetMapping(path="/admin/EditRDV")
     public String EditRDV(Model model, Long id,int page){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElse(null); // avec .get je le recuper s'il existe mais on peut utiliser orElse(null) null s'il ne trouve pas le patient
+        List<Patient> listeDesPatients= patientRepository.findAll();
+        List<Medecin> listeDesMedecins=medecinRepository.findAll();
         if(rendezVous==null) throw new RuntimeException("Rendez-vous introuvable");
         model.addAttribute("rendezVous", rendezVous);
         model.addAttribute("page", page);
-        model.addAttribute("patients", patientRepository.findAll());
-        model.addAttribute("medecins", medecinRepository.findAll());
+        model.addAttribute("listeDesPatients", listeDesPatients );
+        model.addAttribute("listeDesMedecins",listeDesMedecins );
         return "RDV/EditRDV";
     }
 

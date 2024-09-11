@@ -114,7 +114,7 @@
                                     <td th:text="${m.rendezVous.date}"></td>
                                     <td th:text="${m.rendezVous.id}"></td>
                                     <td sec:authorize="hasAuthority('ADMIN')">
-                                        <a th:href="@{/user/mafacture(id=${m.id})}" target="_blank">Voir Facture</a>
+                                        <a th:href="@{/user/mafacture(id=${m.id})}">Voir Facture</a>
                                     </td>
                                     <td sec:authorize="hasAuthority('ADMIN')">
                                         <div class="dropdown">
