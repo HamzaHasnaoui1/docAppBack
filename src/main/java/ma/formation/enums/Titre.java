@@ -1,4 +1,4 @@
-package ma.formation.entities;
+package ma.formation.enums;
 
 public enum Titre {
     MMe,

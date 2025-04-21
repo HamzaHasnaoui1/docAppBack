@@ -10,87 +10,106 @@ import ma.formation.repositories.RendezVousRepository;
 import ma.formation.service.IHopitalService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class RDVController {
-    RendezVousRepository rendezVousRepository;
-    PatientRepository patientRepository;
-    MedecinRepository medecinRepository;
-    IHopitalService hopitalService;
+    private final RendezVousRepository rendezVousRepository;
+    private final PatientRepository patientRepository;
+    private final MedecinRepository medecinRepository;
+    private final IHopitalService hopitalService;
 
-    @GetMapping(path = "user/rdv")
-    public String Rendezvous(Model model,
-                             @RequestParam(name = "page", defaultValue = "0") int page, // parametre d'url : request.getparametre(page), si on specifie pas le parametre il va prendre la valeur 0 par defaut
-                             @RequestParam(name = "size", defaultValue = "5") int size
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @GetMapping("/user/rdv")
+    public ResponseEntity<?> getRendezVous(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
 
-    ) {
         Page<RendezVous> pageRDV = rendezVousRepository.findAll(PageRequest.of(page, size));
-        model.addAttribute("listRDV", pageRDV.getContent()); // getcontent donne la liste des patients de la page
-        model.addAttribute("pages", new int[pageRDV.getTotalPages()]);
-        model.addAttribute("currentPage", page);
-        return "RDV/Rendezvous";// nom de la vue
+
+        var response = new java.util.HashMap<String, Object>();
+        response.put("rdvs", pageRDV.getContent());
+        response.put("totalPages", pageRDV.getTotalPages());
+        response.put("currentPage", page);
+
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path = "/admin/formRendezVous")
-    public String formRendezVous(Model model/*,String nomPatient,String nomMedecin*/) {
-        model.addAttribute("rendezvous", new RendezVous());
-        /*model.addAttribute("nomPatient",nomPatient);
-        model.addAttribute("nomMedecin",nomMedecin);*/
-        model.addAttribute("patients", patientRepository.findAll());
-        model.addAttribute("medecins", medecinRepository.findAll());
-        return "RDV/formRDV";
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/admin/rdv/form-data")
+    public ResponseEntity<?> getFormData() {
+        var response = new java.util.HashMap<String, Object>();
+        response.put("patients", patientRepository.findAll());
+        response.put("medecins", medecinRepository.findAll());
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping(path = "/admin/saveRDV")
-    public String saveRDV(Model model, @Valid RendezVous rendezVous, BindingResult bindingResult, @RequestParam(defaultValue = "0") int page) {
-        if (bindingResult.hasErrors()) return "RDV/formRDV";
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/admin/rdv")
+    public ResponseEntity<RendezVous> saveRDV(
+            @Valid @RequestBody RendezVous rendezVous) {
 
-        // Ensure that patient and medecin are correctly set
-        Patient patient = patientRepository.findById(rendezVous.getPatient().getId()).orElse(null);
-        Medecin medecin = medecinRepository.findById(rendezVous.getMedecin().getId()).orElse(null);
+        Patient patient = patientRepository.findById(rendezVous.getPatient().getId())
+                .orElseThrow(() -> new RuntimeException("Patient introuvable"));
+        Medecin medecin = medecinRepository.findById(rendezVous.getMedecin().getId())
+                .orElseThrow(() -> new RuntimeException("Médecin introuvable"));
 
-        if (patient != null && medecin != null) {
-            rendezVous.setPatient(patient);
-            rendezVous.setMedecin(medecin);
-            hopitalService.saveRendezVous(rendezVous);
-        } else {
-            // Handle the error case if patient or medecin is not found
-            // You can add an error message to the model and return the form again
-            return "RDV/formRDV";
+        rendezVous.setPatient(patient);
+        rendezVous.setMedecin(medecin);
+        RendezVous savedRDV = hopitalService.saveRendezVous(rendezVous);
+
+        return ResponseEntity.ok(savedRDV);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/admin/rdv/{id}")
+    public ResponseEntity<?> deleteRDV(@PathVariable Long id) {
+        rendezVousRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/admin/rdv/{id}")
+    public ResponseEntity<?> getRDVForEdit(@PathVariable Long id) {
+        RendezVous rdv = rendezVousRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rendez-vous introuvable"));
+
+        var response = new java.util.HashMap<String, Object>();
+        response.put("rdv", rdv);
+        response.put("patients", patientRepository.findAll());
+        response.put("medecins", medecinRepository.findAll());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/admin/rdv/{id}")
+    public ResponseEntity<RendezVous> updateRDV(
+            @PathVariable Long id,
+            @Valid @RequestBody RendezVous rendezVous) {
+
+        if (!rendezVousRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
         }
 
-        return "redirect:/user/rdv?page=" + page;
-    }
+        Patient patient = patientRepository.findById(rendezVous.getPatient().getId())
+                .orElseThrow(() -> new RuntimeException("Patient introuvable"));
+        Medecin medecin = medecinRepository.findById(rendezVous.getMedecin().getId())
+                .orElseThrow(() -> new RuntimeException("Médecin introuvable"));
 
+        rendezVous.setId(id);
+        rendezVous.setPatient(patient);
+        rendezVous.setMedecin(medecin);
+        RendezVous updatedRDV = hopitalService.saveRendezVous(rendezVous);
 
-    @GetMapping(path="/admin/deleteRDV")
-    public String deleteRDV(Long id,  int page){
-        rendezVousRepository.deleteById(id);
-        return "redirect:/user/rdv?page="+page;
+        return ResponseEntity.ok(updatedRDV);
     }
-    @GetMapping(path="/admin/EditRDV")
-    public String EditRDV(Model model, Long id,int page){
-        RendezVous rendezVous = rendezVousRepository.findById(id).orElse(null); // avec .get je le recuper s'il existe mais on peut utiliser orElse(null) null s'il ne trouve pas le patient
-        List<Patient> listeDesPatients= patientRepository.findAll();
-        List<Medecin> listeDesMedecins=medecinRepository.findAll();
-        if(rendezVous==null) throw new RuntimeException("Rendez-vous introuvable");
-        model.addAttribute("rendezVous", rendezVous);
-        model.addAttribute("page", page);
-        model.addAttribute("listeDesPatients", listeDesPatients );
-        model.addAttribute("listeDesMedecins",listeDesMedecins );
-        return "RDV/EditRDV";
-    }
-
 }
-
-

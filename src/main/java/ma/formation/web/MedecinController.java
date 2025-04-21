@@ -5,59 +5,72 @@ import ma.formation.entities.Medecin;
 import ma.formation.repositories.MedecinRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import jakarta.validation.Valid;
+import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class MedecinController {
-    MedecinRepository medecinRepository;
-    @GetMapping(path= "/user/medecins")
-    public String medecin (Model model,
-                           @RequestParam(name= "page", defaultValue = "0") int page,
-                           @RequestParam(name="size", defaultValue = "5") int size,
-                           @RequestParam(name="keyword", defaultValue = "") String keyword){
-        Page<Medecin> pagemedecins= medecinRepository.findByNomContains(keyword, PageRequest.of(page, size));
-        model.addAttribute("listMedecins",pagemedecins);
-        model.addAttribute("pages", new int[pagemedecins.getTotalPages()]);
-        model.addAttribute("currentPage", page);
-        model.addAttribute("keyword",keyword);
-        return "medecin/medecins";
-    }
-    @GetMapping(path="/admin/formMedecin")
-    public String formMedecin(Model model){
-        model.addAttribute("medecin", new Medecin());
-        return "medecin/formMedecin";
-    }
-    @GetMapping(path="/admin/deleteMedecin")
-    public String deleteMedecin(Long id, String keyword, int page){
-        medecinRepository.deleteById(id);
-        return "redirect:/user/medecins?page="+page+"&keyword="+keyword;
+    private MedecinRepository medecinRepository;
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @GetMapping("/user/medecins")
+    public ResponseEntity<?> getMedecins(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "") String keyword) {
+
+        Page<Medecin> pageMedecins = medecinRepository.findByNomContains(keyword, PageRequest.of(page, size));
+
+        var response = new java.util.HashMap<String, Object>();
+        response.put("medecins", pageMedecins.getContent());
+        response.put("totalPages", pageMedecins.getTotalPages());
+        response.put("currentPage", page);
+        response.put("keyword", keyword);
+
+        return ResponseEntity.ok(response);
     }
 
-    @PostMapping(path="/admin/saveMedecin")
-    public String saveMedecin(Model model,
-                              @Valid Medecin medecin,
-                              BindingResult bindingResult, // =>stock les erreurs
-                              @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "") String keyword){
-        if (bindingResult.hasErrors()) return "formMedecin";
-        medecinRepository.save(medecin);
-        return "redirect:/user/medecins?page="+page+"&keyword="+keyword;
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/admin/medecins")
+    public ResponseEntity<Medecin> saveMedecin(@Valid @RequestBody Medecin medecin) {
+        Medecin savedMedecin = medecinRepository.save(medecin);
+        return ResponseEntity.ok(savedMedecin);
     }
-    @GetMapping(path="/admin/EditMedecin")
-    public String EditMedecin(Model model, Long id, String keyword, int page){
-        Medecin medecin = medecinRepository.findById(id).orElse(null);
-        if(medecin==null) throw new RuntimeException("Medecin introuvable");
-        model.addAttribute("medecin", medecin);
-        model.addAttribute("page", page);
-        model.addAttribute("keyword",keyword);
-        return "Medecin/EditMedecin";
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @GetMapping("/user/medecins/{id}")
+    public ResponseEntity<Medecin> getMedecin(@PathVariable Long id) {
+        return medecinRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/admin/medecins/{id}")
+    public ResponseEntity<Medecin> updateMedecin(
+            @PathVariable Long id,
+            @Valid @RequestBody Medecin medecin) {
+
+        if (!medecinRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        medecin.setId(id);
+        Medecin updatedMedecin = medecinRepository.save(medecin);
+        return ResponseEntity.ok(updatedMedecin);
+    }
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/admin/medecins/{id}")
+    public ResponseEntity<?> deleteMedecin(@PathVariable Long id) {
+        medecinRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

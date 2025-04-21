@@ -2,8 +2,11 @@ package ma.formation.security.service;
 
 import lombok.AllArgsConstructor;
 import ma.formation.security.entities.AppUser;
+import ma.formation.security.repositories.AppUserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private final AppUserRepository appUserRepository;
     private SecurityService securityService;
 
 
@@ -59,6 +64,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         User user = new User(appUser.getUsername(),appUser.getPassword(),authorities1);
         return user;
+    }
+
+    public Optional<AppUser> getCurrentAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return Optional.empty();
+        }
+        String username = authentication.getName();
+        return Optional.ofNullable(appUserRepository.findByUsername(username));
     }
 
 }

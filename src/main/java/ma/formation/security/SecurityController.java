@@ -3,75 +3,45 @@ package ma.formation.security;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletException;
 
 @Controller
 public class SecurityController {
+
+    private static final String FRONT_URL = "http://localhost:8089/";
+
     @GetMapping("/403")
-    public String notAuthorized(){
-        return "403";
+    public String notAuthorized() {
+        return "redirect:" + FRONT_URL + "/error/403";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, RedirectAttributes attributes)
+            throws ServletException {
+        request.logout();
+        attributes.addFlashAttribute("logoutMessage", "Déconnexion réussie");
+        return "redirect:" + FRONT_URL + "/login";
     }
 
     @GetMapping("/login")
-    public String login(){ return "login";}
-
-
-
-    @GetMapping(path="/logout")
-    public String logout(HttpServletRequest request) throws ServletException {
-        request.logout();
-        return "redirect:/";
+    public String loginPage() {
+        return "redirect:" + FRONT_URL + "/login";
     }
 
-    /*@GetMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response, RedirectAttributes attributes) {
-        // Perform logout actions (invalidate session, clear cookies, etc.)
-        request.getSession().invalidate();
-        attributes.addFlashAttribute("logoutMessage", "You have been logged out successfully.");
-        return "redirect:/"; // Redirect to the home page
-    }*/
-
-    @GetMapping(path="/login?logout")
-    public String logout1(){
-        return "/home";
+    @GetMapping("/reset_password")
+    public String resetPassword() {
+        return "redirect:" + FRONT_URL + "/reset-password";
     }
 
-    @GetMapping(path="/")
-    public String home(){
-        return "home";
+    @GetMapping("/about_us")
+    public String aboutUs() {
+        return "redirect:" + FRONT_URL + "/about";
     }
 
-    @GetMapping(path="/home")
-    public String home1(){
-        return "home";
-    }
-
-    @GetMapping(path="/homeold")
-    public String homeold(){
-        return "homeold";
-    }
-
-    @GetMapping(path="/reset_password")
-    public String reset_password(){
-        return "reset_password";
-    }
-
-
-    @GetMapping(path="/about_us")
-    public String about_us(){
-        return "about_us";
-    }
-
-    @GetMapping(path="/contact_us")
-    public String contact_us(){
-        return "contact_us";
-    }
-
-    @GetMapping(path="/user/index")
-    public String index(){
-        return "index";
+    @GetMapping("/contact_us")
+    public String contactUs() {
+        return "redirect:" + FRONT_URL + "/contact";
     }
 
 }

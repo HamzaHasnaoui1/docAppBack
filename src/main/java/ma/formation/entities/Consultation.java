@@ -1,18 +1,18 @@
 package ma.formation.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import ma.formation.enums.StatusRDV;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Consultation {
     @Id
@@ -20,11 +20,19 @@ public class Consultation {
     private Long id;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateConsultation;
+    @Lob
     private String rapport;
+    @Enumerated(EnumType.STRING)
+    private StatusRDV statusRDV;
     @OneToOne
-    @JsonProperty(access = JsonProperty.Access.READ_WRITE)
+    @JoinColumn(name = "rendez_vous_id")
+    @JsonManagedReference
     private RendezVous rendezVous;
     private String prix ;
+
+    @ManyToOne
+    private DossierMedical dossierMedical;
 
 }

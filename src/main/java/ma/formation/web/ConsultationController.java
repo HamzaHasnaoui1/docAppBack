@@ -2,95 +2,107 @@ package ma.formation.web;
 
 import lombok.AllArgsConstructor;
 import ma.formation.entities.Consultation;
+import ma.formation.entities.Medecin;
 import ma.formation.entities.RendezVous;
 import ma.formation.repositories.ConsultationRepository;
 import ma.formation.repositories.RendezVousRepository;
 import ma.formation.service.IHopitalService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 @AllArgsConstructor
+@CrossOrigin("*")
 public class ConsultationController {
-    ConsultationRepository consultationRepository;
-    IHopitalService hopitalService;
-    RendezVousRepository rendezVousRepository;
-    @GetMapping(path= "/user/consultations")
-    public String consultation (Model model,
-                           @RequestParam(name= "page", defaultValue = "0") int page,
-                           @RequestParam(name="size", defaultValue = "5") int size){
-        Page<Consultation> pageconsultation= consultationRepository.findAll(PageRequest.of(page, size));
+    private final ConsultationRepository consultationRepository;
+    private final IHopitalService hopitalService;
+    private final RendezVousRepository rendezVousRepository;
 
-        model.addAttribute("listConsultation",pageconsultation);
-        model.addAttribute("pages", new int[pageconsultation.getTotalPages()]);
-        model.addAttribute("currentPage", page);
-        return "consultation/consultations";
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @GetMapping("/user/consultations")
+    public ResponseEntity<?> getConsultations(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Page<Consultation> pageConsultations = consultationRepository.findAll(PageRequest.of(page, size));
+
+        var response = new java.util.HashMap<String, Object>();
+        response.put("consultations", pageConsultations.getContent());
+        response.put("totalPages", pageConsultations.getTotalPages());
+        response.put("currentPage", page);
+
+        return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path="/admin/deleteConsultation")
-    public String deleteConsultation(Long id,  int page){
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/admin/consultations/{id}")
+    public ResponseEntity<?> deleteConsultation(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page) {
+
         consultationRepository.deleteById(id);
-        return "redirect:/user/consultations?page="+page;
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping(path="/admin/saveConsultation")
-    public String saveConsultation(Model model,
-                                   @Valid Consultation consultation,
-                                   BindingResult bindingResult,
-                                   @RequestParam(name = "rendezVous", defaultValue = "0") Long rendezVousId,
-                                   @RequestParam(defaultValue = "0") int page){
-        if (bindingResult.hasErrors()) {
-            return "formConsultation";
-        }
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/admin/consultations")
+    public ResponseEntity<Consultation> saveConsultation(
+            @Valid @RequestBody Consultation consultation,
+            @RequestParam(name = "rendezVousId") Long rendezVousId) {
 
-        // Récupérer le rendez-vous à partir de son ID
         RendezVous rendezVous = rendezVousRepository.findById(rendezVousId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid rendez-vous Id: " + rendezVousId));
 
-        // Associer le rendez-vous à la consultation
         consultation.setRendezVous(rendezVous);
+        Consultation savedConsultation = hopitalService.saveConsultation(consultation);
 
-        // Enregistrer la consultation
-        hopitalService.saveConsultation(consultation);
+        return ResponseEntity.ok(savedConsultation);
+    }
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/admin/consultations/{id}")
+    public ResponseEntity<Consultation> updateConsultation(
+            @PathVariable Long id,
+            @Valid @RequestBody Consultation consultation) {
 
-        return "redirect:/user/consultations?page=" + page;
+        if (!consultationRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        consultation.setId(id);
+        Consultation updatedConsultation = consultationRepository.save(consultation);
+        return ResponseEntity.ok(updatedConsultation);
     }
 
-
-    @GetMapping(path="/admin/formConsultation")
-    public String formConsultation(Model model){
-        model.addAttribute("consultation",new Consultation());
-        model.addAttribute("rendezvous",rendezVousRepository.findAll());
-        return "consultation/formConsultation";
-    }
-    @GetMapping(path="/admin/EditConsultation")
-    public String EditConsultation(Model model, Long id,int page){
-        Consultation consultation = consultationRepository.findById(id).orElse(null); // avec .get je le recuper s'il existe mais on peut utiliser orElse(null) null s'il ne trouve pas le patient
-        if(consultation==null) throw new RuntimeException("Consultation introuvable");
-        model.addAttribute("consultation", consultation);
-        model.addAttribute("rendezvous",rendezVousRepository.findAll());
-        model.addAttribute("page", page);
-        return "consultation/EditConsultation";
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/admin/consultations/form-data")
+    public ResponseEntity<?> getFormData() {
+        var response = new java.util.HashMap<String, Object>();
+        response.put("rendezvous", rendezVousRepository.findAll());
+        return ResponseEntity.ok(response);
     }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/admin/consultations/{id}")
+    public ResponseEntity<Consultation> getConsultationForEdit(@PathVariable Long id) {
+        Consultation consultation = consultationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Consultation introuvable"));
 
-    @GetMapping(path = "/user/mafacture")
-    public String afficherFacture(Model model, Long id) {
-        Consultation consultation = consultationRepository.findById(id).orElse(null);
-        if (consultation == null) throw new RuntimeException("Consultation introuvable");
-
-        model.addAttribute("consultation", consultation);
-        return "facture";
+        return ResponseEntity.ok(consultation);
     }
 
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @GetMapping("/user/consultations/{id}/facture")
+    public ResponseEntity<Consultation> getConsultationForFacture(@PathVariable Long id) {
+        Consultation consultation = consultationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Consultation introuvable"));
 
+        return ResponseEntity.ok(consultation);
+    }
 }
