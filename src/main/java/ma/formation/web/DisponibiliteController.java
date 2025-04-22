@@ -3,7 +3,6 @@ package ma.formation.web;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ma.formation.entities.DisponibiliteMedecin;
-import ma.formation.entities.Medecin;
 import ma.formation.repositories.DisponibiliteMedecinRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,9 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -67,7 +64,6 @@ public class DisponibiliteController {
         DisponibiliteMedecin updated = disponibiliteMedecinRepository.save(dispo);
         return ResponseEntity.ok(updated);
     }
-
 
 
 }

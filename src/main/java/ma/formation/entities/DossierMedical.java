@@ -18,14 +18,15 @@ public class DossierMedical {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Patient patient;
-
-    @OneToMany(mappedBy = "dossierMedical")
-    private List<Consultation> consultations;
-
     private String allergies;
     private String antecedents;
     private String traitementsChroniques;
+
+    @OneToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+    @OneToMany(mappedBy = "dossierMedical", cascade = CascadeType.ALL)
+    private List<Consultation> consultations;
 }
 

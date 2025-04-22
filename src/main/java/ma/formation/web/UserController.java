@@ -2,7 +2,6 @@ package ma.formation.web;
 
 import lombok.AllArgsConstructor;
 import ma.formation.security.entities.AppUser;
-import ma.formation.security.repositories.AppRoleRepository;
 import ma.formation.security.repositories.AppUserRepository;
 import ma.formation.security.service.UserDetailsServiceImpl;
 import org.springframework.http.ResponseEntity;

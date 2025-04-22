@@ -1,35 +1,40 @@
 package ma.formation.entities;
 
-import com.fasterxml.jackson.annotation.*;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ma.formation.enums.StatusRDV;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor @NoArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class RendezVous {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
 
     @Enumerated(EnumType.STRING)
     private StatusRDV statusRDV;
-    @ManyToOne
-    private Patient patient;
 
     @ManyToOne
+    @JoinColumn(name = "medecin_id")
     private Medecin medecin;
 
-    @OneToOne(mappedBy = "rendezVous")
-    @JsonBackReference
-    private Consultation consultation;
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
 
+    @OneToOne(mappedBy = "rendezVous", cascade = CascadeType.ALL)
+    private Consultation consultation;
 }

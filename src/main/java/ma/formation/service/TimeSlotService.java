@@ -18,8 +18,6 @@ public class TimeSlotService {
 
     private final RendezVousRepository rendezVousRepository;
 
-    public record TimeSlot(LocalDateTime start, LocalDateTime end) {}
-
     /**
      * Génère les créneaux horaires d'une journée de travail selon des paramètres prédéfinis.
      */
@@ -56,5 +54,8 @@ public class TimeSlotService {
                 .collect(Collectors.toList());
 
         return filterUnavailableSlots(allSlots, taken, slotMinutes);
+    }
+
+    public record TimeSlot(LocalDateTime start, LocalDateTime end) {
     }
 }

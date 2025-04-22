@@ -1,13 +1,19 @@
 package ma.formation.entities;
 
-import lombok.*;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class Medecin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,5 +22,4 @@ public class Medecin {
     private String email;
     private String specialite;
     private String numeroTelephone;
-
 }

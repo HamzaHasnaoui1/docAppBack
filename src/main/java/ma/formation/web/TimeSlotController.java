@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/api/medecins")
@@ -18,7 +19,9 @@ import java.util.List;
 @CrossOrigin("*")
 public class TimeSlotController {
 
-    private final TimeSlotService timeSlotService;@GetMapping("/{id}/slots")
+    private final TimeSlotService timeSlotService;
+
+    @GetMapping("/{id}/slots")
     public ResponseEntity<List<TimeSlotService.TimeSlot>> getSlots(
             @PathVariable Long id,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,

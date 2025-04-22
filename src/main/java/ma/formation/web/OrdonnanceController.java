@@ -1,5 +1,6 @@
 package ma.formation.web;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ma.formation.entities.Ordonnance;
 import ma.formation.repositories.OrdonnanceRepository;
@@ -9,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.HashMap;
 
 @RestController

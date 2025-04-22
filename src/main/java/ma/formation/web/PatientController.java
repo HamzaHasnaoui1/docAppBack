@@ -1,22 +1,22 @@
 package ma.formation.web;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.formation.entities.Patient;
 import ma.formation.repositories.PatientRepository;
+import ma.formation.service.PatientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-
-import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
 @CrossOrigin("*")
 public class PatientController {
+    private final PatientService patientService;
     private PatientRepository patientRepository;
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
@@ -40,7 +40,7 @@ public class PatientController {
     @Secured("ROLE_ADMIN")
     @PostMapping("/admin/patients")
     public ResponseEntity<Patient> savePatient(@Valid @RequestBody Patient patient) {
-        Patient savedPatient = patientRepository.save(patient);
+        Patient savedPatient = patientService.createPatientWithDossier(patient);
         return ResponseEntity.ok(savedPatient);
     }
 

@@ -25,7 +25,7 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public AppUser saveNewUser(String username, String password, String verifyPassword) {
-        if (!password.equals(verifyPassword)) throw new  RuntimeException("Mot de passe ne correspond pas");
+        if (!password.equals(verifyPassword)) throw new RuntimeException("Mot de passe ne correspond pas");
         String hashedPWD = passwordEncoder.encode(password); // hasher le mdp
         AppUser appUser = new AppUser();
         appUser.setUserId(UUID.randomUUID().toString()); //pour generer un id
@@ -40,13 +40,14 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public AppRole saveNewRole(String roleName, String description) {
         AppRole appRole = appRoleRepository.findByRoleName(roleName); // verifie si le role exist deja
-        if (appRole != null) throw new RuntimeException("Role "+ roleName+" exist deja");
+        if (appRole != null) throw new RuntimeException("Role " + roleName + " exist deja");
         appRole = new AppRole();
         appRole.setRoleName(roleName);
         appRole.setDescription(description);
         AppRole savedAppRole = appRoleRepository.save(appRole);
         return savedAppRole;
     }
+
     @Override // affecter le role a l'utilisateur
     public void addRoleToUser(String username, String roleName) {
         AppUser appUser = appUserReository.findByUsername(username); // charger l'user

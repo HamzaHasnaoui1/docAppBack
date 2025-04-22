@@ -32,20 +32,20 @@ public class FactureService {
 
     private String generateHtmlFacture() {
         return """
-            <html>
-                <head>
-                    <style>
-                        body { font-family: Arial; margin: 20px; }
-                        h1 { color: #0066cc; }
-                        table { width: 100%; border-collapse: collapse; }
-                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                    </style>
-                </head>
-                <body>
-                    <h1>Facture Médicale</h1>
-                    <!-- Contenu dynamique à ajouter -->
-                </body>
-            </html>
-            """;
+                <html>
+                    <head>
+                        <style>
+                            body { font-family: Arial; margin: 20px; }
+                            h1 { color: #0066cc; }
+                            table { width: 100%; border-collapse: collapse; }
+                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Facture Médicale</h1>
+                        <!-- Contenu dynamique à ajouter -->
+                    </body>
+                </html>
+                """;
     }
 }

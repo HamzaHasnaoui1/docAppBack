@@ -1,5 +1,6 @@
 package ma.formation.web;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.formation.entities.Medecin;
 import ma.formation.entities.Patient;
@@ -13,9 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")

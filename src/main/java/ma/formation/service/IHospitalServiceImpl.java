@@ -1,10 +1,9 @@
 package ma.formation.service;
 
+import jakarta.transaction.Transactional;
 import ma.formation.entities.*;
 import ma.formation.repositories.*;
 import org.springframework.stereotype.Service;
-
-import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -21,10 +20,10 @@ public class IHospitalServiceImpl implements IHopitalService {
                                 ConsultationRepository consultationRepository,
                                 FactureRepository factureRepository) {
         this.patientRepository = patientRepository;
-        this.medecinRepository=medecinRepository;
-        this.rendezVousRepository=rendezVousRepository;
-        this.consultationRepository=consultationRepository;
-        this.factureRepository=factureRepository;
+        this.medecinRepository = medecinRepository;
+        this.rendezVousRepository = rendezVousRepository;
+        this.consultationRepository = consultationRepository;
+        this.factureRepository = factureRepository;
     }
 
     @Override
@@ -32,10 +31,6 @@ public class IHospitalServiceImpl implements IHopitalService {
         return factureRepository.save((facture));
     }
 
-    @Override
-    public Patient savePatient(Patient patient) {
-        return patientRepository.save((patient));
-    }
 
     @Override
     public Medecin saveMedecin(Medecin medecin) {
@@ -44,12 +39,12 @@ public class IHospitalServiceImpl implements IHopitalService {
 
     @Override
     public RendezVous saveRendezVous(RendezVous rendezVous) {
-        if(rendezVous.getPatient()==null){
-            Patient patient= patientRepository.getById((Math.random()>0.5)? 1L:2L);
+        if (rendezVous.getPatient() == null) {
+            Patient patient = patientRepository.getById((Math.random() > 0.5) ? 1L : 2L);
             rendezVous.setPatient(patient);
         }
-        if(rendezVous.getMedecin()==null){
-            Medecin medecin= medecinRepository.getById((Math.random()>0.5)? ((Math.random()>0.5)? 4L:5L):((Math.random()>0.5)? 1L:2L));
+        if (rendezVous.getMedecin() == null) {
+            Medecin medecin = medecinRepository.getById((Math.random() > 0.5) ? ((Math.random() > 0.5) ? 4L : 5L) : ((Math.random() > 0.5) ? 1L : 2L));
             rendezVous.setMedecin(medecin);
         }
 
@@ -59,12 +54,14 @@ public class IHospitalServiceImpl implements IHopitalService {
 
     @Override
     public Consultation saveConsultation(Consultation consultation) {
-        if(consultation.getRendezVous()==null) {
-            RendezVous rendezVous= rendezVousRepository.getById((Math.random()>0.5)? ((Math.random()>0.5)? 4L:5L):((Math.random()>0.5)? 1L:2L));
-            consultation.setRendezVous(rendezVous);}
+        if (consultation.getRendezVous() == null) {
+            RendezVous rendezVous = rendezVousRepository.getById((Math.random() > 0.5) ? ((Math.random() > 0.5) ? 4L : 5L) : ((Math.random() > 0.5) ? 1L : 2L));
+            consultation.setRendezVous(rendezVous);
+        }
         return consultationRepository.save(consultation);
     }
-    public String isMalade (Boolean malade){
+
+    public String isMalade(Boolean malade) {
         if (malade)
             return "Oui";
         return "Non";

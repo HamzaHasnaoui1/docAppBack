@@ -28,7 +28,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private SecurityService securityService;
 
 
-
     //code qui va se repetter dans tt les app qui utilise spring security
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -39,11 +38,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         //parcourire les roles de appUser
-        appUser.getAppRoles().forEach(role->{ // pour chaque role on creer un obj de type GrantedAuthority
+        appUser.getAppRoles().forEach(role -> { // pour chaque role on creer un obj de type GrantedAuthority
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.getRoleName()); // le role qui se trouve dans la bd on le stock dans un obj de type SimpleGrantedAutority qui implemente l'interface GrantedAutority
             authorities.add(authority);
         });
-
 
 
         //declarative
@@ -51,9 +49,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Collection<GrantedAuthority> authorities1 = appUser
 
                 .getAppRoles()
-                .stream().map(role-> new SimpleGrantedAuthority(role.getRoleName()))
+                .stream().map(role -> new SimpleGrantedAuthority(role.getRoleName()))
                 .collect(Collectors.toList());
-
 
 
         // pour retourner un obj de type UserDetails:
@@ -62,7 +59,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //on va creer un obj de type User qui va prendre les param suivant => username et password de appUser qu'on a chargé a partir de la db
         // le 3eme param => les roles mais ils doivent etre une collection de type GrantedAutority
 
-        User user = new User(appUser.getUsername(),appUser.getPassword(),authorities1);
+        User user = new User(appUser.getUsername(), appUser.getPassword(), authorities1);
         return user;
     }
 

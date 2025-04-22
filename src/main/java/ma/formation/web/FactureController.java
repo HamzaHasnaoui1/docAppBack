@@ -2,13 +2,12 @@ package ma.formation.web;
 
 import lombok.AllArgsConstructor;
 import ma.formation.service.FactureService;
-import ma.formation.service.IHospitalServiceImpl;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/factures")

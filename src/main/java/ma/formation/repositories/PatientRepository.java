@@ -7,10 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-//patientDAO
-//heriter d'une interface generique
-
-public interface PatientRepository extends JpaRepository<Patient,Long> {
+public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Page<Patient> findByNomContains(String nom, Pageable pageable);
 

@@ -1,4 +1,5 @@
 package ma.formation.entities;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +8,6 @@ import lombok.Setter;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.List;
 
 @Entity
 @Getter
