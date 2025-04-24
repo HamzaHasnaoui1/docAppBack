@@ -1,5 +1,7 @@
 package ma.formation.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -7,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import ma.formation.enums.Titre;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,6 +21,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +44,12 @@ public class Patient {
     @Lob
     @Column(columnDefinition = "TEXT")
     private String rapport;
-
     @OneToOne(mappedBy = "patient", cascade = CascadeType.ALL)
     private DossierMedical dossierMedical;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-    private List<RendezVous> rendezVous;
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    private List<RendezVous> rendezVousList;
 }
 
 

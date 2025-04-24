@@ -1,106 +1,91 @@
 package ma.formation.web;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import ma.formation.entities.Consultation;
-import ma.formation.entities.RendezVous;
+import lombok.RequiredArgsConstructor;
+import ma.formation.dtos.ConsultationDTO;
 import ma.formation.repositories.ConsultationRepository;
-import ma.formation.repositories.RendezVousRepository;
-import ma.formation.service.IHopitalService;
+import ma.formation.service.ConsultationService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @CrossOrigin("*")
 public class ConsultationController {
+    private final ConsultationService consultationService;
     private final ConsultationRepository consultationRepository;
-    private final IHopitalService hopitalService;
-    private final RendezVousRepository rendezVousRepository;
+
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/user/consultations")
     public ResponseEntity<?> getConsultations(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "") String keyword) {
 
-        Page<Consultation> pageConsultations = consultationRepository.findAll(PageRequest.of(page, size));
+        Page<ConsultationDTO> pageConsultations = consultationService.searchConsultations(keyword, page, size);
 
-        var response = new java.util.HashMap<String, Object>();
+        var response = new HashMap<String, Object>();
         response.put("consultations", pageConsultations.getContent());
         response.put("totalPages", pageConsultations.getTotalPages());
         response.put("currentPage", page);
+        response.put("keyword", keyword);
 
         return ResponseEntity.ok(response);
     }
 
     @Secured("ROLE_ADMIN")
-    @DeleteMapping("/admin/consultations/{id}")
-    public ResponseEntity<?> deleteConsultation(
-            @PathVariable Long id,
-            @RequestParam(defaultValue = "0") int page) {
+    @GetMapping("/admin/consultations/all")
+    public ResponseEntity<List<ConsultationDTO>> getAllConsultations() {
+        return ResponseEntity.ok(consultationService.getAllConsultations());
+    }
 
-        consultationRepository.deleteById(id);
+
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/admin/consultations/{id}")
+    public ResponseEntity<Void> deleteConsultation(@PathVariable Long id) {
+        consultationService.deleteConsultation(id);
         return ResponseEntity.ok().build();
     }
 
     @Secured("ROLE_ADMIN")
     @PostMapping("/admin/consultations")
-    public ResponseEntity<Consultation> saveConsultation(
-            @Valid @RequestBody Consultation consultation,
+    public ResponseEntity<ConsultationDTO> saveConsultation(
+            @Valid @RequestBody ConsultationDTO consultationDTO,
             @RequestParam(name = "rendezVousId") Long rendezVousId) {
-
-        RendezVous rendezVous = rendezVousRepository.findById(rendezVousId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid rendez-vous Id: " + rendezVousId));
-
-        consultation.setRendezVous(rendezVous);
-        Consultation savedConsultation = hopitalService.saveConsultation(consultation);
-
-        return ResponseEntity.ok(savedConsultation);
+        return ResponseEntity.ok(consultationService.createConsultation(consultationDTO, rendezVousId));
     }
 
     @Secured("ROLE_ADMIN")
     @PutMapping("/admin/consultations/{id}")
-    public ResponseEntity<Consultation> updateConsultation(
+    public ResponseEntity<ConsultationDTO> updateConsultation(
             @PathVariable Long id,
-            @Valid @RequestBody Consultation consultation) {
-
-        if (!consultationRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        consultation.setId(id);
-        Consultation updatedConsultation = consultationRepository.save(consultation);
-        return ResponseEntity.ok(updatedConsultation);
+            @Valid @RequestBody ConsultationDTO consultationDTO) {
+        return ResponseEntity.ok(consultationService.updateConsultation(id, consultationDTO));
     }
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/admin/consultations/form-data")
-    public ResponseEntity<?> getFormData() {
-        var response = new java.util.HashMap<String, Object>();
-        response.put("rendezvous", rendezVousRepository.findAll());
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, Object>> getFormData() {
+        return ResponseEntity.ok(consultationService.getConsultationFormData());
     }
 
-    @Secured("ROLE_ADMIN")
-    @GetMapping("/admin/consultations/{id}")
-    public ResponseEntity<Consultation> getConsultationForEdit(@PathVariable Long id) {
-        Consultation consultation = consultationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consultation introuvable"));
-
-        return ResponseEntity.ok(consultation);
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @GetMapping({"/admin/consultations/{id}", "/user/consultations/{id}"})
+    public ResponseEntity<ConsultationDTO> getConsultationById(@PathVariable Long id) {
+        return ResponseEntity.ok(consultationService.getConsultationById(id));
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/user/consultations/{id}/facture")
-    public ResponseEntity<Consultation> getConsultationForFacture(@PathVariable Long id) {
-        Consultation consultation = consultationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consultation introuvable"));
-
-        return ResponseEntity.ok(consultation);
+    public ResponseEntity<ConsultationDTO> getConsultationForFacture(@PathVariable Long id) {
+        return ResponseEntity.ok(consultationService.getConsultationById(id));
     }
 }

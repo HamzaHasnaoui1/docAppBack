@@ -1,16 +1,27 @@
 package ma.formation.mappers;
 
+import ma.formation.dtos.ConsultationDTO;
 import ma.formation.dtos.OrdonnanceDTO;
 import ma.formation.entities.Ordonnance;
-import org.mapstruct.Mapper;
+import org.mapstruct.*;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = ConsultationMapper.class)
 public interface OrdonnanceMapper {
+
     OrdonnanceDTO toDTO(Ordonnance ordonnance);
 
-    List<OrdonnanceDTO> toDTOs(List<Ordonnance> ords);
+    Ordonnance toEntity(OrdonnanceDTO ordonnanceDTO);
 
-    Ordonnance toEntity(OrdonnanceDTO dto);
+    List<OrdonnanceDTO> toDtos(List<Ordonnance> ordonnances);
+    List<Ordonnance> toEntities(List<OrdonnanceDTO> ordonnanceDTOs);
+
+    @AfterMapping
+    default void afterMapping(@MappingTarget Ordonnance ordonnance) {
+        // Set the ordonnance reference in the consultation if it exists
+        if (ordonnance.getConsultation() != null) {
+            ordonnance.getConsultation().setOrdonnance(ordonnance);
+        }
+    }
 }

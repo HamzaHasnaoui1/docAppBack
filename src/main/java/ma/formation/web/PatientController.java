@@ -1,23 +1,24 @@
 package ma.formation.web;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import ma.formation.dtos.PatientDTO;
 import ma.formation.entities.Patient;
-import ma.formation.repositories.PatientRepository;
 import ma.formation.service.PatientService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @RestController
 @RequestMapping("/api")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @CrossOrigin("*")
 public class PatientController {
+
     private final PatientService patientService;
-    private PatientRepository patientRepository;
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/user/patients")
@@ -26,9 +27,9 @@ public class PatientController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "") String keyword) {
 
-        Page<Patient> pagePatients = patientRepository.findByNomContains(keyword, PageRequest.of(page, size));
+        Page<PatientDTO> pagePatients = patientService.searchPatients(keyword, page, size);
 
-        var response = new java.util.HashMap<String, Object>();
+        var response = new HashMap<String, Object>();
         response.put("patients", pagePatients.getContent());
         response.put("totalPages", pagePatients.getTotalPages());
         response.put("currentPage", page);
@@ -39,42 +40,33 @@ public class PatientController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping("/admin/patients")
-    public ResponseEntity<Patient> savePatient(@Valid @RequestBody Patient patient) {
-        Patient savedPatient = patientService.createPatientWithDossier(patient);
-        return ResponseEntity.ok(savedPatient);
+    public ResponseEntity<PatientDTO> savePatient(@Valid @RequestBody PatientDTO patient) {
+        return ResponseEntity.ok(patientService.createPatientWithDossier(patient));
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/user/patients/{id}")
-    public ResponseEntity<Patient> getPatient(@PathVariable Long id) {
-        return patientRepository.findById(id)
+    public ResponseEntity<PatientDTO> getPatient(@PathVariable Long id) {
+        return patientService.getPatient(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @Secured("ROLE_ADMIN")
     @PutMapping("/admin/patients/{id}")
-    public ResponseEntity<Patient> updatePatient(
+    public ResponseEntity<PatientDTO> updatePatient(
             @PathVariable Long id,
             @Valid @RequestBody Patient patient) {
 
-        if (!patientRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        patient.setId(id);
-        Patient updatedPatient = patientRepository.save(patient);
-        return ResponseEntity.ok(updatedPatient);
+        if (!patientService.exists(id)) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(patientService.update(id, patient));
     }
 
     @Secured("ROLE_ADMIN")
     @DeleteMapping("/admin/patients/{id}")
     public ResponseEntity<?> deletePatient(@PathVariable Long id) {
-        if (!patientRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        patientRepository.deleteById(id);
+        if (!patientService.exists(id)) return ResponseEntity.notFound().build();
+        patientService.delete(id);
         return ResponseEntity.ok().build();
-
     }
 }

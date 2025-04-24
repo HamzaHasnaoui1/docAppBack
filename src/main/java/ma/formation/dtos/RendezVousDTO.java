@@ -11,4 +11,5 @@ public class RendezVousDTO {
     private String statusRDV;
     private MedecinDTO medecin;
     private ConsultationDTO consultation;
+    private PatientDTO patient;
 }

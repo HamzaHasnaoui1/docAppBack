@@ -3,7 +3,6 @@ package ma.formation.dtos;
 import lombok.Data;
 
 import java.util.Date;
-
 @Data
 public class ConsultationDTO {
     private Long id;
@@ -12,4 +11,5 @@ public class ConsultationDTO {
     private String statusRDV;
     private String prix;
     private OrdonnanceDTO ordonnance;
+    private RendezVousDTO rendezVous;
 }

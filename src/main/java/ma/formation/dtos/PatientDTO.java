@@ -17,5 +17,4 @@ public class PatientDTO {
     private String titre;
     private String rapport;
     private DossierMedicalDTO dossierMedical;
-    private List<RendezVousDTO> rendezVousList;
 }

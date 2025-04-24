@@ -9,4 +9,5 @@ public class OrdonnanceDTO {
     private Long id;
     private String contenu;
     private LocalDate dateEmission;
+    private ConsultationDTO consultation;
 }
