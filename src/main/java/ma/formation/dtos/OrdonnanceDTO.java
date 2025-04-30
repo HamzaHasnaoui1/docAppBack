@@ -16,7 +16,7 @@ public class OrdonnanceDTO {
     private LocalDate dateEmission;
     private boolean archivee;
     private String remarques;
-    private RendezVousDTO rendezVous;
+   // private RendezVousDTO rendezVous;
 
     // Nouvelle liste des médicaments associés
     private List<OrdonnanceMedicamentDTO> medicaments = new ArrayList<>();
