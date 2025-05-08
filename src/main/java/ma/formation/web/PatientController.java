@@ -27,7 +27,7 @@ public class PatientController {
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "") String keyword) {
 
-        Page<PatientDTO> pagePatients = patientService.searchPatients(keyword, page, size);
+        Page<PatientDTO> pagePatients = patientService.globalSearchPatients(keyword, page, size);
 
         var response = new HashMap<String, Object>();
         response.put("patients", pagePatients.getContent());
