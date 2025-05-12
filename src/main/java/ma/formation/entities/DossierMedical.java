@@ -25,7 +25,6 @@ public class DossierMedical {
     private String allergies;
     private String antecedents;
     private String traitementsChroniques;
-    private GroupeSanguin groupeSanguin;
 
     @Enumerated(EnumType.STRING)
     private GroupeSanguin groupeSanguin;

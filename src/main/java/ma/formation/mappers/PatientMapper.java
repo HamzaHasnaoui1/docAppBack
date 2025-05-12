@@ -17,7 +17,7 @@ public interface PatientMapper {
 
     @Mapping(source = "titre", target = "titre", qualifiedByName = "titreToString")
     @Mapping(source = "dossierMedical", target = "dossierMedical")
-    @Mapping(source = "rendezVousList", target = "rendezVousList")
+    @Mapping( ignore = true, target = "rendezVousList")
     PatientDTO toDTO(Patient patient);
 
     @Mapping(source = "titre", target = "titre", qualifiedByName = "stringToTitre")

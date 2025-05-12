@@ -11,7 +11,7 @@ import java.util.List;
 public interface RendezVousMapper {
 
     @Mapping(source = "ordonnance", target = "ordonnance")
-    @Mapping(target = "patient", ignore = true)
+    @Mapping(source = "patient", target = "patient")
     RendezVousDTO toDTO(RendezVous rendezVous);
 
     @Mapping(source = "ordonnance", target = "ordonnance")
