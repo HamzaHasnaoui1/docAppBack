@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <!-- 1. D'abord supprimer toutes les contraintes liées à consultation -->
+    <changeSet id="drop-consultation-constraints" author="vous">
+        <!-- Vérifier et supprimer toutes les FK pointant vers consultation -->
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="consultation"/>
+        </preConditions>
+
+        <dropForeignKeyConstraint
+                baseTableName="ordonnance"
+                constraintName="fk_ordonnance_consultation"/>
+
+    </changeSet>
+
+    <!-- 2. Ensuite supprimer la table consultation -->
+    <changeSet id="drop-consultation-table" author="vous">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="consultation"/>
+        </preConditions>
+        <dropTable tableName="consultation" cascadeConstraints="true"/>
+    </changeSet>
+
+    <!-- 3. Mettre à jour rendez_vous -->
+    <changeSet id="update-rendez_vous-table" author="vous">
+        <addColumn tableName="rendez_vous">
+            <column name="rapport" type="text"/>
+            <column name="prix" type="decimal(10,2)"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- 4. Mettre à jour ordonnance -->
+    <changeSet id="update-ordonnance-table" author="vous">
+        <!-- Supprimer l'ancienne colonne si elle existe -->
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="ordonnance" columnName="consultation_id"/>
+        </preConditions>
+        <dropColumn tableName="ordonnance" columnName="consultation_id"/>
+
+        <!-- Ajouter la nouvelle relation -->
+        <addColumn tableName="ordonnance">
+            <column name="rendez_vous_id" type="bigint">
+                <constraints nullable="true"
+                             foreignKeyName="fk_ordonnance_rendez_vous"
+                             references="rendez_vous(id)"
+                             unique="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

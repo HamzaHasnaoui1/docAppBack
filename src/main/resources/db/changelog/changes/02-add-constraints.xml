@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="02" author="developer">
+        <comment>Ajout des contraintes et des index</comment>
+
+        <!-- Index pour améliorer les performances de recherche -->
+        <createIndex indexName="idx_patient_nom" tableName="patient">
+            <column name="nom"/>
+        </createIndex>
+
+        <createIndex indexName="idx_medecin_nom" tableName="medecin">
+            <column name="nom"/>
+        </createIndex>
+
+        <createIndex indexName="idx_rdv_date" tableName="rendez_vous">
+            <column name="date"/>
+        </createIndex>
+
+        <createIndex indexName="idx_consultation_date" tableName="consultation">
+            <column name="date_consultation"/>
+        </createIndex>
+
+        <createIndex indexName="idx_patient_medecin_rdv" tableName="rendez_vous">
+            <column name="patient_id"/>
+            <column name="medecin_id"/>
+            <column name="date"/>
+        </createIndex>
+
+        <createIndex indexName="idx_paiement_date" tableName="paiement">
+            <column name="date_paiement"/>
+        </createIndex>
+
+        <createIndex indexName="idx_notification_patient" tableName="notification">
+            <column name="patient_id"/>
+            <column name="lu"/>
+        </createIndex>
+
+        <!-- Contraintes supplémentaires -->
+        <addNotNullConstraint tableName="patient" columnName="nom" columnDataType="varchar(255)"/>
+        <addNotNullConstraint tableName="medecin" columnName="nom" columnDataType="varchar(255)"/>
+        <addNotNullConstraint tableName="rendez_vous" columnName="date" columnDataType="datetime"/>
+        <addNotNullConstraint tableName="rendez_vous" columnName="status_rdv" columnDataType="varchar(20)"/>
+
+        <!-- Contrainte de suppression en cascade sur certaines tables -->
+        <addForeignKeyConstraint baseTableName="medicaments_prescrits"
+                                 baseColumnNames="ordonnance_id"
+                                 constraintName="fk_medicament_ordonnance_cascade"
+                                 referencedTableName="ordonnance"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+        <addForeignKeyConstraint baseTableName="instructions_medicaments"
+                                 baseColumnNames="ordonnance_id"
+                                 constraintName="fk_instruction_ordonnance_cascade"
+                                 referencedTableName="ordonnance"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>

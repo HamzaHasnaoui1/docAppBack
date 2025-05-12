@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="01" author="developer">
+        <comment>Création des tables principales</comment>
+
+        <!-- Table Patient -->
+        <createTable tableName="patient">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nom" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_naissance" type="date"/>
+            <column name="malade" type="boolean" defaultValueBoolean="false"/>
+            <column name="adresse" type="varchar(255)"/>
+            <column name="code_postal" type="varchar(20)"/>
+            <column name="numero_telephone" type="varchar(20)"/>
+            <column name="titre" type="varchar(10)"/>
+            <column name="rapport" type="text"/>
+        </createTable>
+
+        <!-- Table Medecin -->
+        <createTable tableName="medecin">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nom" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)"/>
+            <column name="specialite" type="varchar(255)"/>
+            <column name="numero_telephone" type="varchar(20)"/>
+        </createTable>
+
+        <!-- Table DossierMedical -->
+        <createTable tableName="dossier_medical">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="allergies" type="text"/>
+            <column name="antecedents" type="text"/>
+            <column name="traitements_chroniques" type="text"/>
+            <column name="patient_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_dossier_patient" references="patient(id)"/>
+            </column>
+        </createTable>
+
+        <!-- Table RendezVous -->
+        <createTable tableName="rendez_vous">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status_rdv" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="medecin_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_rdv_medecin" references="medecin(id)"/>
+            </column>
+            <column name="patient_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_rdv_patient" references="patient(id)"/>
+            </column>
+        </createTable>
+
+        <!-- Table Consultation -->
+        <createTable tableName="consultation">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date_consultation" type="date"/>
+            <column name="rapport" type="text"/>
+            <column name="status_rdv" type="varchar(20)"/>
+            <column name="prix" type="varchar(20)"/>
+            <column name="rendez_vous_id" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_consultation_rdv" references="rendez_vous(id)" unique="true"/>
+            </column>
+            <column name="dossier_medical_id" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_consultation_dossier" references="dossier_medical(id)"/>
+            </column>
+        </createTable>
+
+        <!-- Table Ordonnance -->
+        <createTable tableName="ordonnance">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="contenu" type="text"/>
+            <column name="date_emission" type="date"/>
+            <column name="archivee" type="boolean" defaultValueBoolean="false"/>
+            <column name="remarques" type="text"/>
+            <column name="consultation_id" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_ordonnance_consultation" references="consultation(id)" unique="true"/>
+            </column>
+        </createTable>
+
+        <!-- Table médicaments prescrits -->
+        <createTable tableName="medicaments_prescrits">
+            <column name="ordonnance_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_medicament_ordonnance" references="ordonnance(id)"/>
+            </column>
+            <column name="medicament" type="text"/>
+        </createTable>
+
+        <!-- Table instructions médicaments -->
+        <createTable tableName="instructions_medicaments">
+            <column name="ordonnance_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_instruction_ordonnance" references="ordonnance(id)"/>
+            </column>
+            <column name="medicament_nom" type="varchar(255)"/>
+            <column name="posologie" type="text"/>
+        </createTable>
+
+        <!-- Table Paiement -->
+        <createTable tableName="paiement">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="montant" type="decimal(10,2)"/>
+            <column name="date_paiement" type="date"/>
+            <column name="mode_paiement" type="varchar(20)"/>
+            <column name="patient_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_paiement_patient" references="patient(id)"/>
+            </column>
+            <column name="consultation_id" type="bigint">
+                <constraints nullable="true" foreignKeyName="fk_paiement_consultation" references="consultation(id)"/>
+            </column>
+        </createTable>
+
+        <!-- Table Facture -->
+        <createTable tableName="factures">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="numero_facture" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="date_facture" type="date"/>
+            <column name="prix_facture" type="decimal(10,2)"/>
+        </createTable>
+
+        <!-- Table DisponibiliteMedecin -->
+        <createTable tableName="disponibilite_medecin">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="medecin_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_dispo_medecin" references="medecin(id)"/>
+            </column>
+            <column name="jour_semaine" type="int"/>
+            <column name="heure_debut" type="time"/>
+            <column name="heure_fin" type="time"/>
+            <column name="disponible" type="boolean" defaultValueBoolean="true"/>
+        </createTable>
+
+        <!-- Table Notification -->
+        <createTable tableName="notification">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="message" type="text"/>
+            <column name="lu" type="boolean" defaultValueBoolean="false"/>
+            <column name="date_envoi" type="datetime"/>
+            <column name="patient_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_notification_patient" references="patient(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

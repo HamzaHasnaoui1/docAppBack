@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <!-- Inclure tous les fichiers de changement ici -->
+    <include file="db/changelog/changes/01-create-tables.xml"/>
+    <include file="db/changelog/changes/02-add-constraints.xml"/>
+    <include file="db/changelog/changes/03-initial-data.xml"/>
+    <include file="db/changelog/changes/04-delete-consultation.xml"/>
+    <include file="db/changelog/changes/08-add-date-fin-rdv.xml"/>
+    <!--include file="db/changelog/changes/07-create-medicament.xml"/-->
+    <!--include file="db/changelog/changes/06-auth-tables.xml"/-->
+    <include file="db/changelog/changes/05-add-cin-patient.xml"/>
+
+</databaseChangeLog>

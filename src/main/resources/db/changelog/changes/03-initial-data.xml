@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="03" author="developer">
+        <comment>Insertion des données initiales pour l'environnement de développement</comment>
+        <sql dbms="postgresql">
+            -- Désactiver temporairement les contraintes de clé étrangère pour l'insertion initiale
+            SET session_replication_role = 'replica';
+        </sql>
+
+        <!-- Insertion des rôles -->
+        <createTable tableName="app_role">
+            <column name="role_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_name" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
+        </createTable>
+
+        <insert tableName="app_role">
+            <column name="role_name" value="ADMIN"/>
+            <column name="description" value="Administrateur du système"/>
+        </insert>
+
+        <insert tableName="app_role">
+            <column name="role_name" value="USER"/>
+            <column name="description" value="Utilisateur standard"/>
+        </insert>
+
+        <!-- Insertion des utilisateurs -->
+        <createTable tableName="app_user">
+            <column name="user_id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(50)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean" defaultValueBoolean="true"/>
+            <column name="email" type="varchar(100)"/>
+            <column name="numero_telephone" type="varchar(20)"/>
+            <column name="image" type="varchar(255)"/>
+        </createTable>
+
+        <createTable tableName="app_user_app_roles">
+            <column name="app_user_user_id" type="varchar(36)">
+                <constraints nullable="false" foreignKeyName="fk_user_role_user" references="app_user(user_id)"/>
+            </column>
+            <column name="app_roles_role_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_user_role_role" references="app_role(role_id)"/>
+            </column>
+        </createTable>
+
+        <!-- Mot de passe encodé pour 'admin123' -->
+        <insert tableName="app_user">
+            <column name="user_id" value="1f23e567-e89b-12d3-a456-426614174000"/>
+            <column name="username" value="admin"/>
+            <column name="password" value="$2a$10$ib2vd04JEt3qO.GrYRRYpeYrCs8BfJkxpZNQFSUKULSYjnuYwEyUu"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="email" value="admin@hopital.com"/>
+            <column name="numero_telephone" value="0600000000"/>
+        </insert>
+
+        <!-- Mot de passe encodé pour 'secret123' -->
+        <insert tableName="app_user">
+            <column name="user_id" value="2f23e567-e89b-12d3-a456-426614174001"/>
+            <column name="username" value="secretaire"/>
+            <column name="password" value="$2a$10$NvWsRpwj45YpWRvsJuTFyuriOYJvSvBbH9GdVLMDLojXLxfJNBtLi"/>
+            <column name="active" valueBoolean="true"/>
+            <column name="email" value="secretaire@hopital.com"/>
+            <column name="numero_telephone" value="0600000001"/>
+        </insert>
+
+        <!-- Attribution des rôles aux utilisateurs -->
+        <insert tableName="app_user_app_roles">
+            <column name="app_user_user_id" value="1f23e567-e89b-12d3-a456-426614174000"/>
+            <column name="app_roles_role_id" value="1"/> <!-- ADMIN -->
+        </insert>
+
+        <insert tableName="app_user_app_roles">
+            <column name="app_user_user_id" value="1f23e567-e89b-12d3-a456-426614174000"/>
+            <column name="app_roles_role_id" value="2"/> <!-- USER -->
+        </insert>
+
+        <insert tableName="app_user_app_roles">
+            <column name="app_user_user_id" value="2f23e567-e89b-12d3-a456-426614174001"/>
+            <column name="app_roles_role_id" value="2"/> <!-- USER -->
+        </insert>
+
+        <!-- Insertion des médecins de base -->
+        <insert tableName="medecin">
+            <column name="nom" value="Dr. Martin"/>
+            <column name="email" value="martin@hopital.com"/>
+            <column name="specialite" value="Généraliste"/>
+            <column name="numero_telephone" value="0601020304"/>
+        </insert>
+
+        <insert tableName="medecin">
+            <column name="nom" value="Dr. Dupont"/>
+            <column name="email" value="dupont@hopital.com"/>
+            <column name="specialite" value="Cardiologue"/>
+            <column name="numero_telephone" value="0602030405"/>
+        </insert>
+
+        <!-- Réactiver les contraintes -->
+        <sql dbms="postgresql">
+            SET session_replication_role = 'origin';
+        </sql>
+    </changeSet>
+</databaseChangeLog>

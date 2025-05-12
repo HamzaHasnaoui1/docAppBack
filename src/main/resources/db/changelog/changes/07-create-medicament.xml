@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="05-01" author="you">
+        <comment>Création de la table Medicament et relation avec Ordonnance</comment>
+
+        <!-- Table Medicament -->
+        <createTable tableName="medicament">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nom" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="categorie" type="varchar(100)"/>
+            <column name="fabricant" type="varchar(100)"/>
+            <column name="dosage_standard" type="varchar(100)"/>
+            <column name="actif" type="boolean" defaultValueBoolean="true"/>
+        </createTable>
+
+        <!-- Créer un index sur le nom du médicament -->
+        <createIndex indexName="idx_medicament_nom" tableName="medicament">
+            <column name="nom"/>
+        </createIndex>
+
+        <!-- Table d'association entre Ordonnance et Medicament -->
+        <createTable tableName="ordonnance_medicament">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ordonnance_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_ordonnance_medicament_ordonnance"
+                             references="ordonnance(id)"
+                             deleteCascade="true"/>
+            </column>
+            <column name="medicament_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_ordonnance_medicament_medicament"
+                             references="medicament(id)"/>
+            </column>
+            <column name="posologie" type="text"/>
+            <column name="duree" type="varchar(100)"/>
+            <column name="frequence" type="varchar(100)"/>
+            <column name="instructions" type="text"/>
+        </createTable>
+
+        <!-- Index pour accélérer les recherches -->
+        <createIndex indexName="idx_ordonnance_medicament_ordonnance" tableName="ordonnance_medicament">
+            <column name="ordonnance_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="05-02" author="you">
+        <comment>Création de la table DonneesPhysiologiques liée aux RDV</comment>
+
+        <createTable tableName="donnees_physiologiques">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rendez_vous_id" type="bigint">
+                <constraints nullable="false"
+                             foreignKeyName="fk_donnees_physiologiques_rdv"
+                             references="rendez_vous(id)"
+                             unique="true"
+                             deleteCascade="true"/>
+            </column>
+            <!-- Mesures corporelles -->
+            <column name="poids" type="decimal(5,2)"/>
+            <column name="taille" type="decimal(5,1)"/>
+            <column name="imc" type="decimal(4,1)"/>
+
+            <!-- Vision -->
+            <column name="oeil_droit" type="varchar(20)"/>
+            <column name="oeil_gauche" type="varchar(20)"/>
+
+            <!-- Tension artérielle -->
+            <column name="tension_systolique" type="int"/>
+            <column name="tension_diastolique" type="int"/>
+
+            <!-- Autres mesures -->
+            <column name="frequence_cardiaque" type="int"/>
+            <column name="frequence_respiratoire" type="int"/>
+            <column name="temperature" type="decimal(3,1)"/>
+            <column name="glycemie" type="decimal(4,2)"/>
+
+            <!-- Remarques -->
+            <column name="remarques" type="text"/>
+        </createTable>
+
+        <!-- Index pour accélérer les recherches -->
+        <createIndex indexName="idx_donnees_physiologiques_rdv" tableName="donnees_physiologiques">
+            <column name="rendez_vous_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="05-03" author="you">
+        <comment>Ajout de la colonne groupe sanguin au dossier medical</comment>
+
+        <addColumn tableName="dossier_medical">
+            <column name="groupe_sanguin" type="varchar(10)"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="05-05" author="you">
+        <comment>Suppression des anciennes tables de médicaments après migration</comment>
+
+        <dropTable tableName="medicaments_prescrits"/>
+
+        <dropTable tableName="instructions_medicaments"/>
+    </changeSet>
+</databaseChangeLog>
