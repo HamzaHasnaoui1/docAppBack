@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,7 +41,7 @@ public class StatistiqueMedicaleService {
 
         // Données démographiques
         Map<String, Object> demographiques = new HashMap<>();
-        demographiques.put("age", calculerAge(patient.getDateNaissance()));
+        demographiques.put("age", calculerAge((java.sql.Date) patient.getDateNaissance()));
         demographiques.put("groupeSanguin",
                 patient.getDossierMedical() != null ? patient.getDossierMedical().getGroupeSanguin() : "Non spécifié");
         rapport.put("demographiques", demographiques);
@@ -168,15 +169,8 @@ public class StatistiqueMedicaleService {
     /**
      * Calcule l'âge d'une personne à partir de sa date de naissance
      */
-    private int calculerAge(Date dateNaissance) {
+    private int calculerAge(java.sql.Date dateNaissance) {
         if (dateNaissance == null) return 0;
-
-        LocalDate birthDate = dateNaissance.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-        LocalDate currentDate = LocalDate.now();
-
-        return currentDate.getYear() - birthDate.getYear() -
-                (currentDate.getDayOfYear() < birthDate.getDayOfYear() ? 1 : 0);
+        return Period.between(dateNaissance.toLocalDate(), LocalDate.now()).getYears();
     }
 }
