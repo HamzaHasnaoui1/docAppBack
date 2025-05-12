@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import ma.formation.dtos.RendezVousDTO;
 import ma.formation.entities.Medecin;
 import ma.formation.entities.Ordonnance;
+import ma.formation.entities.Patient;
 import ma.formation.entities.RendezVous;
 import ma.formation.enums.StatusRDV;
 import ma.formation.exceptions.BusinessException;
@@ -63,13 +64,14 @@ public class RendezVousService {
         // 1. Check if the doctor is available
         Medecin medecin = medecinRepository.findById(rendezVousDTO.getMedecin().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Medecin", "id", rendezVousDTO.getMedecin().getId()));
+        Patient patient = patientRepository.findById(rendezVousDTO.getPatient().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", rendezVousDTO.getPatient().getId()));
 
         Date dateRdv = rendezVousDTO.getDate();
         Date dateRdvFin = rendezVousDTO.getDateFin();
         List<RendezVous> existing = (dateRdvFin == null)
                 ? rendezVousRepository.findByMedecinIdAndDate(medecin.getId(), dateRdv)
                 : rendezVousRepository.findByMedecinAndDateBetween(medecin.getId(), dateRdv, dateRdvFin);
-
         if (!existing.isEmpty()) {
             throw new BusinessException("Le médecin a déjà un rendez-vous planifié à cette date et heure");
         }
@@ -77,6 +79,7 @@ public class RendezVousService {
         // 2. Convert DTO to Entity
         RendezVous rendezVous = rendezVousMapper.toEntity(rendezVousDTO);
 
+        rendezVous.setPatient(patient);
         // 3. Handle Ordonnance (if it exists)
         if (rendezVous.getOrdonnance() != null && rendezVous.getOrdonnance().getId() != null) {
             Ordonnance managedOrdonnance = ordonnanceRepository.findById(rendezVous.getOrdonnance().getId())
