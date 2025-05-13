@@ -14,5 +14,6 @@
     <!--include file="db/changelog/changes/07-create-medicament.xml"/-->
     <!--include file="db/changelog/changes/06-auth-tables.xml"/-->
     <include file="db/changelog/changes/05-add-cin-patient.xml"/>
+    <include file="db/changelog/changes/09-documents-table.xml"/>
 
 </databaseChangeLog>

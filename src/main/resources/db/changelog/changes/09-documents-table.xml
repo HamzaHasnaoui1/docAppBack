@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="09-documents-table" author="developer">
+        <comment>Création de la table des documents</comment>
+
+        <!-- Table Documents -->
+        <createTable tableName="documents">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nom" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="text"/>
+            <column name="date_ajout" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="chemin" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taille" type="bigint"/>
+            <column name="dossier_medical_id" type="bigint">
+                <constraints foreignKeyName="fk_document_dossier_medical" references="dossier_medical(id)"/>
+            </column>
+            <column name="categorie" type="varchar(100)"/>
+        </createTable>
+
+        <!-- Index pour améliorer les performances -->
+        <createIndex indexName="idx_document_dossier_medical" tableName="documents">
+            <column name="dossier_medical_id"/>
+        </createIndex>
+
+        <createIndex indexName="idx_document_categorie" tableName="documents">
+            <column name="categorie"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
