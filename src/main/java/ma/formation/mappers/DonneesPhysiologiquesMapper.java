@@ -10,9 +10,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DonneesPhysiologiquesMapper {
     @Mapping(source = "rendezVous.id", target = "rendezVousId")
+    @Mapping(target = "rendezVousDate", source = "rendezVous.date")
     DonneesPhysiologiquesDTO toDTO(DonneesPhysiologiques donneesPhysiologiques);
 
-    // Correction ici : on s'assure que la méthode est bien pour le bon type
+    @Mapping(target = "rendezVous", ignore = true)
     List<DonneesPhysiologiquesDTO> toDTOs(List<DonneesPhysiologiques> donneesPhysiologiques);
 
     @Mapping(target = "rendezVous", ignore = true)
