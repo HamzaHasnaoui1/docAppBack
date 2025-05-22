@@ -52,4 +52,7 @@ public interface RendezVousRepository extends JpaRepository<RendezVous, Long> {
             @Param("status") StatusRDV status,
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
+
+    @Query("SELECT r FROM RendezVous r WHERE DATE(r.date) = DATE(:date)")
+    List<RendezVous> findByDateOnly(@Param("date") Date date);
 }
