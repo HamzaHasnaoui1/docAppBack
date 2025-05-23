@@ -1,0 +1,161 @@
+<databaseChangeLog
+xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="10-1" author="application">
+        <!-- Création de la table des permissions -->
+        <createTable tableName="permission">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="category" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+        <!-- Création de la table de jointure entre rôles et permissions -->
+        <createTable tableName="app_role_permissions">
+            <column name="app_role_role_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_role_permission_role" referencedTableName="app_role" referencedColumnNames="role_id"/>
+            </column>
+            <column name="permissions_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_role_permission_permission" referencedTableName="permission" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        
+        <!-- Ajout de contraintes uniques pour éviter les doublons -->
+        <addPrimaryKey tableName="app_role_permissions" columnNames="app_role_role_id, permissions_id" constraintName="pk_app_role_permissions"/>
+    </changeSet>
+    
+    <changeSet id="10-2" author="application">
+        <!-- Insertion des permissions par défaut -->
+        <!-- Catégorie: Ordonnance -->
+        <insert tableName="permission">
+            <column name="name">ORDONNANCE_GENERER</column>
+            <column name="description">Générer une ordonnance</column>
+            <column name="category">ORDONNANCE</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ORDONNANCE_CONSULTER</column>
+            <column name="description">Consulter une ordonnance</column>
+            <column name="category">ORDONNANCE</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ORDONNANCE_MODIFIER</column>
+            <column name="description">Modifier une ordonnance</column>
+            <column name="category">ORDONNANCE</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ORDONNANCE_SUPPRIMER</column>
+            <column name="description">Supprimer une ordonnance</column>
+            <column name="category">ORDONNANCE</column>
+        </insert>
+        
+        <!-- Catégorie: Médicament -->
+        <insert tableName="permission">
+            <column name="name">MEDICAMENT_AJOUTER</column>
+            <column name="description">Ajouter un médicament</column>
+            <column name="category">MEDICAMENT</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">MEDICAMENT_CONSULTER</column>
+            <column name="description">Consulter un médicament</column>
+            <column name="category">MEDICAMENT</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">MEDICAMENT_MODIFIER</column>
+            <column name="description">Modifier un médicament</column>
+            <column name="category">MEDICAMENT</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">MEDICAMENT_SUPPRIMER</column>
+            <column name="description">Supprimer un médicament</column>
+            <column name="category">MEDICAMENT</column>
+        </insert>
+        
+        <!-- Catégorie: Administration -->
+        <insert tableName="permission">
+            <column name="name">ROLE_LIST</column>
+            <column name="description">Lister les rôles</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ROLE_VIEW</column>
+            <column name="description">Consulter un rôle</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ROLE_CREATE</column>
+            <column name="description">Créer un rôle</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ROLE_UPDATE</column>
+            <column name="description">Mettre à jour un rôle</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ROLE_DELETE</column>
+            <column name="description">Supprimer un rôle</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">PERMISSION_LIST</column>
+            <column name="description">Lister les permissions</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">PERMISSION_VIEW</column>
+            <column name="description">Consulter une permission</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">PERMISSION_CREATE</column>
+            <column name="description">Créer une permission</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">PERMISSION_UPDATE</column>
+            <column name="description">Mettre à jour une permission</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">PERMISSION_DELETE</column>
+            <column name="description">Supprimer une permission</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ROLE_PERMISSION_ASSIGN</column>
+            <column name="description">Assigner une permission à un rôle</column>
+            <column name="category">ADMIN</column>
+        </insert>
+        <insert tableName="permission">
+            <column name="name">ROLE_PERMISSION_REMOVE</column>
+            <column name="description">Retirer une permission d'un rôle</column>
+            <column name="category">ADMIN</column>
+        </insert>
+    </changeSet>
+    
+    <changeSet id="10-3" author="application">
+        <!-- Attribution de toutes les permissions au rôle ADMIN -->
+        <sql>
+            INSERT INTO app_role_permissions (app_role_role_id, permissions_id)
+            SELECT r.role_id, p.id 
+            FROM app_role r, permission p
+            WHERE r.role_name = 'ADMIN';
+            
+            -- Attribution des permissions d'ordonnance au rôle USER
+            INSERT INTO app_role_permissions (app_role_role_id, permissions_id)
+            SELECT r.role_id, p.id 
+            FROM app_role r, permission p
+            WHERE r.role_name = 'USER' 
+            AND (p.category = 'ORDONNANCE' OR p.name = 'MEDICAMENT_CONSULTER');
+        </sql>
+    </changeSet>
+</databaseChangeLog> 

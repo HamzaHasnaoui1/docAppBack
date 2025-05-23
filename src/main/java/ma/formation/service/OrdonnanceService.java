@@ -2,10 +2,16 @@ package ma.formation.service;
 
 import lombok.RequiredArgsConstructor;
 import ma.formation.dtos.OrdonnanceDTO;
+import ma.formation.dtos.OrdonnanceMedicamentDTO;
+import ma.formation.dtos.OrdonnanceRequest;
+import ma.formation.entities.Medicament;
 import ma.formation.entities.Ordonnance;
+import ma.formation.entities.OrdonnanceMedicament;
 import ma.formation.entities.RendezVous;
 import ma.formation.exceptions.ResourceNotFoundException;
 import ma.formation.mappers.OrdonnanceMapper;
+import ma.formation.repositories.MedicamentRepository;
+import ma.formation.repositories.OrdonnanceMedicamentRepository;
 import ma.formation.repositories.OrdonnanceRepository;
 import ma.formation.repositories.RendezVousRepository;
 import org.springframework.data.domain.Page;
@@ -15,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,10 +30,12 @@ import java.util.stream.Collectors;
 public class OrdonnanceService {
     private final OrdonnanceRepository ordonnanceRepository;
     private final RendezVousRepository rendezVousRepository;
+    private final MedicamentRepository medicamentRepository;
+    private final OrdonnanceMedicamentRepository ordonnanceMedicamentRepository;
     private final OrdonnanceMapper ordonnanceMapper;
 
     @Transactional(readOnly = true)
-    public Page<OrdonnanceDTO> searchOrdonnances(String keyword, int page, int size) {
+    public Page<OrdonnanceDTO> getAllOrdonnances(String keyword, int page, int size) {
         Page<Ordonnance> ordonnances = ordonnanceRepository.findByRendezVous_Patient_NomContains(keyword, PageRequest.of(page, size));
         List<OrdonnanceDTO> dtos = ordonnances.getContent().stream()
                 .map(ordonnanceMapper::toDTO)
@@ -35,7 +44,7 @@ public class OrdonnanceService {
     }
 
     @Transactional(readOnly = true)
-    public OrdonnanceDTO getOrdonnance(Long id) {
+    public OrdonnanceDTO getOrdonnanceById(Long id) {
         return ordonnanceRepository.findById(id)
                 .map(ordonnanceMapper::toDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Ordonnance", "id", id));
@@ -60,16 +69,93 @@ public class OrdonnanceService {
         Ordonnance savedOrdonnance = ordonnanceRepository.save(ordonnance);
         return ordonnanceMapper.toDTO(savedOrdonnance);
     }
-
+    
+    // Nouvelle méthode pour créer une ordonnance avec des médicaments
     @Transactional
-    public OrdonnanceDTO updateOrdonnance(Long id, OrdonnanceDTO ordonnanceDTO) {
+    public OrdonnanceDTO createOrdonnance(Long rdvId, OrdonnanceRequest request) {
+        RendezVous rendezVous = rendezVousRepository.findById(rdvId)
+                .orElseThrow(() -> new ResourceNotFoundException("RendezVous", "id", rdvId));
+
+        // Vérifier si le rendez-vous a déjà une ordonnance
+        if (ordonnanceRepository.existsByRendezVous_Id(rdvId)) {
+            throw new IllegalStateException("Ce rendez-vous possède déjà une ordonnance");
+        }
+
+        Ordonnance ordonnance = new Ordonnance();
+        ordonnance.setContenu(request.getContenu());
+        ordonnance.setRemarques(request.getRemarques());
+        ordonnance.setDateEmission(LocalDate.now());
+        ordonnance.setRendezVous(rendezVous);
+        ordonnance.setArchivee(request.getArchivee() != null ? request.getArchivee() : false);
+        
+        // Sauvegarder l'ordonnance d'abord pour obtenir son ID
+        Ordonnance savedOrdonnance = ordonnanceRepository.save(ordonnance);
+        
+        // Ajouter les médicaments si présents
+        if (request.getMedicaments() != null && !request.getMedicaments().isEmpty()) {
+            List<OrdonnanceMedicament> medicaments = new ArrayList<>();
+            
+            for (OrdonnanceMedicamentDTO medicamentDTO : request.getMedicaments()) {
+                Medicament medicament = medicamentRepository.findById(medicamentDTO.getMedicament().getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Medicament", "id", medicamentDTO.getMedicament().getId()));
+                
+                OrdonnanceMedicament ordonnanceMedicament = new OrdonnanceMedicament();
+                ordonnanceMedicament.setOrdonnance(savedOrdonnance);
+                ordonnanceMedicament.setMedicament(medicament);
+                ordonnanceMedicament.setPosologie(medicamentDTO.getPosologie());
+                ordonnanceMedicament.setDuree(medicamentDTO.getDuree());
+                ordonnanceMedicament.setFrequence(medicamentDTO.getFrequence());
+                ordonnanceMedicament.setInstructions(medicamentDTO.getInstructions());
+                
+                medicaments.add(ordonnanceMedicament);
+            }
+            
+            ordonnanceMedicamentRepository.saveAll(medicaments);
+            savedOrdonnance.setMedicaments(medicaments);
+        }
+        
+        return ordonnanceMapper.toDTO(savedOrdonnance);
+    }
+
+    // Méthode mise à jour pour modifier une ordonnance avec des médicaments
+    @Transactional
+    public OrdonnanceDTO updateOrdonnance(Long id, OrdonnanceRequest request) {
         Ordonnance existingOrdonnance = ordonnanceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ordonnance", "id", id));
 
-        // Update basic info
-        existingOrdonnance.setContenu(ordonnanceDTO.getContenu());
-        existingOrdonnance.setRemarques(ordonnanceDTO.getRemarques());
-        existingOrdonnance.setArchivee(ordonnanceDTO.isArchivee());
+        // Mettre à jour les informations de base
+        existingOrdonnance.setContenu(request.getContenu());
+        existingOrdonnance.setRemarques(request.getRemarques());
+        existingOrdonnance.setArchivee(request.getArchivee() != null ? request.getArchivee() : existingOrdonnance.isArchivee());
+
+        // Supprimer les médicaments existants
+        if (existingOrdonnance.getMedicaments() != null) {
+            ordonnanceMedicamentRepository.deleteAll(existingOrdonnance.getMedicaments());
+            existingOrdonnance.getMedicaments().clear();
+        }
+        
+        // Ajouter les nouveaux médicaments
+        if (request.getMedicaments() != null && !request.getMedicaments().isEmpty()) {
+            List<OrdonnanceMedicament> medicaments = new ArrayList<>();
+            
+            for (OrdonnanceMedicamentDTO medicamentDTO : request.getMedicaments()) {
+                Medicament medicament = medicamentRepository.findById(medicamentDTO.getMedicament().getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("Medicament", "id", medicamentDTO.getMedicament().getId()));
+                
+                OrdonnanceMedicament ordonnanceMedicament = new OrdonnanceMedicament();
+                ordonnanceMedicament.setOrdonnance(existingOrdonnance);
+                ordonnanceMedicament.setMedicament(medicament);
+                ordonnanceMedicament.setPosologie(medicamentDTO.getPosologie());
+                ordonnanceMedicament.setDuree(medicamentDTO.getDuree());
+                ordonnanceMedicament.setFrequence(medicamentDTO.getFrequence());
+                ordonnanceMedicament.setInstructions(medicamentDTO.getInstructions());
+                
+                medicaments.add(ordonnanceMedicament);
+            }
+            
+            ordonnanceMedicamentRepository.saveAll(medicaments);
+            existingOrdonnance.setMedicaments(medicaments);
+        }
 
         Ordonnance updatedOrdonnance = ordonnanceRepository.save(existingOrdonnance);
         return ordonnanceMapper.toDTO(updatedOrdonnance);

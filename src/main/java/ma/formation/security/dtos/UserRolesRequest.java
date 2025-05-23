@@ -9,12 +9,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetailsResponse {
-    private String userId;
-    private String username;
-    private String email;
-    private String phoneNumber;
-    private boolean active;
+public class UserRolesRequest {
     private List<String> roles;
-    private List<String> permissions;
-}
+} 
