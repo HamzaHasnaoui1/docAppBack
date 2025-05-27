@@ -1,30 +1,26 @@
-# Stage 1: Build the application
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+# Use a more reliable base image with retry logic
+FROM eclipse-temurin:17-jre-jammy as runtime
 
-# Set the working directory in the container
+# Add retry capability for package installations
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# Copy the pom.xml file and download dependencies
-COPY pom.xml /app/
-RUN mvn dependency:go-offline -B
+# Set timezone
+ENV TZ=UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Copy the source code into the container
-COPY src /app/src
+# Copy application
+COPY --from=build /app/target/*.jar app.jar
 
-# Build the application
-RUN mvn clean package -DskipTests
+# Run as non-root user
+RUN adduser --system --group appuser
+USER appuser
 
-# Stage 2: Run the application
-FROM eclipse-temurin:17-jre
+# Optimized JVM settings
+ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75 -XX:+HeapDumpOnOutOfMemoryError"
 
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy the jar file from the build stage
-COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar /app/demo-0.0.1-SNAPSHOT.jar
-
-# Expose the application port
-EXPOSE 8080
-
-# Run the application
-ENTRYPOINT ["java", "-jar", "/app/demo-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar app.jar"]
