@@ -1,26 +1,23 @@
-# Use a more reliable base image with retry logic
-FROM eclipse-temurin:17-jre-jammy as runtime
-
-# Add retry capability for package installations
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    ca-certificates && \
-    rm -rf /var/lib/apt/lists/*
-
+# First stage: Build the application
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src /app/src
+RUN mvn clean package -DskipTests
 
-# Set timezone
-ENV TZ=UTC
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# Second stage: Runtime
+FROM eclipse-temurin:17-jre
+WORKDIR /app
+COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
 
-# Copy application
-COPY --from=build /app/target/*.jar app.jar
-
-# Run as non-root user
-RUN adduser --system --group appuser
+# Non-root user
+RUN adduser --system --group appuser && \
+    chown appuser:appuser /app/app.jar
 USER appuser
 
-# Optimized JVM settings
-ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75 -XX:+HeapDumpOnOutOfMemoryError"
+# JVM options
+ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75"
+EXPOSE 8080
 
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar app.jar"]
