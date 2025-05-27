@@ -1,15 +1,19 @@
 # First stage: Build the application
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
+
+# Cache Maven dependencies
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
+
+# Build application
 COPY src /app/src
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -Dmaven.test.skip=true -Dmaven.main.skip=true -Dmaven.source.skip=true
 
 # Second stage: Runtime
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 
 # Non-root user
 RUN adduser --system --group appuser && \
