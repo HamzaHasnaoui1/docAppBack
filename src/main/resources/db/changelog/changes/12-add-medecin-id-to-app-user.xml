@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="12-1" author="developer">
+        <comment>Ajout de la colonne medecin_id à la table app_user et mise à jour de l'utilisateur bennani</comment>
+        
+        <addColumn tableName="app_user">
+            <column name="medecin_id" type="bigint">
+                <constraints foreignKeyName="fk_app_user_medecin" references="medecin(id)" nullable="true"/>
+            </column>
+        </addColumn>
+        <sql>
+            UPDATE app_user 
+            SET medecin_id = 1 
+            WHERE username = 'bennani';
+        </sql>
+    </changeSet>
+</databaseChangeLog> 

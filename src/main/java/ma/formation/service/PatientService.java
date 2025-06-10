@@ -7,10 +7,12 @@ import ma.formation.dtos.DossierMedicalDTO;
 import ma.formation.dtos.PatientDTO;
 import ma.formation.entities.DossierMedical;
 import ma.formation.entities.Patient;
+import ma.formation.entities.Medecin;
 import ma.formation.enums.Titre;
 import ma.formation.mappers.PatientMapper;
 import ma.formation.repositories.DossierMedicalRepository;
 import ma.formation.repositories.PatientRepository;
+import ma.formation.repositories.MedecinRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -25,8 +27,12 @@ public class PatientService {
     private final PatientRepository patientRepository;
     private final DossierMedicalRepository dossierMedicalRepository;
     private final PatientMapper patientMapper;
+    private final MedecinRepository medecinRepository;
 
     public PatientDTO createPatientWithDossier(@Valid PatientDTO patientInput) {
+        Medecin medecin = medecinRepository.findById(patientInput.getMedecinId())
+                .orElseThrow(() -> new EntityNotFoundException("Medecin not found with id: " + patientInput.getMedecinId()));
+
         Patient patient = Patient.builder()
                 .nom(patientInput.getNom())
                 .cin(patientInput.getCin())
@@ -38,6 +44,7 @@ public class PatientService {
                 .numeroTelephone(patientInput.getNumeroTelephone())
                 .titre(Titre.valueOf(patientInput.getTitre()))
                 .rapport(patientInput.getRapport())
+                .medecin(medecin)
                 .build();
 
         Patient savedPatient = patientRepository.save(patient);
@@ -57,12 +64,24 @@ public class PatientService {
         return patientMapper.toDTO(savedPatient);
     }
 
-
     public Page<PatientDTO> searchPatients(String keyword, int page, int size) {
         Page<Patient> patients = patientRepository.findByNomContainingIgnoreCase(keyword, PageRequest.of(page, size));
         List<PatientDTO> dtos = patients.getContent().stream().map(patientMapper::toDTO).toList();
         return new PageImpl<>(dtos, patients.getPageable(), patients.getTotalElements());
     }
+
+    public Page<PatientDTO> searchPatientsByMedecin(Long medecinId, String keyword, int page, int size) {
+        Page<Patient> patients = patientRepository.searchPatientsByMedecin(medecinId, keyword, PageRequest.of(page, size));
+        List<PatientDTO> dtos = patients.getContent().stream().map(patientMapper::toDTO).toList();
+        return new PageImpl<>(dtos, patients.getPageable(), patients.getTotalElements());
+    }
+
+    public Page<PatientDTO> getPatientsByMedecin(Long medecinId, int page, int size) {
+        Page<Patient> patients = patientRepository.findByMedecinId(medecinId, PageRequest.of(page, size));
+        List<PatientDTO> dtos = patients.getContent().stream().map(patientMapper::toDTO).toList();
+        return new PageImpl<>(dtos, patients.getPageable(), patients.getTotalElements());
+    }
+
     public Page<PatientDTO> globalSearchPatients(String keyword, int page, int size) {
         Page<Patient> patients = patientRepository.searchPatients(keyword, PageRequest.of(page, size));
         List<PatientDTO> dtos = patients.getContent().stream().map(patientMapper::toDTO).toList();
@@ -109,7 +128,6 @@ public class PatientService {
 
         return patientMapper.toDTO(updatedPatient);
     }
-
 
     public void delete(Long id) {
         patientRepository.deleteById(id);

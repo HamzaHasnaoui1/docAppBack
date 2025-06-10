@@ -26,4 +26,8 @@ public class Medicament {
     private String fabricant;
     private String dosageStandard;
     private boolean actif = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "medecin_id", nullable = false)
+    private Medecin medecin;
 }

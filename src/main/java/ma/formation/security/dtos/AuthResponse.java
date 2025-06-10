@@ -10,4 +10,5 @@ public class AuthResponse {
     private String email;
     private String token;
     private List<String> roles;
+    private Long medecinId;
 }

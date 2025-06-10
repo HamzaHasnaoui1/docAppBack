@@ -24,4 +24,5 @@ public class PatientDTO {
     private DossierMedicalDTO dossierMedical;
 
     private List<RendezVousDTO> rendezVousList;
+    private Long medecinId;
 }

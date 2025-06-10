@@ -21,6 +21,11 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
             "LOWER(p.email) LIKE LOWER(concat('%', :keyword, '%'))")
     Page<Patient> searchPatients(@Param("keyword") String keyword, Pageable pageable);
 
+    Page<Patient> findByMedecinId(Long medecinId, Pageable pageable);
 
-
+    @Query("SELECT p FROM Patient p WHERE p.medecin.id = :medecinId AND " +
+            "(LOWER(p.nom) LIKE LOWER(concat('%', :keyword, '%')) OR " +
+            "LOWER(p.cin) LIKE LOWER(concat('%', :keyword, '%')) OR " +
+            "LOWER(p.email) LIKE LOWER(concat('%', :keyword, '%')))")
+    Page<Patient> searchPatientsByMedecin(@Param("medecinId") Long medecinId, @Param("keyword") String keyword, Pageable pageable);
 }

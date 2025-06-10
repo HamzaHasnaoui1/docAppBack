@@ -59,6 +59,9 @@ public class AuthController {
             response.setUsername(user.getUsername());
             response.setEmail(user.getEmail());
             response.setRoles(getRoleNames(user));
+            if (user.getMedecin() != null) {
+                response.setMedecinId(user.getMedecin().getId());
+            }
 
             return ResponseEntity.ok(response);
         } catch (BadCredentialsException e) {
@@ -104,6 +107,9 @@ public class AuthController {
         response.setUsername(savedUser.getUsername());
         response.setEmail(savedUser.getEmail());
         response.setRoles(getRoleNames(savedUser));
+        if (savedUser.getMedecin() != null) {
+            response.setMedecinId(savedUser.getMedecin().getId());
+        }
 
         return ResponseEntity.ok(response);
     }
@@ -136,6 +142,9 @@ public class AuthController {
         response.setUsername(user.getUsername());
         response.setEmail(user.getEmail());
         response.setRoles(getRoleNames(user));
+        if (user.getMedecin() != null) {
+            response.setMedecinId(user.getMedecin().getId());
+        }
 
         return ResponseEntity.ok(response);
     }

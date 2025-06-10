@@ -25,15 +25,38 @@ public class PatientController {
     public ResponseEntity<?> getPatients(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "") String keyword) {
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(required = false) Long medecinId) {
 
-        Page<PatientDTO> pagePatients = patientService.globalSearchPatients(keyword, page, size);
+        Page<PatientDTO> pagePatients;
+        if (medecinId != null) {
+            pagePatients = patientService.searchPatientsByMedecin(medecinId, keyword, page, size);
+        } else {
+            pagePatients = patientService.globalSearchPatients(keyword, page, size);
+        }
 
         var response = new HashMap<String, Object>();
         response.put("patients", pagePatients.getContent());
         response.put("totalPages", pagePatients.getTotalPages());
         response.put("currentPage", page);
         response.put("keyword", keyword);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @GetMapping("/user/medecins/{medecinId}/patients")
+    public ResponseEntity<?> getPatientsByMedecin(
+            @PathVariable Long medecinId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Page<PatientDTO> pagePatients = patientService.getPatientsByMedecin(medecinId, page, size);
+
+        var response = new HashMap<String, Object>();
+        response.put("patients", pagePatients.getContent());
+        response.put("totalPages", pagePatients.getTotalPages());
+        response.put("currentPage", page);
 
         return ResponseEntity.ok(response);
     }

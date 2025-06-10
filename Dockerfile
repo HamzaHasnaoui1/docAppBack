@@ -22,6 +22,6 @@ USER appuser
 
 # JVM options
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75"
-EXPOSE 8080
+EXPOSE 8087
 
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar app.jar"]

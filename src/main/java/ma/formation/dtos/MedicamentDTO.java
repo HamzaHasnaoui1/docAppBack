@@ -11,4 +11,5 @@ public class MedicamentDTO {
     private String fabricant;
     private String dosageStandard;
     private boolean actif;
+    private Long medecinId;
 }

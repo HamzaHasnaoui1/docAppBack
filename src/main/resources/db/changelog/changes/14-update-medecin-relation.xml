@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="14-1" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="patient" columnName="medecin_id"/>
+            </not>
+        </preConditions>
+        
+        <comment>Add medecin_id column to patient table</comment>
+
+        <!-- Add column as nullable -->
+        <addColumn tableName="patient">
+            <column name="medecin_id" type="bigint"/>
+        </addColumn>
+
+        <!-- Add foreign key constraint -->
+        <addForeignKeyConstraint baseTableName="patient"
+                                baseColumnNames="medecin_id"
+                                constraintName="fk_patient_medecin"
+                                referencedTableName="medecin"
+                                referencedColumnNames="id"/>
+
+        <!-- Create index -->
+        <createIndex indexName="idx_patient_medecin" tableName="patient">
+            <column name="medecin_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="14-2" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="patient" columnName="medecin_id"/>
+                <sqlCheck expectedResult="0">
+                    SELECT COUNT(*) FROM information_schema.columns 
+                    WHERE table_name = 'patient' 
+                    AND column_name = 'medecin_id' 
+                    AND is_nullable = 'NO'
+                </sqlCheck>
+            </and>
+        </preConditions>
+        
+        <comment>Add NOT NULL constraint to medecin_id column</comment>
+
+        <!-- Add NOT NULL constraint -->
+        <addNotNullConstraint tableName="patient" columnName="medecin_id" columnDataType="bigint"/>
+    </changeSet>
+</databaseChangeLog> 

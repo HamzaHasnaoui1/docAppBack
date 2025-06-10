@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <!-- First changeset: Add columns and update existing data -->
+    <changeSet id="11-1" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="patient" columnName="medecin_id"/>
+            </not>
+        </preConditions>
+        
+        <comment>Add medecin_id columns and update existing data</comment>
+
+        <!-- Add columns as nullable -->
+        <addColumn tableName="patient">
+            <column name="medecin_id" type="bigint"/>
+        </addColumn>
+
+        <!-- Add foreign key constraint -->
+        <addForeignKeyConstraint baseTableName="patient"
+                                baseColumnNames="medecin_id"
+                                constraintName="fk_patient_medecin"
+                                referencedTableName="medecin"
+                                referencedColumnNames="id"/>
+
+        <!-- Création d'un index pour améliorer les performances -->
+        <createIndex indexName="idx_patient_medecin" tableName="patient">
+            <column name="medecin_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Second changeset: Add constraints and indexes -->
+    <changeSet id="11-2" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="patient" columnName="medecin_id"/>
+        </preConditions>
+        
+        <comment>Add NOT NULL constraints to medecin_id columns</comment>
+
+        <!-- Add NOT NULL constraints -->
+        <addNotNullConstraint tableName="patient" columnName="medecin_id" columnDataType="bigint"/>
+    </changeSet>
+
+</databaseChangeLog> 

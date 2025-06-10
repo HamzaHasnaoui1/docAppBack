@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="13-1" author="developer">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="medicament" columnName="medecin_id"/>
+            </not>
+        </preConditions>
+
+        <comment>Ajout de la relation entre Medicament et Medecin</comment>
+
+        <!-- Ajout de la colonne medecin_id à la table medicament -->
+        <addColumn tableName="medicament">
+            <column name="medecin_id" type="bigint">
+                <constraints foreignKeyName="fk_medicament_medecin" references="medecin(id)" nullable="true"/>
+            </column>
+        </addColumn>
+
+        <!-- Création d'un index pour améliorer les performances -->
+        <createIndex indexName="idx_medicament_medecin" tableName="medicament">
+            <column name="medecin_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog> 

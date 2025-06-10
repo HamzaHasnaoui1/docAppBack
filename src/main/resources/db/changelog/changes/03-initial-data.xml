@@ -7,10 +7,6 @@
 
     <changeSet id="03" author="developer">
         <comment>Insertion des données initiales pour l'environnement de développement</comment>
-        <sql dbms="postgresql">
-            -- Désactiver temporairement les contraintes de clé étrangère pour l'insertion initiale
-            SET session_replication_role = 'replica';
-        </sql>
 
         <!-- Insertion des rôles -->
         <createTable tableName="app_role">
@@ -109,10 +105,5 @@
             <column name="specialite" value="Cardiologue"/>
             <column name="numero_telephone" value="0602030405"/>
         </insert>
-
-        <!-- Réactiver les contraintes -->
-        <sql dbms="postgresql">
-            SET session_replication_role = 'origin';
-        </sql>
     </changeSet>
 </databaseChangeLog>

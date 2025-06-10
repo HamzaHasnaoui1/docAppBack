@@ -17,11 +17,13 @@ public interface PatientMapper {
 
     @Mapping(source = "titre", target = "titre", qualifiedByName = "titreToString")
     @Mapping(source = "dossierMedical", target = "dossierMedical")
-    @Mapping( ignore = true, target = "rendezVousList")
+    @Mapping(source = "medecin.id", target = "medecinId")
+    @Mapping(ignore = true, target = "rendezVousList")
     PatientDTO toDTO(Patient patient);
 
     @Mapping(source = "titre", target = "titre", qualifiedByName = "stringToTitre")
     @Mapping(source = "dossierMedical", target = "dossierMedical")
+    @Mapping(target = "medecin", ignore = true)
     Patient toEntity(PatientDTO patientDTO);
 
     List<PatientDTO> toDtos(List<Patient> patients);
