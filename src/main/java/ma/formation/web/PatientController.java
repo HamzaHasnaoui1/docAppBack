@@ -62,7 +62,7 @@ public class PatientController {
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @PostMapping("/admin/patients")
+    @PostMapping("/user/patients")
     public ResponseEntity<PatientDTO> savePatient(@Valid @RequestBody PatientDTO patient) {
         return ResponseEntity.ok(patientService.createPatientWithDossier(patient));
     }
