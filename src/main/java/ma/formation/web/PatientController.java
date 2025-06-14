@@ -3,7 +3,6 @@ package ma.formation.web;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import ma.formation.dtos.PatientDTO;
-import ma.formation.entities.Patient;
 import ma.formation.service.PatientService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -67,13 +66,13 @@ public class PatientController {
         return ResponseEntity.ok(patientService.createPatientWithDossier(patient));
     }
 
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    /*@Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/user/patients/{id}")
     public ResponseEntity<PatientDTO> getPatient(@PathVariable Long id) {
         return patientService.getPatient(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
+    }*/
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PutMapping("/admin/patients/{id}")

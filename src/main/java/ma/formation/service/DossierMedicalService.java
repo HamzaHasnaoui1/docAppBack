@@ -1,4 +1,3 @@
-// src/main/java/ma/formation/service/DossierMedicalService.java
 package ma.formation.service;
 
 import lombok.RequiredArgsConstructor;
@@ -10,6 +9,8 @@ import ma.formation.exceptions.ResourceNotFoundException;
 import ma.formation.mappers.DossierMedicalMapper;
 import ma.formation.repositories.DossierMedicalRepository;
 import ma.formation.repositories.PatientRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -27,6 +28,7 @@ public class DossierMedicalService {
     private final DossierMedicalMapper dossierMedicalMapper;
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "dossiersMedicaux", key = "#id")
     public DossierMedicalDTO getDossierMedical(Long id) {
         DossierMedical dossierMedical = dossierMedicalRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("DossierMedical", "id", id));
@@ -35,6 +37,7 @@ public class DossierMedicalService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "dossiersMedicaux", key = "'patient_' + #patientId")
     public DossierMedicalDTO getDossierMedicalByPatient(Long patientId) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", patientId));
@@ -47,6 +50,7 @@ public class DossierMedicalService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "dossiersMedicaux", key = "'page_' + #page + '_' + #size")
     public Page<DossierMedicalDTO> getAllDossiersMedicaux(int page, int size) {
         Page<DossierMedical> dossierPage = dossierMedicalRepository.findAll(PageRequest.of(page, size));
         List<DossierMedicalDTO> dossierDTOs = dossierPage.getContent().stream()
@@ -57,6 +61,7 @@ public class DossierMedicalService {
     }
 
     @Transactional
+    @CacheEvict(value = "dossiersMedicaux", allEntries = true)
     public DossierMedicalDTO createDossierMedical(DossierMedicalDTO dossierDTO, Long patientId) {
         Patient patient = patientRepository.findById(patientId)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient", "id", patientId));
@@ -77,6 +82,7 @@ public class DossierMedicalService {
     }
 
     @Transactional
+    @CacheEvict(value = "dossiersMedicaux", allEntries = true)
     public DossierMedicalDTO updateDossierMedical(Long id, DossierMedicalDTO dossierDTO) {
         if (!dossierMedicalRepository.existsById(id)) {
             throw new ResourceNotFoundException("DossierMedical", "id", id);
@@ -94,6 +100,7 @@ public class DossierMedicalService {
     }
 
     @Transactional
+    @CacheEvict(value = "dossiersMedicaux", allEntries = true)
     public DossierMedicalDTO updateGroupeSanguin(Long dossierMedicalId, String groupeSanguin) {
         DossierMedical dossierMedical = dossierMedicalRepository.findById(dossierMedicalId)
                 .orElseThrow(() -> new ResourceNotFoundException("DossierMedical", "id", dossierMedicalId));
@@ -112,6 +119,7 @@ public class DossierMedicalService {
     }
 
     @Transactional
+    @CacheEvict(value = "dossiersMedicaux", allEntries = true)
     public DossierMedicalDTO updateAllergies(Long dossierMedicalId, String allergies) {
         DossierMedical dossierMedical = dossierMedicalRepository.findById(dossierMedicalId)
                 .orElseThrow(() -> new ResourceNotFoundException("DossierMedical", "id", dossierMedicalId));
@@ -122,6 +130,7 @@ public class DossierMedicalService {
     }
 
     @Transactional
+    @CacheEvict(value = "dossiersMedicaux", allEntries = true)
     public DossierMedicalDTO updateAntecedents(Long dossierMedicalId, String antecedents) {
         DossierMedical dossierMedical = dossierMedicalRepository.findById(dossierMedicalId)
                 .orElseThrow(() -> new ResourceNotFoundException("DossierMedical", "id", dossierMedicalId));
@@ -132,6 +141,7 @@ public class DossierMedicalService {
     }
 
     @Transactional
+    @CacheEvict(value = "dossiersMedicaux", allEntries = true)
     public DossierMedicalDTO updateTraitementsChroniques(Long dossierMedicalId, String traitements) {
         DossierMedical dossierMedical = dossierMedicalRepository.findById(dossierMedicalId)
                 .orElseThrow(() -> new ResourceNotFoundException("DossierMedical", "id", dossierMedicalId));

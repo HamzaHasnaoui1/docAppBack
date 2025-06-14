@@ -13,13 +13,17 @@ import ma.formation.mappers.PatientMapper;
 import ma.formation.repositories.DossierMedicalRepository;
 import ma.formation.repositories.PatientRepository;
 import ma.formation.repositories.MedecinRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -64,12 +68,14 @@ public class PatientService {
         return patientMapper.toDTO(savedPatient);
     }
 
+    @Transactional(readOnly = true)
     public Page<PatientDTO> searchPatients(String keyword, int page, int size) {
         Page<Patient> patients = patientRepository.findByNomContainingIgnoreCase(keyword, PageRequest.of(page, size));
         List<PatientDTO> dtos = patients.getContent().stream().map(patientMapper::toDTO).toList();
         return new PageImpl<>(dtos, patients.getPageable(), patients.getTotalElements());
     }
 
+    @Cacheable(value = "patients", key = "'medecin_' + #medecinId")
     public Page<PatientDTO> searchPatientsByMedecin(Long medecinId, String keyword, int page, int size) {
         Page<Patient> patients = patientRepository.searchPatientsByMedecin(medecinId, keyword, PageRequest.of(page, size));
         List<PatientDTO> dtos = patients.getContent().stream().map(patientMapper::toDTO).toList();
@@ -88,10 +94,8 @@ public class PatientService {
         return new PageImpl<>(dtos, patients.getPageable(), patients.getTotalElements());
     }
 
-    public Optional<PatientDTO> getPatient(Long id) {
-        return patientRepository.findById(id).map(patientMapper::toDTO);
-    }
-
+    @Transactional(readOnly = true)
+    @Cacheable(value = "patients", key = "#id")
     public boolean exists(Long id) {
         return patientRepository.existsById(id);
     }

@@ -18,5 +18,6 @@
     <include file="db/changelog/changes/11-add-medecin-relation.xml"/>
     <include file="db/changelog/changes/12-add-medecin-id-to-app-user.xml"/>
     <include file="db/changelog/changes/13-add-medecin-relation-to-medicament.xml"/>
+    <include file="db/changelog/db.changelog-add-indexes.xml"/>
 
 </databaseChangeLog>

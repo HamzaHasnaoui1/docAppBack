@@ -15,6 +15,8 @@ import ma.formation.repositories.MedecinRepository;
 import ma.formation.repositories.OrdonnanceRepository;
 import ma.formation.repositories.PatientRepository;
 import ma.formation.repositories.RendezVousRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -37,6 +39,7 @@ public class RendezVousService {
 
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "rendezVous", key = "'all'")
     public List<RendezVousDTO> getAllRendezVous() {
         return rendezVousRepository.findAll().stream()
                 .map(rendezVousMapper::toDTO)
@@ -44,6 +47,7 @@ public class RendezVousService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "rendezVous", key = "'page_' + #page + '_' + #size")
     public Page<RendezVousDTO> getRendezVousPaginated(int page, int size) {
         Page<RendezVous> rendezVousPage = rendezVousRepository.findAll(PageRequest.of(page, size));
         List<RendezVousDTO> rendezVousDTOs = rendezVousPage.getContent().stream()
@@ -53,13 +57,15 @@ public class RendezVousService {
         return new PageImpl<>(rendezVousDTOs, rendezVousPage.getPageable(), rendezVousPage.getTotalElements());
     }
 
-
+    @Transactional(readOnly = true)
+    @Cacheable(value = "rendezVous", key = "#id")
     public Optional<RendezVousDTO> getRendezVousById(Long id) {
         return rendezVousRepository.findById(id).map(rendezVousMapper::toDTO);
     }
 
 
     @Transactional
+    @CacheEvict(value = "rendezVous", allEntries = true)
     public RendezVousDTO createRendezVous(RendezVousDTO rendezVousDTO) {
         // 1. Check if the doctor is available
         Medecin medecin = medecinRepository.findById(rendezVousDTO.getMedecin().getId())
@@ -94,6 +100,7 @@ public class RendezVousService {
 
 
     @Transactional
+    @CacheEvict(value = "rendezVous", allEntries = true)
     public RendezVousDTO updateRendezVous(Long id, RendezVousDTO rendezVousDTO) {
         RendezVous existing = rendezVousRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("RendezVous not found"));
@@ -106,6 +113,7 @@ public class RendezVousService {
 
 
     @Transactional
+    @CacheEvict(value = "rendezVous", allEntries = true)
     public void deleteRendezVous(Long id) {
         if (!rendezVousRepository.existsById(id)) {
             throw new ResourceNotFoundException("RendezVous", "id", id);
@@ -129,6 +137,7 @@ public class RendezVousService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "rendezVous", key = "'patient_' + #patientId")
     public List<RendezVousDTO> getRendezVousByPatient(Long patientId) {
         if (!patientRepository.existsById(patientId)) {
             throw new ResourceNotFoundException("Patient", "id", patientId);
@@ -141,6 +150,7 @@ public class RendezVousService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "rendezVous", key = "'medecin_' + #medecinId")
     public List<RendezVousDTO> getRendezVousByMedecin(Long medecinId) {
         if (!medecinRepository.existsById(medecinId)) {
             throw new ResourceNotFoundException("Medecin", "id", medecinId);
@@ -153,6 +163,7 @@ public class RendezVousService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "rendezVous", key = "'medecin_' + #medecinId + '_' + #date")
     public List<RendezVousDTO> getRendezVousByDate(Date date) {
         List<RendezVous> rendezVous = rendezVousRepository.findByDate(date);
         return rendezVous.stream()

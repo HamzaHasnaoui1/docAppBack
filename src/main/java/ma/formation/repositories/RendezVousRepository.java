@@ -17,7 +17,8 @@ import java.util.List;
 public interface RendezVousRepository extends JpaRepository<RendezVous, Long> {
     Page<RendezVous> findByDate(Date date, Pageable pageable);
 
-    List<RendezVous> findByDate(Date date);
+    @Query("SELECT r FROM RendezVous r LEFT JOIN FETCH r.patient LEFT JOIN FETCH r.medecin WHERE r.date = :date ORDER BY r.date DESC")
+    List<RendezVous> findByDate(@Param("date") Date date);
 
     @Query("SELECT r FROM RendezVous r WHERE r.medecin.id = :medecinId AND r.date = :date")
     List<RendezVous> findByMedecinIdAndDate(@Param("medecinId") Long medecinId, @Param("date") Date date);
@@ -33,7 +34,8 @@ public interface RendezVousRepository extends JpaRepository<RendezVous, Long> {
 
     List<RendezVous> findByPatient_Id(Long patientId);
 
-    List<RendezVous> findByMedecin_Id(Long medecinId);
+    @Query("SELECT r FROM RendezVous r LEFT JOIN FETCH r.patient LEFT JOIN FETCH r.medecin WHERE r.medecin.id = :medecinId ORDER BY r.date DESC")
+    List<RendezVous> findByMedecin_Id(@Param("medecinId") Long medecinId);
 
     Page<RendezVous> findByPatient_Id(Long patientId, Pageable pageable);
 

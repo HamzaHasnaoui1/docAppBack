@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <!-- Indexes pour la table Patient -->
+    <changeSet id="add-index-patient-email" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_patient_email" tableName="patient"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="patient" indexName="idx_patient_email">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-index-patient-cin" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_patient_cin" tableName="patient"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="patient" indexName="idx_patient_cin">
+            <column name="cin"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-index-patient-medecin" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_patient_medecin" tableName="patient"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="patient" indexName="idx_patient_medecin">
+            <column name="medecin_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Index composite pour la recherche de patients -->
+    <changeSet id="add-index-patient-search" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_patient_search" tableName="patient"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="patient" indexName="idx_patient_search">
+            <column name="nom"/>
+            <column name="cin"/>
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Indexes pour la table RendezVous -->
+    <changeSet id="add-index-rdv-date" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_rdv_date" tableName="rendez_vous"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="rendez_vous" indexName="idx_rdv_date">
+            <column name="date"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-index-rdv-patient" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_rdv_patient" tableName="rendez_vous"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="rendez_vous" indexName="idx_rdv_patient">
+            <column name="patient_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-index-rdv-medecin" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_rdv_medecin" tableName="rendez_vous"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="rendez_vous" indexName="idx_rdv_medecin">
+            <column name="medecin_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add-index-rdv-status" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_rdv_status" tableName="rendez_vous"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="rendez_vous" indexName="idx_rdv_status">
+            <column name="status_rdv"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Index composite pour les rendez-vous par médecin et date -->
+    <changeSet id="add-index-rdv-medecin-date" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_rdv_medecin_date" tableName="rendez_vous"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="rendez_vous" indexName="idx_rdv_medecin_date">
+            <column name="medecin_id"/>
+            <column name="date"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Indexes pour la table DossierMedical -->
+    <changeSet id="add-index-dossier-patient" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_dossier_patient" tableName="dossier_medical"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="dossier_medical" indexName="idx_dossier_patient">
+            <column name="patient_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Indexes pour la table Ordonnance -->
+    <changeSet id="add-index-ordonnance-rdv" author="system">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_ordonnance_rdv" tableName="ordonnance"/>
+            </not>
+        </preConditions>
+        <createIndex tableName="ordonnance" indexName="idx_ordonnance_rdv">
+            <column name="rendez_vous_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog> 
